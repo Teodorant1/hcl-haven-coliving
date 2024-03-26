@@ -1,15 +1,18 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
-import { type Adapter } from "next-auth/adapters";
-import DiscordProvider from "next-auth/providers/discord";
-
-import { env } from "@/env";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/server/db";
-
+import { type HCL_user } from "@prisma/client";
+import bcrypt from "bcrypt";
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -22,6 +25,12 @@ declare module "next-auth" {
       id: string;
       // ...other properties
       // role: UserRole;
+      email: string;
+      sub: string;
+      role: string;
+      isClient: boolean;
+      isAdmin: boolean;
+      isRepairman: boolean;
     } & DefaultSession["user"];
   }
 
@@ -37,21 +46,55 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
+  adapter: PrismaAdapter(db),
+  session: { strategy: "jwt" },
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "email:",
+          type: "text",
+          placeholder: "your-email",
+        },
+        password: {
+          label: "password:",
+          type: "password",
+          placeholder: "your-password",
+        },
+      },
+      async authorize(credentials) {
+        try {
+          const foundUser: HCL_user = await db.hCL_user.findUniqueOrThrow({
+            where: { email: credentials!.email },
+          });
+
+          const hashedpassword = await bcrypt.hash(credentials!.password, 10);
+          console.log(hashedpassword);
+
+          if (foundUser) {
+            console.log("User Exists");
+            console.log(foundUser);
+            const match = await bcrypt.compare(
+              credentials!.password,
+              foundUser.password,
+            );
+
+            if (match === true) {
+              console.log("Good Pass");
+              foundUser.password = " ";
+
+              // foundUser["role"] = "Unverified Email";
+              return foundUser;
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        return null;
       },
     }),
-  },
-  adapter: PrismaAdapter(db) as Adapter,
-  providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
-    }),
+
     /**
      * ...add more providers here.
      *
@@ -62,6 +105,35 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  callbacks: {
+    async jwt({ token, user }: any) {
+      if (user) {
+        token.role = user.role;
+        token.isClient = user.isClient;
+        token.isAdmin = user.isAdmin;
+        token.isRepairman = user.isRepairman;
+        token.sub = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }: any) {
+      if (session?.user) {
+        session.user.role = token.role;
+        session.user.isClient = token.isClient;
+        session.user.isAdmin = token.isAdmin;
+        session.user.isRepairman = token.isRepairman;
+        session.user.sub = token.sub;
+      }
+      return session;
+    },
+    // session: ({ session, user }) => ({
+    // ...session,
+    // user: {
+    // ...session.user,
+    // id: user.id,
+    // },
+    // }),
+  },
 };
 
 /**

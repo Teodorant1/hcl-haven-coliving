@@ -1,82 +1,238 @@
+/**
+ * v0 by Vercel.
+ * @see https://v0.dev/t/RO4cGbNQ2wm
+ * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
+ */
 import Link from "next/link";
+import Image from "next/image";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/server/auth";
 
-import { CreatePost } from "@/app/_components/create-post";
-import { getServerAuthSession } from "@/server/auth";
-import { api } from "@/trpc/server";
-
-export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
-  const session = await getServerAuthSession();
+export default async function Component() {
+  const session = await getServerSession(authOptions);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+    <div className="flex min-h-screen flex-col">
+      <header className="flex h-14 items-center px-4 lg:px-6">
+        <Link className="flex items-center justify-center" href="#" rel="ugc">
+          <Image
+            alt="The Tailwind Club Logo"
+            height="24"
+            src="/placeholder.svg"
+            className=""
+            //style="aspect-ratio:24/24;object-fit:cover"
+            width="24"
+          />
+          <span className="sr-only">The Tailwind Club</span>
+        </Link>
+        <nav className="ml-auto flex gap-4 sm:gap-6">
           <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
+            className="text-sm font-medium underline-offset-4 hover:underline"
+            href="#"
+            rel="ugc"
           >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
+            Gallery
           </Link>
           <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
+            className="text-sm font-medium underline-offset-4 hover:underline"
+            href="#"
+            rel="ugc"
           >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
+            Membership
           </Link>
-        </div>
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-2xl text-white">
-            {hello ? hello.greeting : "Loading tRPC query..."}
-          </p>
-
-          <div className="flex flex-col items-center justify-center gap-4">
-            <p className="text-center text-2xl text-white">
-              {session && <span>Logged in as {session.user?.name}</span>}
-            </p>
+          <Link
+            className="text-sm font-medium underline-offset-4 hover:underline"
+            href="#"
+            rel="ugc"
+          >
+            Pricing
+          </Link>
+          {session === null && (
             <Link
-              href={session ? "/api/auth/signout" : "/api/auth/signin"}
-              className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
+              className="text-sm font-medium underline-offset-4 hover:underline"
+              href="/api/auth/signin"
+              rel="ugc"
             >
-              {session ? "Sign out" : "Sign in"}
+              Log In
             </Link>
+          )}
+          {session && (
+            <Link
+              className="text-sm font-medium underline-offset-4 hover:underline"
+              href="#"
+              rel="ugc"
+            >
+              {session?.user.email}
+            </Link>
+          )}
+          {session && (
+            <Link
+              href="/api/auth/signout"
+              className="text-sm font-medium underline-offset-4 hover:underline"
+            >
+              Log Out
+            </Link>
+          )}
+        </nav>
+      </header>
+      <main className="flex-1">
+        <section className="relative w-full py-12 md:py-24 lg:py-32">
+          <Image
+            alt="Hotel Luxe"
+            className="mx-auto aspect-[2/1] overflow-hidden rounded-t-xl object-cover"
+            height="600"
+            src="/placeholder.svg"
+            width="1200"
+          />
+          <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center">
+            <h1 className="text-4xl font-bold text-white">The Tailwind Club</h1>
+            <p className="mt-4 text-xl text-gray-300">Aviators Welcome</p>
+            <div className="mt-8 flex gap-4 pt-4">
+              <a
+                className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+                href="#"
+                rel="ugc"
+              >
+                Join Now
+              </a>
+              <a
+                className="inline-flex h-10 items-center justify-center rounded-md border border-gray-300 px-8 text-sm font-medium text-gray-900 shadow transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+                href="#"
+                rel="ugc"
+              >
+                Login
+              </a>
+            </div>
           </div>
-        </div>
-
-        <CrudShowcase />
-      </div>
-    </main>
-  );
-}
-
-async function CrudShowcase() {
-  const session = await getServerAuthSession();
-  if (!session?.user) return null;
-
-  const latestPost = await api.post.getLatest();
-
-  return (
-    <div className="w-full max-w-xs">
-      {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
-      ) : (
-        <p>You have no posts yet.</p>
-      )}
-
-      <CreatePost />
+        </section>
+        <section className="w-full bg-gray-100 py-12 md:py-24 lg:py-32 dark:bg-gray-800">
+          <div className="container px-4 md:px-6">
+            <div className="grid items-center gap-6 lg:grid-cols-3 lg:gap-12 xl:grid-cols-3">
+              <div
+                className="bg-card text-card-foreground rounded-lg border shadow-sm"
+                data-v0-t="card"
+              >
+                <div className="flex flex-col space-y-1.5 p-6">
+                  <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
+                    Comfort
+                  </h3>
+                </div>
+                <div className="p-6">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Experience the ultimate comfort and elegance of our rooms
+                    and suites.
+                  </p>
+                </div>
+                <Image
+                  alt="Comfort"
+                  className="mx-auto aspect-[1/1] overflow-hidden rounded-t-xl object-cover"
+                  height="200"
+                  src="/placeholder.svg"
+                  width="200"
+                />
+              </div>
+              <div
+                className="bg-card text-card-foreground rounded-lg border shadow-sm"
+                data-v0-t="card"
+              >
+                <div className="flex flex-col space-y-1.5 p-6">
+                  <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
+                    Dining
+                  </h3>
+                </div>
+                <div className="p-6">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Enjoy a variety of dining options, from casual to elegant.
+                  </p>
+                </div>
+                <Image
+                  alt="Dining"
+                  className="mx-auto aspect-[1/1] overflow-hidden rounded-t-xl object-cover"
+                  height="200"
+                  src="/placeholder.svg"
+                  width="200"
+                />
+              </div>
+              <div
+                className="bg-card text-card-foreground rounded-lg border shadow-sm"
+                data-v0-t="card"
+              >
+                <div className="flex flex-col space-y-1.5 p-6">
+                  <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
+                    Spa
+                  </h3>
+                </div>
+                <div className="p-6">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Relax and rejuvenate with our spa services.
+                  </p>
+                </div>
+                <Image
+                  alt="Spa"
+                  className="mx-auto aspect-[1/1] overflow-hidden rounded-t-xl object-cover"
+                  height="200"
+                  src="/placeholder.svg"
+                  width="200"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="w-full bg-white py-12 md:py-24 lg:py-32 dark:bg-gray-900">
+          <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
+            <div className="space-y-3">
+              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight dark:text-white">
+                Join Us Now
+              </h2>
+              <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                Become a part of the Hotel Luxe community and enjoy exclusive
+                benefits and offers.
+              </p>
+              <a
+                className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+                href="#"
+                rel="ugc"
+              >
+                Join Now
+              </a>
+            </div>
+          </div>
+        </section>
+        <section className="w-full bg-black py-12 md:py-24 lg:py-32">
+          <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
+            <div className="space-y-3">
+              <h2 className="text-3xl font-bold tracking-tighter text-white md:text-4xl/tight">
+                Contact Us
+              </h2>
+              <p className="max-w-[600px] text-gray-200 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                For inquiries or reservations, please contact us at (310)
+                340-1099 or email us at hello@tailwindclub.org.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer className="flex w-full shrink-0 flex-col items-center gap-2 border-t px-4 py-6 sm:flex-row md:px-6">
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          © 2024 The Tailwind Club. All rights reserved.
+        </p>
+        <nav className="flex gap-4 sm:ml-auto sm:gap-6">
+          <a
+            className="text-xs underline-offset-4 hover:underline"
+            href="#"
+            rel="ugc"
+          >
+            Terms of Service
+          </a>
+          <a
+            className="text-xs underline-offset-4 hover:underline"
+            href="#"
+            rel="ugc"
+          >
+            Privacy
+          </a>
+        </nav>
+      </footer>
     </div>
   );
 }

@@ -11,7 +11,10 @@ datasource db {
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
+    //url      = env("DATABASE_URL")
+
+    url       = env("NEXT_PRIVATE_DATABASE_URL")
+    directUrl = env("NEXT_PRIVATE_DIRECT_DATABASE_URL")
 }
 
 model Post {
@@ -70,4 +73,93 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model checkin {
+    id            String    @id @default(cuid())
+    created_at    DateTime
+    name          String
+    check_in      DateTime
+    check_out     DateTime
+}
+
+model cloudbeds_guest {
+    id                 String    @id @default(cuid())
+    created_at         DateTime
+    guest_id           String
+    guest_first_name   String
+    guest_last_name    String
+    guest_phone        String
+    guest_email        String
+    guest_country_code String
+    check_in           DateTime
+    check_out          DateTime
+} 
+
+model cloudbeds_reservation {
+    id                 String    @id @default(cuid())
+    created_at         DateTime
+    reservation_id     String
+    check_in           DateTime
+    check_out          DateTime
+    isCheckedIn        Boolean
+    roomType           String
+    URL                String
+    number_of_guests   Int
+}
+model customer {
+    id                   String    @id @default(cuid())
+    stripe_customer_id   String
+}
+
+model prices   {
+    id                 String    @id @default(cuid())
+    product_id         String
+    isActive           Boolean
+    description        String
+    unit_amount        String
+    currency           String
+    type               String   // needs to be changed with pricing type - type
+    interval           String   // needs to be changed with pricing plan interval - type
+    interval_count     Int
+    trial_period_days  Int
+    metadata           String // needs to be json
+}
+
+model product  {
+    id                 String    @id @default(cuid())
+    isActive           Boolean
+    name               String
+    description        String
+    imageURL           String
+    metadata           String // needs to be json
+}
+
+model subscription  {
+    id                   String    @id @default(cuid())
+    user_id              String
+    subscriptionStatus   Boolean
+    metadata             String // needs to be json
+    price_id             String
+    quantity             String
+    cancel_at_period_end Boolean
+    created_at           DateTime
+    currentPeriod_start  DateTime
+    currentPeriod_end    DateTime
+    ended_at             DateTime?
+    cancel_at            DateTime?
+    cancelled_at         DateTime?
+    trial_start          DateTime?
+    trial_end            DateTime?
+} 
+model HCL_user  {
+    id                   String    @id @default(cuid())
+    email                String    @unique
+    recovery_email       String?   @unique
+    username             String    @unique
+    password             String
+    full_name            String?
+    avatar_url           String? 
+    billing_address      String? // needs to be json
+    payment_method       String? // needs to be json
 }
