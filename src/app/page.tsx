@@ -88,16 +88,16 @@ export default async function Component() {
             <h1 className="text-4xl font-bold text-white">The Tailwind Club</h1>
             <p className="mt-4 text-xl text-gray-300">Aviators Welcome</p>
             <div className="mt-8 flex gap-4 pt-4">
-              <a
+              <Link
                 className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
-                href="#"
+                href="/registration"
                 rel="ugc"
               >
                 Join Now
-              </a>
+              </Link>
               <a
                 className="inline-flex h-10 items-center justify-center rounded-md border border-gray-300 px-8 text-sm font-medium text-gray-900 shadow transition-colors hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
-                href="#"
+                href="/api/auth/signin"
                 rel="ugc"
               >
                 Login
