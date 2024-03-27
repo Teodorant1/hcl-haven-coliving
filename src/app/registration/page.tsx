@@ -8,8 +8,11 @@ import { ImFacebook2 } from "react-icons/im";
 import { FcGoogle } from "react-icons/fc";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 
-const Customloginpage = () => {
+const RegistrationPage = () => {
   const router = useRouter();
 
   const makeAccount = api.auth.Addaccount.useMutation({
@@ -108,4 +111,4 @@ const Customloginpage = () => {
   );
 };
 
-export default Customloginpage;
+export default RegistrationPage;
