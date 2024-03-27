@@ -4,16 +4,22 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Icons } from "ui-main/apps/www/components/icons";
+
+import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
+import { useEffect } from "react";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+  const [registrationSucceded, setregistrationSucceded] =
+    React.useState<boolean>(false);
+
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   async function onSubmit(event: React.SyntheticEvent) {
@@ -25,45 +31,87 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     }, 3000);
   }
 
+  const router = useRouter();
+  const makeAccount = api.auth.Addaccount.useMutation({
+    onSuccess: () => {
+      console.log("OP SUCCESS");
+      setIsLoading(false);
+      setregistrationSucceded(true);
+      // router.push("/api/auth/signin");
+    },
+  });
+
+  function AddAccount(event: React.SyntheticEvent) {
+    event.preventDefault();
+    setIsLoading(true);
+
+    const email = (document.getElementById("email") as HTMLInputElement).value;
+    const password = (document.getElementById("password") as HTMLInputElement)
+      .value;
+
+    makeAccount.mutate({
+      email: email,
+      password: password,
+    });
+  }
+
+  function SuccessBox() {
+    useEffect(() => {
+      router.push("/api/auth/signin");
+      console.log("Component mounted");
+      return () => {
+        console.log("Component unmounted");
+      };
+    }, []);
+    return (
+      <div>
+        You have successfully made an Account! You are being redirected to the
+        sign in page!
+      </div>
+    );
+  }
+
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={onSubmit}>
-        <div className="grid gap-2">
-          <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
-              Email
-            </Label>
-            <Input
-              id="email"
-              placeholder="name@example.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              disabled={isLoading}
-            />
-            <Label className="sr-only" htmlFor="email">
-              Password
-            </Label>
-            <input
-              id="password"
-              type="password"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              disabled={isLoading}
-              className="my-2 outline outline-slate-300 "
-              placeholder="password"
-            />
+      {registrationSucceded === false && (
+        <form onSubmit={AddAccount}>
+          <div className="grid gap-2">
+            <div className="grid gap-1">
+              <Label className="sr-only" htmlFor="email">
+                Email
+              </Label>
+              <Input
+                id="email"
+                placeholder="name@example.com"
+                type="email"
+                autoCapitalize="none"
+                autoComplete="email"
+                autoCorrect="off"
+                disabled={isLoading}
+              />
+              <Label className="sr-only" htmlFor="email">
+                Password
+              </Label>
+              <Input
+                id="password"
+                type="password"
+                autoCapitalize="none"
+                autoComplete="email"
+                autoCorrect="off"
+                disabled={isLoading}
+                placeholder="password"
+              />
+            </div>
+            <Button disabled={isLoading}>
+              {isLoading && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              Register with Credentials
+            </Button>
           </div>
-          <Button disabled={isLoading}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            Sign In with Email
-          </Button>
-        </div>
-      </form>
+        </form>
+      )}
+      {registrationSucceded === true && <SuccessBox />}
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
@@ -74,13 +122,20 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
+      <Button
+        onClick={() => {
+          router.push("/api/auth/signin");
+        }}
+        variant="outline"
+        type="button"
+        disabled={isLoading}
+      >
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
+          <FcGoogle className="m-5 h-6 w-6" />
         )}{" "}
-        GitHub
+        Google
       </Button>
     </div>
   );
