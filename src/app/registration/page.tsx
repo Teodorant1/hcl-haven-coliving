@@ -8,9 +8,6 @@ import { ImFacebook2 } from "react-icons/im";
 import { FcGoogle } from "react-icons/fc";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { Button } from "@/components/ui/button";
 
 const RegistrationPage = () => {
   const router = useRouter();
@@ -41,7 +38,7 @@ const RegistrationPage = () => {
         <div className=" w-full">
           <input
             id="email"
-            type="text"
+            type="email"
             placeholder="Email"
             className="m-5 w-full rounded-sm p-3 text-center outline outline-slate-300"
           />
