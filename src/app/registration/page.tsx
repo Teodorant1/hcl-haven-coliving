@@ -1,20 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
+import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { ImFacebook2 } from "react-icons/im";
-import { FcGoogle } from "react-icons/fc";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { UserAuthForm } from "../_components/user-auth-form";
+import { useState } from "react";
 import { api } from "@/trpc/react";
-import { useRouter } from "next/navigation";
 
-const RegistrationPage = () => {
-  const router = useRouter();
+export default function AuthenticationPage() {
+  const [stage, setstage] = useState("none");
 
   const makeAccount = api.auth.Addaccount.useMutation({
     onSuccess: () => {
-      router.push("/api/auth/signin");
+      setstage("applicationform");
+      // router.push("/api/auth/signin");
     },
   });
   function AddAccount() {
@@ -28,84 +27,94 @@ const RegistrationPage = () => {
     });
   }
 
-  function RegistrationBox() {
-    return (
-      <div className="relative h-full w-full items-center justify-center text-center">
-        <h1 className=" m-3 text-3xl font-bold">Create an account</h1>
-        <div className="m-3">
-          Enter your email and password below to create your account
-        </div>
-        <div className=" w-full">
-          <input
-            id="email"
-            type="email"
-            placeholder="Email"
-            className="m-5 w-full rounded-sm p-3 text-center outline outline-slate-300"
-          />
-        </div>
-        <div className=" w-full">
-          <input
-            id="password"
-            type="password"
-            className="m-5 w-full rounded-sm p-3 text-center outline outline-slate-300"
-          />
-        </div>
-        <div className=" w-full">
-          <button
-            className="m-5 w-full rounded-md bg-black p-3 text-white"
-            onClick={async () => {
-              console.log("trying to submit");
-              AddAccount();
-            }}
-          >
-            Register with Email
-          </button>
-        </div>
-        <div className="w-full">Or you can continue with</div>
-        <div className="flex w-full items-center justify-center text-center">
-          {" "}
-          <div className=" flex w-fit flex-wrap p-5 ">
-            <Link className="flex w-fit" href={"/api/auth/signin"}>
-              <FcGoogle className="m-5 h-10 w-10" />
-              <ImFacebook2 className="m-5 h-10 w-10 text-blue-600" />
-            </Link>
+  return (
+    <div>
+      {/* <RegistrationForm /> */}
+      <div className="hidden">
+        <Image
+          src="/examples/authentication-light.png"
+          width={1280}
+          height={843}
+          alt="Authentication"
+          className="block dark:hidden"
+        />
+        <Image
+          src="/examples/authentication-dark.png"
+          width={1280}
+          height={843}
+          alt="Authentication"
+          className="hidden dark:block"
+        />
+      </div>
+      <div className="container relative grid  h-[800px] flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <Link
+          href="/examples/authentication"
+          className={cn(
+            buttonVariants({ variant: "ghost" }),
+            "absolute right-4 top-4",
+          )}
+        >
+          Login
+        </Link>
+        <div className="relative hidden h-screen  flex-col bg-muted p-10 text-white dark:border-r md:block lg:flex">
+          <div className="absolute inset-0  bg-zinc-900 " />
+          <div className="relative z-20 flex items-center text-lg font-medium">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="mr-2 h-6 w-6"
+            >
+              <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
+            </svg>
+            Acme Inc
+          </div>
+          <div className="relative z-20 mt-auto">
+            <blockquote className="space-y-2">
+              <p className="text-lg">
+                &ldquo;This library has saved me countless hours of work and
+                helped me deliver stunning designs to my clients faster than
+                ever before.&rdquo;
+              </p>
+              <footer className="text-sm">Sofia Davis</footer>
+            </blockquote>
           </div>
         </div>
-
-        <div className="ml-auto mr-auto flex w-[80%] flex-wrap items-center justify-center text-center">
-          <div>By clicking continue, you agree to our </div>
-          <div className=" ml-5 mr-5 underline">Terms of Service</div>
-          <div> and</div>
-          <div className=" ml-5 mr-5 underline">Privacy Policy</div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex h-screen w-screen flex-wrap ">
-      <div className="relative h-full w-1/2 bg-black text-white">
-        <div className="absolute left-10 top-10 text-4xl font-bold">
-          Acme Inc
-        </div>
-
-        <div className="absolute bottom-5 left-5 p-5 text-4xl font-bold">
-          {" '' "}This library has saved me countless hours of work and helped
-          me deliver stunning designs to my clients faster than ever before.
-          {" '' "}
-        </div>
-      </div>
-      <div className=" flex h-full w-1/2 items-center justify-center bg-white text-black">
-        <div className=" absolute right-20 top-20 text-3xl font-bold">
-          <Link href={"/api/auth/signin"}>Login</Link>
-        </div>
-
-        <div>
-          <RegistrationBox />
+        <div className="lg:p-8">
+          <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+            <div className="flex flex-col space-y-2 text-center">
+              <h1 className="text-2xl font-semibold tracking-tight">
+                Create an account
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Enter your email below to create your account
+              </p>
+            </div>
+            <UserAuthForm />
+            <p className="px-8 text-center text-sm text-muted-foreground">
+              By clicking continue, you agree to our{" "}
+              <Link
+                href="/terms"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/privacy"
+                className="underline underline-offset-4 hover:text-primary"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default RegistrationPage;
+}

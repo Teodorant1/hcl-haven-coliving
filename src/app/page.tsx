@@ -86,6 +86,15 @@ export default async function Component() {
           />
           <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center">
             <h1 className="text-4xl font-bold text-white">The Tailwind Club</h1>
+            <Image
+              alt="random image"
+              title="random image"
+              src={
+                "https://imagedelivery.net/Q9F_VW9Wo-_WrvOGy6WAeQ/433a3a36-a003-4b5d-c4b6-1f4ee4cd2700/public"
+              }
+              width={500}
+              height={500}
+            />
             <p className="mt-4 text-xl text-gray-300">Aviators Welcome</p>
             <div className="mt-8 flex gap-4 pt-4">
               <Link
@@ -105,11 +114,11 @@ export default async function Component() {
             </div>
           </div>
         </section>
-        <section className="w-full bg-gray-100 py-12 md:py-24 lg:py-32 dark:bg-gray-800">
+        <section className="w-full bg-gray-100 py-12 dark:bg-gray-800 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="grid items-center gap-6 lg:grid-cols-3 lg:gap-12 xl:grid-cols-3">
               <div
-                className="bg-card text-card-foreground rounded-lg border shadow-sm"
+                className="rounded-lg border bg-card text-card-foreground shadow-sm"
                 data-v0-t="card"
               >
                 <div className="flex flex-col space-y-1.5 p-6">
@@ -132,7 +141,7 @@ export default async function Component() {
                 />
               </div>
               <div
-                className="bg-card text-card-foreground rounded-lg border shadow-sm"
+                className="rounded-lg border bg-card text-card-foreground shadow-sm"
                 data-v0-t="card"
               >
                 <div className="flex flex-col space-y-1.5 p-6">
@@ -154,7 +163,7 @@ export default async function Component() {
                 />
               </div>
               <div
-                className="bg-card text-card-foreground rounded-lg border shadow-sm"
+                className="rounded-lg border bg-card text-card-foreground shadow-sm"
                 data-v0-t="card"
               >
                 <div className="flex flex-col space-y-1.5 p-6">
@@ -178,13 +187,13 @@ export default async function Component() {
             </div>
           </div>
         </section>
-        <section className="w-full bg-white py-12 md:py-24 lg:py-32 dark:bg-gray-900">
+        <section className="w-full bg-white py-12 dark:bg-gray-900 md:py-24 lg:py-32">
           <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight dark:text-white">
+              <h2 className="text-3xl font-bold tracking-tighter dark:text-white md:text-4xl/tight">
                 Join Us Now
               </h2>
-              <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+              <p className="max-w-[600px] text-gray-500 dark:text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Become a part of the Hotel Luxe community and enjoy exclusive
                 benefits and offers.
               </p>

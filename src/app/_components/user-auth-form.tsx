@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
-import { useEffect } from "react";
+import Link from "next/link";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -47,23 +47,27 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   }
 
   function SuccessBox() {
-    useEffect(() => {
-      router.push("/api/auth/signin");
-      console.log("Component mounted");
-      return () => {
-        console.log("Component unmounted");
-      };
-    }, []);
+    // useEffect(() => {
+    //   router.push("/api/auth/signin");
+    //   console.log("Component mounted");
+    //   return () => {
+    //     console.log("Component unmounted");
+    //   };
+    // }, []);
     return (
-      <div>
-        You have successfully made an Account! You are being redirected to the
-        sign in page!
-      </div>
+      <Link href={"/ApplicationForm"}>
+        {" "}
+        <div className="rounded-sm bg-black p-3  text-white">
+          You have successfully made an Account! Click here to go to the
+          Application form for our pilot program. Make sure to log in first.
+        </div>
+      </Link>
     );
   }
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
+      {registrationSucceded === true && <SuccessBox />}{" "}
       {registrationSucceded === false && (
         <form onSubmit={AddAccount}>
           <div className="grid gap-2">
@@ -102,32 +106,36 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
         </form>
       )}
-      {registrationSucceded === true && <SuccessBox />}
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-      <Button
-        onClick={() => {
-          router.push("/api/auth/signin");
-        }}
-        variant="outline"
-        type="button"
-        disabled={isLoading}
-      >
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <FcGoogle className="m-5 h-6 w-6" />
-        )}{" "}
-        Google
-      </Button>
+      {registrationSucceded === false && (
+        <>
+          {" "}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
+          </div>
+          <Button
+            onClick={() => {
+              router.push("/api/auth/signin");
+            }}
+            variant="outline"
+            type="button"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <FcGoogle className="m-5 h-6 w-6" />
+            )}{" "}
+            Google
+          </Button>
+        </>
+      )}
     </div>
   );
 }
