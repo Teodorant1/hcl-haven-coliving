@@ -4,29 +4,8 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { UserAuthForm } from "../_components/user-auth-form";
-import { useState } from "react";
-import { api } from "@/trpc/react";
 
 export default function AuthenticationPage() {
-  const [stage, setstage] = useState("none");
-
-  const makeAccount = api.auth.Addaccount.useMutation({
-    onSuccess: () => {
-      setstage("applicationform");
-      // router.push("/api/auth/signin");
-    },
-  });
-  function AddAccount() {
-    const email = (document.getElementById("email") as HTMLInputElement).value;
-    const password = (document.getElementById("password") as HTMLInputElement)
-      .value;
-
-    makeAccount.mutate({
-      email: email,
-      password: password,
-    });
-  }
-
   return (
     <div>
       {/* <RegistrationForm /> */}

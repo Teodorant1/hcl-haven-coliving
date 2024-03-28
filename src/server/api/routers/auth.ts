@@ -44,21 +44,33 @@ export const authRouter = createTRPCRouter({
         AirlineEmployeeID: z.string().min(3),
         JobTitle: z.string().min(3),
         Airline_ID_Image: z.string().min(3),
+        Emergency_Contact_Name: z.string().min(3),
+        Emergency_Contact_PhoneNumber: z.string().min(3),
+        Emergency_Contact_Relationship: z.string().min(3),
+        RefferedBy: z.string().min(3),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log("adding account");
-
-      // const hashedpassword = await bcrypt.hash(input.password, 10);
-
-      await ctx.db.hCL_user.create({
+      await ctx.db.hCL_Application.create({
         data: {
+          name: input.name,
           email: input.email,
-          username: input.email,
-          password: input.name,
+          DateOfBirth: input.DateOfBirth,
+          gender: input.gender,
+          phoneNumber: input.name,
+          DriverLicenseNumber: input.name,
+          state: input.name,
+          airline: input.name,
+          AirlineEmployeeID: input.name,
+          JobTitle: input.name,
+          Airline_ID_Image: input.name,
+          Emergency_Contact_Name: input.name,
+          Emergency_Contact_PhoneNumber: input.name,
+          Emergency_Contact_Relationship: input.name,
+          RefferedBy: input.name,
         },
       });
 
-      return "ACCOUNT MADE";
+      return "application submitted";
     }),
 });

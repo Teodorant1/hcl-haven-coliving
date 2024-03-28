@@ -162,4 +162,27 @@ model HCL_user  {
     avatar_url           String? 
     billing_address      String? // needs to be json
     payment_method       String? // needs to be json
+    isAdmin              Boolean  @default(false)
+    isApproved           Boolean  @default(false)
+}
+
+model HCL_Application {
+    id                             String    @id @default(cuid())
+    name                           String
+    email                          String
+    DateOfBirth                    DateTime
+    gender                         String
+    phoneNumber                    String
+    DriverLicenseNumber            String
+    state                          String
+    airline                        String
+    AirlineEmployeeID              String
+    JobTitle                       String
+    Airline_ID_Image               String
+    Emergency_Contact_Name         String
+    Emergency_Contact_PhoneNumber  String
+    Emergency_Contact_Relationship String
+    RefferedBy                     String
+    isApproved                     Boolean  @default(false)
+
 }
