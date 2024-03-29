@@ -51,8 +51,8 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.NEXT_PRIVATE_GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.NEXT_PRIVATE_GOOGLE_CLIENT_SECRET!,
     }),
 
     CredentialsProvider({
@@ -111,6 +111,7 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  secret: process.env.NEXTAUTH_SECRET!,
   callbacks: {
     async jwt({ token, user }: any) {
       if (user) {
