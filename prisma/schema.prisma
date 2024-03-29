@@ -164,6 +164,7 @@ model HCL_user  {
     payment_method       String? // needs to be json
     isAdmin              Boolean  @default(false)
     isApproved           Boolean  @default(false)
+    isApproved1           Boolean  
 }
 
 model HCL_Application {
