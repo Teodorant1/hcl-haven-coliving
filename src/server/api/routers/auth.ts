@@ -6,6 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
+import { HCL_Application } from "@prisma/client";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure
@@ -34,7 +35,6 @@ export const authRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string().min(1),
-        email: z.string().min(1).email(),
         DateOfBirth: z.date(),
         gender: z.string().min(3),
         phoneNumber: z.string().min(3),
@@ -54,23 +54,75 @@ export const authRouter = createTRPCRouter({
       await ctx.db.hCL_Application.create({
         data: {
           name: input.name,
-          email: input.email,
+          email: ctx.session.user.email,
           DateOfBirth: input.DateOfBirth,
           gender: input.gender,
-          phoneNumber: input.name,
-          DriverLicenseNumber: input.name,
-          state: input.name,
-          airline: input.name,
-          AirlineEmployeeID: input.name,
-          JobTitle: input.name,
-          Airline_ID_Image: input.name,
-          Emergency_Contact_Name: input.name,
-          Emergency_Contact_PhoneNumber: input.name,
-          Emergency_Contact_Relationship: input.name,
-          RefferedBy: input.name,
+          phoneNumber: input.phoneNumber,
+          DriverLicenseNumber: input.DriverLicenseNumber,
+          state: input.state,
+          airline: input.airline,
+          AirlineEmployeeID: input.AirlineEmployeeID,
+          JobTitle: input.JobTitle,
+          Airline_ID_Image: input.Airline_ID_Image,
+          Emergency_Contact_Name: input.Emergency_Contact_Name,
+          Emergency_Contact_PhoneNumber: input.Emergency_Contact_PhoneNumber,
+          Emergency_Contact_Relationship: input.Emergency_Contact_Relationship,
+          RefferedBy: input.RefferedBy,
         },
       });
 
       return "application submitted";
     }),
+
+  Approve_Account: protectedProcedure
+    .input(
+      z.object({
+        userEmail: z.string().min(1).email(),
+        applicationID: z.string().min(1),
+        isApproved: z.boolean(),
+        //  isReviewed: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.hCL_Application.update({
+        where: {
+          id: input.applicationID,
+        },
+        data: {
+          isApproved: input.isApproved,
+          isReviewed: true,
+        },
+      });
+
+      await ctx.db.hCL_user.update({
+        where: {
+          email: input.userEmail,
+        },
+        data: {
+          isApproved: input.isApproved,
+        },
+      });
+
+      return "approval done!";
+    }),
+
+  Get_applicants_for_approval: protectedProcedure.query(
+    async ({ ctx, input }) => {
+      // only the admin gets access to this procedure
+      if (ctx.session.user.isAdmin === true) {
+        const applications_to_review = await ctx.db.hCL_Application.findMany({
+          where: {
+            isApproved: false,
+            isReviewed: false,
+          },
+        });
+
+        return applications_to_review;
+      }
+
+      // adding this so that TRPC doesn't give me errors
+      // const emptyarray: HCL_Application[] = [];
+      // return emptyarray;
+    },
+  ),
 });

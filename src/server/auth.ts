@@ -27,10 +27,10 @@ declare module "next-auth" {
       // role: UserRole;
       email: string;
       sub: string;
-      role: string;
-      isClient: boolean;
+      // role: string;
+      avatar_url: string;
+      isApproved: boolean;
       isAdmin: boolean;
-      isRepairman: boolean;
     } & DefaultSession["user"];
   }
 
@@ -118,10 +118,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }: any) {
       if (session?.user) {
-        session.user.role = token.role;
-        session.user.isClient = token.isClient;
+        session.user.isApproved = token.isApproved;
         session.user.isAdmin = token.isAdmin;
-        session.user.isRepairman = token.isRepairman;
         session.user.sub = token.sub;
       }
       return session;

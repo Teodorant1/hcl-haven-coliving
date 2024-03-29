@@ -169,7 +169,7 @@ model HCL_user  {
 model HCL_Application {
     id                             String    @id @default(cuid())
     name                           String
-    email                          String
+    email                          String    @unique
     DateOfBirth                    DateTime
     gender                         String
     phoneNumber                    String
@@ -184,5 +184,6 @@ model HCL_Application {
     Emergency_Contact_Relationship String
     RefferedBy                     String
     isApproved                     Boolean  @default(false)
-
+    isReviewed                     Boolean  @default(false)
+    applicationDate                DateTime @default(now())
 }

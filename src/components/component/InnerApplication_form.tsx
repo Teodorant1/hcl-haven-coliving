@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { api } from "@/trpc/react";
 import { convert_date_string_to_DATE } from "utilities";
-import { ChangeEvent, useState } from "react";
+import { type ChangeEvent, useState } from "react";
 import { supabase } from "supabaseclient";
 
 export function InnerApplication_form() {
@@ -61,7 +61,7 @@ export function InnerApplication_form() {
     // const gender = (document.getElementById("gender") as HTMLInputElement)
     //   .value;
     const phone = (document.getElementById("phone") as HTMLInputElement).value;
-    const email = (document.getElementById("email") as HTMLInputElement).value;
+    // const email = (document.getElementById("email") as HTMLInputElement).value;
     const driverlicense = (
       document.getElementById("driver-license") as HTMLInputElement
     ).value;
@@ -97,7 +97,7 @@ export function InnerApplication_form() {
     console.log(name);
     console.log(gender);
     console.log(phone);
-    console.log(email);
+    console.log(session?.user.email);
     console.log(driverlicense);
     console.log(state);
     console.log(airline);
@@ -121,7 +121,6 @@ export function InnerApplication_form() {
         upsert: false,
       });
     applytoPilot.mutate({
-      email: email,
       gender: gender,
       name: name,
       DateOfBirth: actualDate,
@@ -195,7 +194,7 @@ export function InnerApplication_form() {
                 type="tel"
               />
             </div>
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -203,7 +202,7 @@ export function InnerApplication_form() {
                 required={true}
                 type="email"
               />
-            </div>
+            </div> */}
             <div className="space-y-2">
               <Label htmlFor="driver-license">
                 Driver{"'"}s License Number
@@ -247,7 +246,6 @@ export function InnerApplication_form() {
               />
             </div>
             <div className="space-y-2">
-              {selectedFile && <>file uploaded {selectedFile.name} </>}
               <Label htmlFor="airline-id-image">Airline ID Image</Label>
               <Input
                 id="airline-id-image"
