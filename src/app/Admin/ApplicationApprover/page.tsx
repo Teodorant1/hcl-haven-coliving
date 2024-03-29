@@ -42,6 +42,8 @@ const ApplicationApprover = () => {
             </CardHeader>
           </div>
         )}
+        {session?.user.isAdmin === true && <div>you are approved</div>}
+        {session?.user.isAdmin !== true && <div>you are NOT approved</div>}
         {applicants && applicants.data?.length! > 0 && (
           <div className="w-full overflow-auto rounded-lg border">
             <div className="relative w-full overflow-auto">

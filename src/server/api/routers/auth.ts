@@ -125,4 +125,40 @@ export const authRouter = createTRPCRouter({
       // return emptyarray;
     },
   ),
+
+  getServerSideSession: protectedProcedure.query(async ({ ctx, input }) => {
+    const adhocSession = await ctx.db.hCL_user.findUnique({
+      where: {
+        email: ctx.session.user.email,
+      },
+      select: {
+        email: true,
+        isAdmin: true,
+        isApproved: true,
+      },
+    });
+
+    if (adhocSession) {
+      return adhocSession;
+    }
+
+    await ctx.db.hCL_user.create({
+      data: {
+        email: ctx.session.user.email,
+        username: ctx.session.user.email,
+      },
+    });
+    const newlyMadeSession = await ctx.db.hCL_user.findUnique({
+      where: {
+        email: ctx.session.user.email,
+      },
+      select: {
+        email: true,
+        isAdmin: true,
+        isApproved: true,
+      },
+    });
+
+    return newlyMadeSession;
+  }),
 });

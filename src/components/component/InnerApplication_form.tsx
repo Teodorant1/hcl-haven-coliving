@@ -306,6 +306,14 @@ export function InnerApplication_form() {
           </CardContent>
           <CardFooter>
             <Button
+              onClick={() => {
+                console.log(session.user);
+              }}
+              className="ml-auto"
+            >
+              print user
+            </Button>
+            <Button
               onClick={async () => {
                 await ApplyToAirlineProgram();
               }}

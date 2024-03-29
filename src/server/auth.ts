@@ -22,6 +22,8 @@ import bcrypt from "bcrypt";
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
+    // paloki1: string;
+    // paloki: string;
     user: {
       id: string;
       // ...other properties
@@ -53,6 +55,15 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.NEXT_PRIVATE_GOOGLE_CLIENT_ID!,
       clientSecret: process.env.NEXT_PRIVATE_GOOGLE_CLIENT_SECRET!,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: `${profile.given_name} ${profile.family_name}`,
+          email: profile.email,
+          image: profile.picture,
+          role: profile.role ? profile.role : "user",
+        };
+      },
     }),
 
     CredentialsProvider({
@@ -70,24 +81,26 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
+        // console.log(credentials);
+        // console.log("LOGGING IN");
         try {
           const foundUser: HCL_user = await db.hCL_user.findUniqueOrThrow({
             where: { email: credentials!.email },
           });
 
           const hashedpassword = await bcrypt.hash(credentials!.password, 10);
-          console.log(hashedpassword);
+          // console.log(hashedpassword);
 
           if (foundUser) {
-            console.log("User Exists");
-            console.log(foundUser);
+            // console.log("User Exists");
+            // console.log(foundUser);
             const match = await bcrypt.compare(
               credentials!.password,
               foundUser.password,
             );
 
             if (match === true) {
-              console.log("Good Pass");
+              // console.log("Good Pass");
               foundUser.password = " ";
 
               // foundUser["role"] = "Unverified Email";
@@ -95,7 +108,7 @@ export const authOptions: NextAuthOptions = {
             }
           }
         } catch (error) {
-          console.log(error);
+          // console.log(error);
         }
         return null;
       },
@@ -113,23 +126,38 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET!,
   callbacks: {
-    async jwt({ token, user }: any) {
+    async jwt({ user, token, profile }: any) {
+      // console.log(token);
+      // console.log(profile);
+
+      // console.log(user);
+      // console.log("jwt callback");
       if (user) {
-        token.role = user.role;
-        token.isClient = user.isClient;
-        token.isAdmin = user.isAdmin;
-        token.isRepairman = user.isRepairman;
-        token.sub = user.id;
+        user.isApproved = token.isApproved;
+        user.isAdmin = token.isAdmin;
+        user.sub = token.sub;
       }
-      return token;
+
+      // user.paloki = "paloki1";
+      // user.paloki1 = "paloki1";
+      return { ...token, ...user };
     },
-    async session({ session, token }: any) {
+    async session({ session, token, profile }: any) {
+      session.user.role = token.role;
+
+      // console.log(token);
+      // console.log(profile);
+
+      // console.log(session);
+      // console.log("session callback");
       if (session?.user) {
         session.user.isApproved = token.isApproved;
         session.user.isAdmin = token.isAdmin;
         session.user.sub = token.sub;
       }
-      return session;
+      // token.paloki = "paloki";
+      // session.paloki = "paloki1";
+      return { ...token, ...session, profile };
     },
     // session: ({ session, user }) => ({
     // ...session,
