@@ -126,7 +126,7 @@ export const authRouter = createTRPCRouter({
     },
   ),
 
-  getServerSideSession: protectedProcedure.query(async ({ ctx, input }) => {
+  getImprovSession: protectedProcedure.query(async ({ ctx, input }) => {
     const adhocSession = await ctx.db.hCL_user.findUnique({
       where: {
         email: ctx.session.user.email,
@@ -140,25 +140,43 @@ export const authRouter = createTRPCRouter({
 
     if (adhocSession) {
       return adhocSession;
+    } else {
+      await ctx.db.hCL_user.create({
+        data: {
+          email: ctx.session.user.email,
+          username: ctx.session.user.email,
+        },
+      });
+      const newlyMadeSession = await ctx.db.hCL_user.findUnique({
+        where: {
+          email: ctx.session.user.email,
+        },
+        // select: {
+        //   email:           true,
+        //   isAdmin:            true,
+        //   isApproved:                true,
+        // },
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+      const hashedpassword = await bcrypt.hash(newlyMadeSession?.password!, 10);
+
+      await ctx.db.hCL_user.update({
+        where: {
+          email: newlyMadeSession?.email,
+        },
+        data: {
+          password: hashedpassword,
+        },
+      });
+
+      const newlyMadeSessionRedux = {
+        email: newlyMadeSession?.email,
+        isAdmin: newlyMadeSession?.isAdmin,
+        isApproved: newlyMadeSession?.isApproved,
+      };
+
+      return newlyMadeSessionRedux;
     }
-
-    await ctx.db.hCL_user.create({
-      data: {
-        email: ctx.session.user.email,
-        username: ctx.session.user.email,
-      },
-    });
-    const newlyMadeSession = await ctx.db.hCL_user.findUnique({
-      where: {
-        email: ctx.session.user.email,
-      },
-      select: {
-        email: true,
-        isAdmin: true,
-        isApproved: true,
-      },
-    });
-
-    return newlyMadeSession;
   }),
 });

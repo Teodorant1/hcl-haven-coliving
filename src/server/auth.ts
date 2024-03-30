@@ -14,6 +14,8 @@ import GoogleProvider from "next-auth/providers/google";
 import { db } from "@/server/db";
 import { type HCL_user } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { getImprovSession } from "utilitiesBackend";
+
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -34,6 +36,7 @@ declare module "next-auth" {
       avatar_url: string;
       isApproved: boolean;
       isAdmin: boolean;
+      role: string;
     } & DefaultSession["user"];
   }
 
@@ -55,13 +58,21 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.NEXT_PRIVATE_GOOGLE_CLIENT_ID!,
       clientSecret: process.env.NEXT_PRIVATE_GOOGLE_CLIENT_SECRET!,
-      profile(profile) {
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+      async profile(profile) {
         return {
           id: profile.sub,
-          name: `${profile.given_name} ${profile.family_name}`,
+          name: profile.name,
           email: profile.email,
           image: profile.picture,
-          role: profile.role ? profile.role : "user",
+          // role: profile.role ? profile.role : "user",
+          role: "user",
         };
       },
     }),
@@ -87,9 +98,6 @@ export const authOptions: NextAuthOptions = {
           const foundUser: HCL_user = await db.hCL_user.findUniqueOrThrow({
             where: { email: credentials!.email },
           });
-
-          const hashedpassword = await bcrypt.hash(credentials!.password, 10);
-          // console.log(hashedpassword);
 
           if (foundUser) {
             // console.log("User Exists");
@@ -127,16 +135,19 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET!,
   callbacks: {
     async jwt({ user, token, profile }: any) {
-      // console.log(token);
-      // console.log(profile);
+      console.log(token);
+      console.log(profile);
 
-      // console.log(user);
-      // console.log("jwt callback");
+      console.log(user);
+      console.log("jwt callback");
       if (user) {
         user.isApproved = token.isApproved;
         user.isAdmin = token.isAdmin;
         user.sub = token.sub;
       }
+
+      //user.role = "user";
+      // token.role = "user";
 
       // user.paloki = "paloki1";
       // user.paloki1 = "paloki1";
@@ -145,18 +156,25 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token, profile }: any) {
       session.user.role = token.role;
 
-      // console.log(token);
-      // console.log(profile);
-
-      // console.log(session);
-      // console.log("session callback");
+      console.log(token);
+      console.log(profile);
+      console.log(session);
+      console.log("session callback");
+      console.log();
       if (session?.user) {
         session.user.isApproved = token.isApproved;
         session.user.isAdmin = token.isAdmin;
         session.user.sub = token.sub;
       }
-      // token.paloki = "paloki";
-      // session.paloki = "paloki1";
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      const adhocSession = await getImprovSession(token.email);
+
+      token.isAdmin = adhocSession.isAdmin;
+      token.isApproved = adhocSession.isApproved;
+
+      session.role = "user1";
+      token.role = "user2";
       return { ...token, ...session, profile };
     },
     // session: ({ session, user }) => ({
