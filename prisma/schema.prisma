@@ -170,7 +170,7 @@ model HCL_user  {
 model HCL_Application {
     id                             String    @id @default(cuid())
     name                           String
-    email                          String    @unique
+    email                          String   
     DateOfBirth                    DateTime
     gender                         String
     phoneNumber                    String

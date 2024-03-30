@@ -1,11 +1,12 @@
 import { z } from "zod";
 import bcrypt from "bcrypt";
-
+import { Resend } from "resend";
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
+import ConfirmationPopup from "@/components/component/ConfirmationPopup";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure
@@ -68,6 +69,15 @@ export const authRouter = createTRPCRouter({
           Emergency_Contact_Relationship: input.Emergency_Contact_Relationship,
           RefferedBy: input.RefferedBy,
         },
+      });
+
+      const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
+
+      await resend.emails.send({
+        from: "Acme <onboarding@resend.dev>",
+        to: ctx.session.user.email,
+        subject: "SUCCESFUL APPLICATION!",
+        html: "<p>You have <strong>successfully sent</strong>  in your first application !</p>",
       });
 
       return "application submitted";

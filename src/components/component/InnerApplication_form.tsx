@@ -27,6 +27,8 @@ import { api } from "@/trpc/react";
 import { convert_date_string_to_DATE } from "utilities";
 import { type ChangeEvent, useState } from "react";
 import { supabase } from "supabaseclient";
+import ConfirmationPopup from "./ConfirmationPopup";
+import { set } from "date-fns";
 
 export function InnerApplication_form() {
   const [gender, setgender] = useState<string>("Select");
@@ -46,7 +48,7 @@ export function InnerApplication_form() {
   };
   const applytoPilot = api.auth.SendApplication.useMutation({
     onSuccess: () => {
-      console.log("OP SUCCESS");
+      setapplicationSent(true);
     },
   });
 
@@ -151,7 +153,10 @@ export function InnerApplication_form() {
           </CardHeader>
         </div>
       )}
-      {status === "authenticated" && (
+      {status === "authenticated" && applicationSent === true && (
+        <ConfirmationPopup />
+      )}
+      {status === "authenticated" && applicationSent === false && (
         <Card className="mx-auto max-w-3xl">
           <CardHeader>
             <CardTitle>Apply to Airline Program</CardTitle>
