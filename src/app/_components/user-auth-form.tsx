@@ -13,6 +13,7 @@ import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
+import ConfirmationPopup from "@/components/component/ConfirmationPopup";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -67,44 +68,55 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      {registrationSucceded === true && <SuccessBox />}{" "}
+      {registrationSucceded === true && <ConfirmationPopup />}{" "}
       {registrationSucceded === false && (
-        <form onSubmit={AddAccount}>
-          <div className="grid gap-2">
-            <div className="grid gap-1">
-              <Label className="sr-only" htmlFor="email">
-                Email
-              </Label>
-              <Input
-                id="email"
-                placeholder="name@example.com"
-                type="email"
-                autoCapitalize="none"
-                autoComplete="email"
-                autoCorrect="off"
-                disabled={isLoading}
-              />
-              <Label className="sr-only" htmlFor="email">
-                Password
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                autoCapitalize="none"
-                autoComplete="email"
-                autoCorrect="off"
-                disabled={isLoading}
-                placeholder="password"
-              />
+        <div>
+          {" "}
+          <div className=" m-5 flex flex-col space-y-2 text-center">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Create an account
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Enter your email below to create your account
+            </p>
+          </div>{" "}
+          <form onSubmit={AddAccount}>
+            <div className="grid gap-2">
+              <div className="grid gap-1">
+                <Label className="sr-only" htmlFor="email">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  placeholder="name@example.com"
+                  type="email"
+                  autoCapitalize="none"
+                  autoComplete="email"
+                  autoCorrect="off"
+                  disabled={isLoading}
+                />
+                <Label className="sr-only" htmlFor="email">
+                  Password
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  autoCapitalize="none"
+                  autoComplete="email"
+                  autoCorrect="off"
+                  disabled={isLoading}
+                  placeholder="password"
+                />
+              </div>
+              <Button disabled={isLoading}>
+                {isLoading && (
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Register with Credentials
+              </Button>
             </div>
-            <Button disabled={isLoading}>
-              {isLoading && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Register with Credentials
-            </Button>
-          </div>
-        </form>
+          </form>{" "}
+        </div>
       )}
       {registrationSucceded === false && (
         <>

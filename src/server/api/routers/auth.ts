@@ -6,7 +6,6 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
-import { HCL_Application } from "@prisma/client";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure

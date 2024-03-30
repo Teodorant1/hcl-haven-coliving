@@ -31,6 +31,7 @@ import { supabase } from "supabaseclient";
 export function InnerApplication_form() {
   const [gender, setgender] = useState<string>("Select");
   const { status, data: session } = useSession();
+  const [applicationSent, setapplicationSent] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {

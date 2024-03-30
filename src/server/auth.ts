@@ -29,14 +29,11 @@ declare module "next-auth" {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
       email: string;
       sub: string;
-      // role: string;
       avatar_url: string;
       isApproved: boolean;
       isAdmin: boolean;
-      role: string;
     } & DefaultSession["user"];
   }
 
@@ -71,8 +68,6 @@ export const authOptions: NextAuthOptions = {
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          // role: profile.role ? profile.role : "user",
-          role: "user",
         };
       },
     }),
@@ -146,35 +141,26 @@ export const authOptions: NextAuthOptions = {
         user.sub = token.sub;
       }
 
-      //user.role = "user";
-      // token.role = "user";
-
       // user.paloki = "paloki1";
       // user.paloki1 = "paloki1";
       return { ...token, ...user };
     },
     async session({ session, token, profile }: any) {
-      session.user.role = token.role;
-
       console.log(token);
       console.log(profile);
       console.log(session);
       console.log("session callback");
       console.log();
       if (session?.user) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        const adhocSession = await getImprovSession(token.email);
         session.user.isApproved = token.isApproved;
         session.user.isAdmin = token.isAdmin;
         session.user.sub = token.sub;
+        token.isAdmin = adhocSession.isAdmin;
+        token.isApproved = adhocSession.isApproved;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      const adhocSession = await getImprovSession(token.email);
-
-      token.isAdmin = adhocSession.isAdmin;
-      token.isApproved = adhocSession.isApproved;
-
-      session.role = "user1";
-      token.role = "user2";
       return { ...token, ...session, profile };
     },
     // session: ({ session, user }) => ({
