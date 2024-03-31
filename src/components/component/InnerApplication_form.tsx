@@ -158,7 +158,7 @@ export function InnerApplication_form() {
       {status === "authenticated" && applicationSent === false && (
         <Card className="mx-auto max-w-3xl">
           <CardHeader>
-            <CardTitle>Apply to Airline Program</CardTitle>
+            <CardTitle>Apply to Airline Program </CardTitle>
             <CardDescription>
               Please fill out the form below. All fields are required.
             </CardDescription>
@@ -310,14 +310,14 @@ export function InnerApplication_form() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button
+            {/* <Button
               onClick={() => {
                 console.log(session.user);
               }}
               className="ml-auto"
             >
               print user
-            </Button>
+            </Button> */}
             <Button
               onClick={async () => {
                 await ApplyToAirlineProgram();
