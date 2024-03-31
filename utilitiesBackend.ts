@@ -8,7 +8,7 @@ export async function getImprovSession(email: string): Promise<{
 }> {
   console.log("getImprovSession for " + email);
 
-  const adhocSession = await db.hCL_user.findUnique({
+  const adhocSession = await db.hCL_user.findFirst({
     where: {
       email: email,
     },
@@ -34,7 +34,7 @@ export async function getImprovSession(email: string): Promise<{
         username: email,
       },
     });
-    const newlyMadeSession = await db.hCL_user.findUnique({
+    const newlyMadeSession = await db.hCL_user.findFirst({
       where: {
         email: email,
       },

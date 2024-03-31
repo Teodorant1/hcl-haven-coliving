@@ -138,7 +138,7 @@ export const authRouter = createTRPCRouter({
   ),
 
   getImprovSession: protectedProcedure.query(async ({ ctx, input }) => {
-    const adhocSession = await ctx.db.hCL_user.findUnique({
+    const adhocSession = await ctx.db.hCL_user.findFirst({
       where: {
         email: ctx.session.user.email,
       },
@@ -158,7 +158,7 @@ export const authRouter = createTRPCRouter({
           username: ctx.session.user.email,
         },
       });
-      const newlyMadeSession = await ctx.db.hCL_user.findUnique({
+      const newlyMadeSession = await ctx.db.hCL_user.findFirst({
         where: {
           email: ctx.session.user.email,
         },
