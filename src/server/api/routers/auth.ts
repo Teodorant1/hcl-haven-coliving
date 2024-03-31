@@ -6,7 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
-import ConfirmationPopup from "@/components/component/ConfirmationPopup";
+import { EEmail } from "@/app/_emails/testemail";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure
@@ -72,12 +72,14 @@ export const authRouter = createTRPCRouter({
       });
 
       const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
+      //const resend = new Resend("re_FBxsJ6kq_LH1YLAwd5vMXN3pGe3jmsBHR");
 
-      await resend.emails.send({
+      void resend.emails.send({
         from: "Acme <onboarding@resend.dev>",
         to: ctx.session.user.email,
         subject: "SUCCESFUL APPLICATION!",
-        html: "<p>You have <strong>successfully sent</strong>  in your first application !</p>",
+        // react:  typeof <EEmail   /> ,
+        html: "<p>You have <strong>successfully sent</str ong>  in your first application !</p>",
       });
 
       return "application submitted";

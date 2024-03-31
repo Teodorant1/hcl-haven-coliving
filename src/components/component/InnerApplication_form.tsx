@@ -27,8 +27,7 @@ import { api } from "@/trpc/react";
 import { convert_date_string_to_DATE } from "utilities";
 import { type ChangeEvent, useState } from "react";
 import { supabase } from "supabaseclient";
-import ConfirmationPopup from "./ConfirmationPopup";
-import { set } from "date-fns";
+import Form_success_page from "@/app/_components/form-success-page";
 
 export function InnerApplication_form() {
   const [gender, setgender] = useState<string>("Select");
@@ -154,7 +153,7 @@ export function InnerApplication_form() {
         </div>
       )}
       {status === "authenticated" && applicationSent === true && (
-        <ConfirmationPopup />
+        <Form_success_page />
       )}
       {status === "authenticated" && applicationSent === false && (
         <Card className="mx-auto max-w-3xl">
