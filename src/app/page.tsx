@@ -25,55 +25,6 @@ export default async function Component() {
           />
           <span className="sr-only">The Tailwind Club</span>
         </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link
-            className="text-sm font-medium underline-offset-4 hover:underline"
-            href="#"
-            rel="ugc"
-          >
-            Gallery
-          </Link>
-          <Link
-            className="text-sm font-medium underline-offset-4 hover:underline"
-            href="#"
-            rel="ugc"
-          >
-            Membership
-          </Link>
-          <Link
-            className="text-sm font-medium underline-offset-4 hover:underline"
-            href="#"
-            rel="ugc"
-          >
-            Pricing
-          </Link>
-          {session === null && (
-            <Link
-              className="text-sm font-medium underline-offset-4 hover:underline"
-              href="/api/auth/signin"
-              rel="ugc"
-            >
-              Log In
-            </Link>
-          )}
-          {session && (
-            <Link
-              className="text-sm font-medium underline-offset-4 hover:underline"
-              href="#"
-              rel="ugc"
-            >
-              {session?.user.email}
-            </Link>
-          )}
-          {session && (
-            <Link
-              href="/api/auth/signout"
-              className="text-sm font-medium underline-offset-4 hover:underline"
-            >
-              Log Out
-            </Link>
-          )}
-        </nav>
       </header>
       <main className="flex-1">
         <section className="relative w-full py-12 md:py-24 lg:py-32">
