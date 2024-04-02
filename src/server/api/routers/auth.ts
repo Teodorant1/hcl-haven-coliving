@@ -6,7 +6,10 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
-import { EEmail } from "@/app/_emails/testemail";
+// import {VercelInviteUserEmail} from "@/app/_emails/JoinTeam";
+// import VercelInviteUserEmail from "react-email-starter/emails/vercel-invite-user";
+import ApplicationSubmitUserEmail from "@/app/_emails/SubmitApplication";
+import ApplicationNotificationUserEmail from "@/app/_emails/AdminApplicationNotification";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure
@@ -70,17 +73,42 @@ export const authRouter = createTRPCRouter({
           RefferedBy: input.RefferedBy,
         },
       });
-
       const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
+      // const userImage = ctx.session.user.image
+      //   ? ctx.session.user.image
+      //   : "https://www.horizonhobby.com/dw/image/v2/BFBR_PRD/on/demandware.static/-/Sites-horizon-master/default/dw33814fc6/Images/HBZ/HBZ32500_A0_IEBDEEFI.jpg?sw=800&sh=800&sm=fit";
 
-      void resend.emails.send({
+      await resend.emails.send({
         from: "Acme <onboarding@e.tailwindclub.org>",
-        //  to: "delivered@resend.dev",
         //  to: "robert@havencoliving.com",
         to: ctx.session.user.email,
-        subject: "SUCCESFUL APPLICATION!",
-        // react:  typeof <EEmail   /> ,
-        html: "<p>You have <strong>successfully sent</str ong>  in your first application !</p>",
+        subject: "You have applied to Tailwind-Club!",
+        react: ApplicationSubmitUserEmail({
+          username: ctx.session.user.email,
+          userImage: ctx.session.user.image
+            ? ctx.session.user.image
+            : "https://www.horizonhobby.com/dw/image/v2/BFBR_PRD/on/demandware.static/-/Sites-horizon-master/default/dw33814fc6/Images/HBZ/HBZ32500_A0_IEBDEEFI.jpg?sw=800&sh=800&sm=fit",
+          invitedByUsername: "3",
+          invitedByEmail: "paloki@gmail.com",
+          teamName: "PalokiTeam",
+          teamImage:
+            "https://rcprbmdrrmrvjubkxifr.supabase.co/storage/v1/object/public/images/tailwind-club-logo-last.png",
+          inviteLink: "/invitelink",
+          inviteFromIp: "inviteFromIp",
+          inviteFromLocation: "inviteFromLocation",
+        }),
+      });
+
+      await resend.emails.send({
+        from: "Acme <onboarding@e.tailwindclub.org>",
+        //  to: "robert@havencoliving.com",
+        to: process.env.NEXT_PRIVATE_ADMIN_EMAIL!,
+        subject: "A new person applied to the TailwindClub program!",
+        react: ApplicationNotificationUserEmail({
+          invitedByUsername: ctx.session.user.email,
+          invitedByEmail: ctx.session.user.email,
+          inviteLink: "/ApplicationApprover",
+        }),
       });
 
       return "application submitted";

@@ -123,7 +123,6 @@ export function InnerApplication_form() {
         upsert: false,
       });
 
-      
     applytoPilot.mutate({
       gender: gender,
       name: name,
