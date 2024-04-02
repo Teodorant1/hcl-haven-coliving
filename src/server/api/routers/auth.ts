@@ -75,7 +75,7 @@ export const authRouter = createTRPCRouter({
       //const resend = new Resend("re_FBxsJ6kq_LH1YLAwd5vMXN3pGe3jmsBHR");
 
       void resend.emails.send({
-        from: "Acme <onboarding@resend.dev>",
+        from: "Acme <e.tailwindclub.org>",
         to: ctx.session.user.email,
         subject: "SUCCESFUL APPLICATION!",
         // react:  typeof <EEmail   /> ,
