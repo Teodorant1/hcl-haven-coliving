@@ -38,12 +38,12 @@ export const ApplicationNotificationUserEmail = ({
   invitedByEmail,
   inviteLink,
 }: ApplicationNotificationUserEmailProps) => {
-  const previewText = `Join ${invitedByUsername} on Vercel`;
+  //   const previewText = `Join ${invitedByUsername} on Vercel`;
 
   return (
     <Html>
       <Head />
-      <Preview>{previewText}</Preview>
+      {/* <Preview>{previewText}</Preview> */}
       <Tailwind>
         <Body className="mx-auto my-auto bg-white px-2 font-sans">
           <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
@@ -70,8 +70,8 @@ export const ApplicationNotificationUserEmail = ({
               >
                 {invitedByEmail}
               </Link>
-              ) has applied to your program at
-              <strong>TailwindClub.org </strong>.
+              ) has applied to your program at{" "}
+              <strong className="ml-5">TailwindClub.org </strong>.
             </Text>
             <Section>
               {/* <Row>

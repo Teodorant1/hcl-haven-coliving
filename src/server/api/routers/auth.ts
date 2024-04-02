@@ -10,6 +10,7 @@ import {
 // import VercelInviteUserEmail from "react-email-starter/emails/vercel-invite-user";
 import ApplicationSubmitUserEmail from "@/app/_emails/SubmitApplication";
 import ApplicationNotificationUserEmail from "@/app/_emails/AdminApplicationNotification";
+import ApplicationResponseEmail from "@/app/_emails/ApplicationResponse";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure
@@ -110,6 +111,17 @@ export const authRouter = createTRPCRouter({
           inviteLink: "/ApplicationApprover",
         }),
       });
+      await resend.emails.send({
+        from: "Acme <onboarding@e.tailwindclub.org>",
+        to: "dusanbojanic1@gmail.com",
+        //to: process.env.NEXT_PRIVATE_ADMIN_EMAIL!,
+        subject: "A new person applied to the TailwindClub program!",
+        react: ApplicationNotificationUserEmail({
+          invitedByUsername: ctx.session.user.email,
+          invitedByEmail: ctx.session.user.email,
+          inviteLink: "/ApplicationApprover",
+        }),
+      });
 
       return "application submitted";
     }),
@@ -141,6 +153,27 @@ export const authRouter = createTRPCRouter({
         data: {
           isApproved: input.isApproved,
         },
+      });
+
+      const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
+
+      await resend.emails.send({
+        from: "Acme <onboarding@e.tailwindclub.org>",
+        //  to: "robert@havencoliving.com",
+        to: input.userEmail,
+        subject: "You have applied to Tailwind-Club!",
+        react: ApplicationResponseEmail({
+          username: ctx.session.user.email,
+
+          invitedByUsername: "3",
+          invitedByEmail: "paloki@gmail.com",
+          teamName: "PalokiTeam",
+          teamImage:
+            "https://rcprbmdrrmrvjubkxifr.supabase.co/storage/v1/object/public/images/tailwind-club-logo-last.png",
+          inviteLink: "/invitelink",
+          inviteFromIp: "inviteFromIp",
+          inviteFromLocation: "inviteFromLocation",
+        }),
       });
 
       return "approval done!";
