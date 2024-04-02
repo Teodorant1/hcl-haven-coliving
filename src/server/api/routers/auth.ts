@@ -72,7 +72,6 @@ export const authRouter = createTRPCRouter({
       });
 
       const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
-      //const resend = new Resend("re_FBxsJ6kq_LH1YLAwd5vMXN3pGe3jmsBHR");
 
       void resend.emails.send({
         from: "Acme <onboarding@e.tailwindclub.org>",
