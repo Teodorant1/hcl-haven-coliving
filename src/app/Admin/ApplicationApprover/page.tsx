@@ -110,7 +110,7 @@ const ApplicationApprover = () => {
                         {applicant.DriverLicenseNumber}
                       </td>
                       <td className="[&amp;:has([role=checkbox])]:pr-0 p-4 align-middle">
-                        Delta {applicant.airline}
+                        {applicant.airline}
                       </td>
                       <td className="[&amp;:has([role=checkbox])]:pr-0 p-4 align-middle">
                         <a
@@ -129,7 +129,7 @@ const ApplicationApprover = () => {
                         {applicant.RefferedBy}
                       </td>
                       <td className="[&amp;:has([role=checkbox])]:pr-0 p-4 align-middle">
-                        March 1, 2024 {applicant.applicationDate.toDateString()}
+                        {applicant.applicationDate.toDateString()}
                       </td>
                       <td className="[&amp;:has([role=checkbox])]:pr-0 p-4 align-middle">
                         <button
