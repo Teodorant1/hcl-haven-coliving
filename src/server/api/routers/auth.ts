@@ -6,8 +6,6 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
-// import {VercelInviteUserEmail} from "@/app/_emails/JoinTeam";
-// import VercelInviteUserEmail from "react-email-starter/emails/vercel-invite-user";
 import ApplicationSubmitUserEmail from "@/app/_emails/SubmitApplication";
 import ApplicationNotificationUserEmail from "@/app/_emails/AdminApplicationNotification";
 import ApplicationResponseEmail from "@/app/_emails/ApplicationResponse";
