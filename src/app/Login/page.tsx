@@ -12,21 +12,25 @@ import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
-import ConfirmationPopup from "@/components/component/ConfirmationPopup";
 import { signIn, useSession } from "next-auth/react";
 
 export default function LoginPage() {
   const router = useRouter();
   const session = useSession();
 
-  //   useEffect(() => {
-  //     if (session?.status === "authenticated") {
-  //       router.push("/");
-  //     }
-  //   }, [session]);
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/");
+    }
+  }, [session]);
 
   interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
   function UserAuthForm({ className, ...props }: UserAuthFormProps) {
@@ -45,26 +49,27 @@ export default function LoginPage() {
         email: email,
         password: password,
       };
-      await signIn("credentials", { ...data, redirect: false }).then(() => {
+      await signIn("credentials", {
+        ...data,
+        redirect: true,
+        callbackUrl: "/",
+      }).then(() => {
         // router.push("/");
         setloginSucceeded(true);
       });
     }
 
     function SuccessBox() {
-      useEffect(() => {
-        console.log("Component mounted");
-        return () => {
-          console.log("Component unmounted");
-        };
-      }, []);
       return (
-        <Link href={"/"}>
+        <div>
           {" "}
-          <div className="rounded-sm bg-black p-3  text-white">
-            You have successfully logged in! You are being redirected
-          </div>
-        </Link>
+          <Link href={"/"}>
+            <div className="m-5 rounded-sm bg-black p-5  text-white">
+              {" "}
+              You have successfully logged in! You are being redirected
+            </div>
+          </Link>
+        </div>
       );
     }
 
