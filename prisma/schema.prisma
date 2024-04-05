@@ -137,6 +137,7 @@ model product  {
 
 model subscription  {
     id                   String    @id @default(cuid())
+    SessionID            String
     userEmail            String
     user_id              String   //pretty much everything bellow this we get from Stripe API
     subscriptionStatus   Boolean
