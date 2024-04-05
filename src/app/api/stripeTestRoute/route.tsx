@@ -44,6 +44,8 @@ const webhookHandler = async (req: NextRequest) => {
 
     switch (event.type) {
       case "checkout.session.completed":
+        console.log(event)
+        await 
         //   await db.user.update({
         //     // Find the customer in our database with the Stripe customer ID linked to this purchase
         //     where: {
