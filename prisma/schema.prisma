@@ -137,7 +137,8 @@ model product  {
 
 model subscription  {
     id                   String    @id @default(cuid())
-    user_id              String
+    userEmail            String
+    user_id              String   //pretty much everything bellow this we get from Stripe API
     subscriptionStatus   Boolean
     metadata             String // needs to be json
     price_id             String
