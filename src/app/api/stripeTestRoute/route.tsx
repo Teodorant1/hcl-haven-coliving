@@ -126,8 +126,9 @@ const webhookHandler = async (req: NextRequest) => {
 
     // Return a response to acknowledge receipt of the event.
     return NextResponse.json({ received: true, status: 200 });
-  } catch {
+  } catch (errorX) {
     console.log("7th try");
+    console.log(errorX);
 
     return NextResponse.json(
       {
