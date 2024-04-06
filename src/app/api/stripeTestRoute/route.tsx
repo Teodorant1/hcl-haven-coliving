@@ -50,7 +50,7 @@ const webhookHandler = async (req: NextRequest) => {
     // getting to the data we want from the event
     const subscription = event.data.object as Stripe.Subscription;
     console.log(subscription.customer);
-
+    console.log("event.type=" + event.type);
     switch (event.type) {
       case "checkout.session.completed":
         // const eventString = event.object.toString();
@@ -59,12 +59,22 @@ const webhookHandler = async (req: NextRequest) => {
         const Stripe_Metadata = event.data.object.metadata!;
         console.log(Stripe_Metadata);
 
-        await db.subscription.updateMany({
-          where: {
-            SessionID: event.id,
-          },
-          data: { subscriptionStatus: true },
-        });
+        const customerID = subscription.customer;
+
+        await db.subscription
+          .updateMany({
+            where: {
+              SessionID: event.id,
+            },
+            data: {
+              subscriptionStatus: true,
+              metadata: Stripe_Metadata,
+              user_id: customerID as string,
+            },
+          })
+          .then(() => {
+            console.log("UPDATED DB CHIEF");
+          });
 
         console.log("4th try");
 
