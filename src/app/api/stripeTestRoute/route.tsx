@@ -45,15 +45,26 @@ const webhookHandler = async (req: NextRequest) => {
 
     switch (event.type) {
       case "checkout.session.completed":
-        const eventString = event.object.toString();
-
+        // const eventString = event.object.toString();
         console.log(event);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-        await db.webhookOutput.create({
+
+        await db.hCL_user.update({
+          where: {
+            email: "newlyMadeSession?.email",
+          },
           data: {
-            content: eventString,
+            password: "hashedpassword",
           },
         });
+
+        await db.subscription.update({
+          where: {
+            SessionID: event.id,
+          },
+
+          data: { subscriptionStatus: true },
+        });
+
         //   await db.user.update({
         //     // Find the customer in our database with the Stripe customer ID linked to this purchase
         //     where: {

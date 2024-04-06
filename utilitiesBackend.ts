@@ -6,7 +6,7 @@ export async function getImprovSession(email: string): Promise<{
   isAdmin: boolean | undefined;
   isApproved: boolean | undefined;
 }> {
-  console.log("getImprovSession for " + email);
+  // console.log("getImprovSession for " + email);
 
   const adhocSession = await db.hCL_user.findFirst({
     where: {
