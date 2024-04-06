@@ -12,6 +12,7 @@ const webhookSecret: string = process.env.NEXT_PRIVATE_STRIPE_WEBHOOK_SECRET!;
 const webhookHandler = async (req: NextRequest) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const body = await req.json();
+  console.log(req);
   console.log(body);
 
   try {
