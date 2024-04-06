@@ -11,9 +11,9 @@ const webhookSecret: string = process.env.NEXT_PRIVATE_STRIPE_WEBHOOK_SECRET!;
 
 const webhookHandler = async (req: NextRequest) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const body = await req.json();
+  // const body = await req.json();
   console.log(req);
-  console.log(body);
+  // console.log(body);
   const sig = req.headers.get("stripe-signature")!;
   console.log(sig);
   const buf = await req.text();
