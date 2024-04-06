@@ -73,7 +73,7 @@ export const bookingRouter = createTRPCRouter({
     .input(
       z.object({
         quantity: z.number(),
-        packageName: z.number(),
+        packageName: z.string(),
         priceID: z.string().min(10),
         description: z.string().min(10),
       }),
