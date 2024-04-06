@@ -3,11 +3,11 @@ import { db } from "@/server/db";
 import { type NextRequest, NextResponse } from "next/server";
 import { StripeMetadata } from "projtect-types";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!, {
   // https://github.com/stripe/stripe-node#configuration
 });
 
-const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!;
+const webhookSecret: string = process.env.NEXT_PRIVATE_STRIPE_WEBHOOK_SECRET!;
 
 const webhookHandler = async (req: NextRequest) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
