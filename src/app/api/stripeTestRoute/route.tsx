@@ -68,7 +68,9 @@ const webhookHandler = async (req: NextRequest) => {
             },
             data: {
               subscriptionStatus: true,
-              metadata: Stripe_Metadata,
+              // might delete this in future version,
+              //since metadata seems to be giving errors here
+              // metadata: Stripe_Metadata,
               user_id: customerID as string,
             },
           })
