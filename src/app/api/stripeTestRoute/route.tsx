@@ -48,16 +48,6 @@ const webhookHandler = async (req: NextRequest) => {
       case "checkout.session.completed":
         // const eventString = event.object.toString();
         console.log(event);
-
-        await db.hCL_user.update({
-          where: {
-            email: "newlyMadeSession?.email",
-          },
-          data: {
-            recovery_email: "hashedpassword",
-          },
-        });
-
         const eventID: string = event.id;
         const Stripe_Metadata = event.data.object.metadata!;
         console.log(Stripe_Metadata);
@@ -103,6 +93,13 @@ const webhookHandler = async (req: NextRequest) => {
         //   });
         break;
       case "customer.subscription.deleted":
+        await db.subscription.updateMany({
+          where: {
+            SessionID: event.id,
+          },
+          data: { subscriptionStatus: false },
+        });
+
         //  await db.user.update({
         //    // Find the customer in our database with the Stripe customer ID linked to this purchase
         //    where: {
@@ -120,7 +117,7 @@ const webhookHandler = async (req: NextRequest) => {
     }
 
     // Return a response to acknowledge receipt of the event.
-    return NextResponse.json({ received: true });
+    return NextResponse.json({ received: true, status: 200 });
   } catch {
     return NextResponse.json(
       {
