@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { db } from "@/server/db";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
+import { StripeMetadata } from "projtect-types";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   // https://github.com/stripe/stripe-node#configuration
@@ -53,15 +54,16 @@ const webhookHandler = async (req: NextRequest) => {
             email: "newlyMadeSession?.email",
           },
           data: {
-            password: "hashedpassword",
+            recovery_email: "hashedpassword",
           },
         });
 
-        await db.subscription.update({
+        const eventID: string = event.id;
+
+        await db.subscription.updateMany({
           where: {
             SessionID: event.id,
           },
-
           data: { subscriptionStatus: true },
         });
 

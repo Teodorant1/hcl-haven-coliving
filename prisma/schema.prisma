@@ -141,7 +141,7 @@ content              String    @db.Text
 }
 model subscription  {
     id                   String    @id @default(cuid())
-    SessionID            String
+    SessionID            String    
     userEmail            String
     customerID           String?
     user_id              String   //pretty much everything bellow this we get from Stripe API
