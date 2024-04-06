@@ -59,6 +59,8 @@ const webhookHandler = async (req: NextRequest) => {
         });
 
         const eventID: string = event.id;
+        const Stripe_Metadata = event.data.object.metadata!;
+        console.log(Stripe_Metadata);
 
         await db.subscription.updateMany({
           where: {
