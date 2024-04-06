@@ -116,9 +116,12 @@ const webhookHandler = async (req: NextRequest) => {
         break;
       case "customer.subscription.deleted":
         console.log("6th try");
+
+        const customerId: string = event.data.object.customer as string;
+
         await db.subscription.updateMany({
           where: {
-            customerID: event.data.object.customer as string,
+            user_id: customerId,
           },
           data: { subscriptionStatus: false },
         });
