@@ -18,10 +18,12 @@ const webhookHandler = async (req: NextRequest) => {
     const buf = await req.text();
     const sig = req.headers.get("stripe-signature")!;
     let event: Stripe.Event;
-
+    console.log("first try");
     try {
       event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
+      console.log("2nd try");
     } catch (err) {
+      console.log("first catch");
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
       // On error, log and return the error message.
       if (err! instanceof Error) console.log(err);
@@ -39,7 +41,7 @@ const webhookHandler = async (req: NextRequest) => {
 
     // Successfully constructed event.
     console.log("✅ Success:", event.id);
-
+    console.log("3rd try");
     // getting to the data we want from the event
     const subscription = event.data.object as Stripe.Subscription;
     console.log(subscription.customer);
@@ -58,6 +60,8 @@ const webhookHandler = async (req: NextRequest) => {
           },
           data: { subscriptionStatus: true },
         });
+
+        console.log("4th try");
 
         //   await db.user.update({
         //     // Find the customer in our database with the Stripe customer ID linked to this purchase
@@ -81,6 +85,7 @@ const webhookHandler = async (req: NextRequest) => {
 
         break;
       case "customer.subscription.created":
+        console.log("5th try");
         //   await db.user.update({
         //     // Find the customer in our database with the Stripe customer ID linked to this purchase
         //     where: {
@@ -93,6 +98,7 @@ const webhookHandler = async (req: NextRequest) => {
         //   });
         break;
       case "customer.subscription.deleted":
+        console.log("6th try");
         await db.subscription.updateMany({
           where: {
             SessionID: event.id,
@@ -119,6 +125,8 @@ const webhookHandler = async (req: NextRequest) => {
     // Return a response to acknowledge receipt of the event.
     return NextResponse.json({ received: true, status: 200 });
   } catch {
+    console.log("7th try");
+
     return NextResponse.json(
       {
         error: {
