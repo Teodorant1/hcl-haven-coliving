@@ -17,6 +17,7 @@ const webhookHandler = async (req: NextRequest) => {
   const sig = req.headers.get("stripe-signature")!;
   console.log(sig);
   try {
+    console.log("zeroth try");
     const buf = await req.text();
     // const sig = req.headers.get("stripe-signature")!;
     let event: Stripe.Event;
