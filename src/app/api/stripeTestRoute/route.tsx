@@ -118,7 +118,7 @@ const webhookHandler = async (req: NextRequest) => {
         console.log("6th try");
         await db.subscription.updateMany({
           where: {
-            SessionID: event.data.object.id,
+            customerID: event.data.object.customer as string,
           },
           data: { subscriptionStatus: false },
         });
