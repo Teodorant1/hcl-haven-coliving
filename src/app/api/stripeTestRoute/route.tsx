@@ -41,11 +41,19 @@ const webhookHandler = async (req: NextRequest) => {
 
     // getting to the data we want from the event
     const subscription = event.data.object as Stripe.Subscription;
+    console.log(subscription.customer);
 
     switch (event.type) {
       case "checkout.session.completed":
-        console.log(event)
-        await 
+        const eventString = event.object.toString();
+
+        console.log(event);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+        await db.webhookOutput.create({
+          data: {
+            content: eventString,
+          },
+        });
         //   await db.user.update({
         //     // Find the customer in our database with the Stripe customer ID linked to this purchase
         //     where: {
