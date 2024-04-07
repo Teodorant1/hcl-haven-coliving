@@ -57,7 +57,7 @@ export const bookingRouter = createTRPCRouter({
             subscriptionStatus: false,
             metadata: " ",
             price_id: line_item.price,
-            quantity: PackageToBeBought.price.toString(),
+            quantity: PackageToBeBought.numberOfDays.toString(),
             cancel_at_period_end: false,
             created_at: new Date(),
             currentPeriod_start: new Date(),
