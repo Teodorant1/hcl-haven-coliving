@@ -8,7 +8,7 @@ export type registrationForm = {
 export type StripeMetadata = {
   description: string;
   packageName: string;
+  email: string;
   priceID: string;
-  quantity: number;
-  gmail: string;
+  price: number;
 };
