@@ -56,8 +56,14 @@ const webhookHandler = async (req: NextRequest) => {
         // const eventString = event.object.toString();
         console.log(event);
         const eventID: string = event.id;
-        const Stripe_Metadata = event.data.object.metadata!;
-        console.log(Stripe_Metadata);
+        const Stripe_Metadata: StripeMetadata = event.data.object
+          .metadata! as unknown as StripeMetadata;
+        console.log(Stripe_Metadata.description);
+        console.log(Stripe_Metadata.email);
+        console.log(Stripe_Metadata.method);
+        console.log(Stripe_Metadata.packageName);
+        console.log(Stripe_Metadata.price);
+        console.log(Stripe_Metadata.priceID);
 
         const customerID = subscription.customer;
 
