@@ -2,7 +2,12 @@
 import React from "react";
 import { api } from "@/trpc/react";
 const StripeTest = () => {
-  const buyExtraDay = api.booking.BuyExtraDay.useMutation({});
+  // const buyExtraDay = api.booking.BuyExtraDay.useMutation({
+  //   onSuccess: (value) => {
+  //     console.log(value);
+  //     window.location.href = value!;
+  //   },
+  // });
 
   const buysub = api.booking.BuySubscription.useMutation({
     onSuccess: (value) => {
@@ -13,17 +18,17 @@ const StripeTest = () => {
 
   async function handle_buy_subscription() {
     buysub.mutate({
-      quantity: 10,
-      packageName: "10 bucks per day sub",
-      priceID: "price_1P2BUrJsSW6jGUhs29zRsnYW",
-      description: "handle_buy_subscription description",
+      packageName: "600 BUCKS - 15 DAYS",
       method: "buy_subscription",
     });
   }
 
-  async function handle_buyExtraDay() {
-    buyExtraDay.mutate({});
-  }
+  // async function handle_buyExtraDay() {
+  //   buyExtraDay.mutate({
+  //     packageName: "600 BUCKS - 15 DAYS",
+  //     method: ""
+  //   });
+  // }
 
   return (
     <div>

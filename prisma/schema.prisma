@@ -164,7 +164,7 @@ model SubscriptionPlans {
     packageName         String
     description         String
     numberOfDays        Int
-    price        Int
+    price               Int
 }
 model HCL_user  {
     id                   String    @id @default(cuid())

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import SummonStripeSubscriptionButton from "@/components/component/SummonStripeButton";
 
 const Membership = () => {
   return (
@@ -34,9 +35,9 @@ const Membership = () => {
                   <li>Feature 1</li>
                   <li>Feature 2</li>
                 </ul>
-                <button className="mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-                  Join now
-                </button>
+                <SummonStripeSubscriptionButton
+                  packageName={"250 BUCKS - 5 DAYS"}
+                />
               </div>
             </div>
             <div
@@ -55,9 +56,9 @@ const Membership = () => {
                   <li>Feature 2</li>
                   <li>Feature 3</li>
                 </ul>
-                <button className="mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-                  Join now
-                </button>
+                <SummonStripeSubscriptionButton
+                  packageName={"350 BUCKS - 7 DAYS"}
+                />
               </div>
             </div>
             <div
@@ -77,9 +78,9 @@ const Membership = () => {
                   <li>Feature 3</li>
                   <li>Feature 4</li>
                 </ul>
-                <button className="mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-                  Join now
-                </button>
+                <SummonStripeSubscriptionButton
+                  packageName={"400 BUCKS - 11 DAYS"}
+                />
               </div>
             </div>
             <div
@@ -100,9 +101,9 @@ const Membership = () => {
                   <li>Feature 4</li>
                   <li>Feature 5</li>
                 </ul>
-                <button className="mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-                  Join now
-                </button>
+                <SummonStripeSubscriptionButton
+                  packageName={"500 BUCKS - 13 DAYS"}
+                />
               </div>
             </div>
             <div
@@ -124,9 +125,9 @@ const Membership = () => {
                   <li>Feature 5</li>
                   <li>Feature 6</li>
                 </ul>
-                <button className="mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
-                  Join now
-                </button>
+                <SummonStripeSubscriptionButton
+                  packageName={"600 BUCKS - 15 DAYS"}
+                />
               </div>
             </div>
           </div>
