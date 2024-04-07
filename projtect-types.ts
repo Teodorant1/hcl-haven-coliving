@@ -11,4 +11,5 @@ export type StripeMetadata = {
   email: string;
   priceID: string;
   price: number;
+  method: string;
 };

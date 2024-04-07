@@ -1,10 +1,7 @@
-import { date, z } from "zod";
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "@/server/api/trpc";
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import Stripe from "stripe";
+import { StripeMetadata } from "projtect-types";
 
 export const bookingRouter = createTRPCRouter({
   BuySubscription: protectedProcedure
@@ -14,10 +11,21 @@ export const bookingRouter = createTRPCRouter({
         packageName: z.string(),
         priceID: z.string().min(10),
         description: z.string().min(10),
+        method: z.string().min(10),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       console.log("Buying subscription");
+
+      const stripeMetada: StripeMetadata = {
+        description: input.description,
+        packageName: input.packageName,
+        priceID: input.priceID,
+        price: input.quantity,
+        email: ctx.session.user.email,
+        method: input.method,
+      };
+
       const line_item = {
         //one time payment
         // price: "price_1P1uXaJsSW6jGUhsYiEo8ZbI",
@@ -35,13 +43,7 @@ export const bookingRouter = createTRPCRouter({
           line_items: [line_item],
           success_url: process.env.NEXT_PUBLIC_VERCEL_URL! + "/SUCCESS",
           cancel_url: process.env.NEXT_PUBLIC_VERCEL_URL! + "/FAIL",
-          metadata: {
-            description: input.description,
-            packageName: input.packageName,
-            priceID: input.priceID,
-            quantity: input.quantity,
-            gmail: ctx.session.user.email,
-          },
+          metadata: stripeMetada,
         });
         await ctx.db.subscription.create({
           data: {

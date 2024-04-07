@@ -159,7 +159,7 @@ model subscription  {
 } 
 
 model SubscriptionPlans {
-    id                  Int      @id @default(autoincrement())
+    id                  String      @id @default(cuid())
     priceID             String
     packageName         String
     description         String
