@@ -63,6 +63,10 @@ export const bookingRouter = createTRPCRouter({
             currentPeriod_start: new Date(),
             currentPeriod_end: new Date(),
             SessionID: sesh.id,
+            priceID: PackageToBeBought.priceID,
+            packageName: PackageToBeBought.packageName,
+            description: PackageToBeBought.description,
+            price: PackageToBeBought.price,
           },
         });
         console.log(sesh);
@@ -124,12 +128,16 @@ export const bookingRouter = createTRPCRouter({
             subscriptionStatus: false,
             metadata: " ",
             price_id: line_item.price,
-            quantity: PackageToBeBought.price.toString(),
+            quantity: PackageToBeBought.numberOfDays.toString(),
             cancel_at_period_end: false,
             created_at: new Date(),
             currentPeriod_start: new Date(),
             currentPeriod_end: new Date(),
             SessionID: sesh.id,
+            priceID: PackageToBeBought.priceID,
+            packageName: PackageToBeBought.packageName,
+            description: PackageToBeBought.description,
+            price: PackageToBeBought.price,
           },
         });
         console.log(sesh);

@@ -144,6 +144,7 @@ model subscription  {
     subscriptionStatus   Boolean
     metadata             String // needs to be json
     price_id             String
+    //number of days you can stay in the hostel
     quantity             String
     cancel_at_period_end Boolean
     created_at           DateTime
@@ -154,6 +155,11 @@ model subscription  {
     cancelled_at         DateTime?
     trial_start          DateTime?
     trial_end            DateTime?
+
+    priceID             String
+    packageName         String
+    description         String
+    price               Int
 
     daysUsed             Int       @default(0)
 } 
