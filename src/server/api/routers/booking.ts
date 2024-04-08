@@ -12,32 +12,23 @@ export const bookingRouter = createTRPCRouter({
         // description: z.string().min(10),
         packageName: z.string().min(1),
         method: z.string().min(1),
+        number_of_days: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       console.log("Buying subscription");
-      const PackageToBeBought = await ctx.db.subscriptionPlans.findFirstOrThrow(
-        {
-          where: {
-            packageName: input.packageName,
-          },
-        },
-      );
+
       const stripeMetada: StripeMetadata = {
-        description: PackageToBeBought.description,
-        priceID: PackageToBeBought.priceID,
-        price: PackageToBeBought.price,
+        description: input.number_of_days + " DAYS",
+        priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
+        price: input.number_of_days * 40,
         email: ctx.session.user.email,
         packageName: input.packageName,
         method: input.method,
       };
       const line_item = {
-        //one time payment
-        // price: "price_1P1uXaJsSW6jGUhsYiEo8ZbI",
-        //subscription
-        //price: "price_1P2BUrJsSW6jGUhs29zRsnYW",
-        price: PackageToBeBought.priceID,
-        quantity: PackageToBeBought.price,
+        price: "price_1P3OGbJsSW6jGUhshqmG2tYP",
+        quantity: input.number_of_days,
       };
       const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
       try {
@@ -57,16 +48,17 @@ export const bookingRouter = createTRPCRouter({
             subscriptionStatus: false,
             metadata: " ",
             price_id: line_item.price,
-            quantity: PackageToBeBought.numberOfDays.toString(),
+            // number of days
+            NumberOfBoughtDays: input.number_of_days,
             cancel_at_period_end: false,
             created_at: new Date(),
             currentPeriod_start: new Date(),
             currentPeriod_end: new Date(),
             SessionID: sesh.id,
-            priceID: PackageToBeBought.priceID,
-            packageName: PackageToBeBought.packageName,
-            description: PackageToBeBought.description,
-            price: PackageToBeBought.price,
+            priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
+            packageName: input.number_of_days + " DAYS",
+            description: input.number_of_days + " DAYS",
+            price: input.number_of_days * 40,
           },
         });
         console.log(sesh);
@@ -84,21 +76,22 @@ export const bookingRouter = createTRPCRouter({
         // description: z.string().min(10),
         packageName: z.string().min(1),
         method: z.string().min(1),
+        number_of_days: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       console.log("Buying subscription");
-      const PackageToBeBought = await ctx.db.subscriptionPlans.findFirstOrThrow(
-        {
-          where: {
-            packageName: input.packageName,
-          },
-        },
-      );
+      // const PackageToBeBought = await ctx.db.subscriptionPlans.findFirstOrThrow(
+      //   {
+      //     where: {
+      //       packageName: input.packageName,
+      //     },
+      //   },
+      // );
       const stripeMetada: StripeMetadata = {
-        description: PackageToBeBought.description,
-        priceID: PackageToBeBought.priceID,
-        price: PackageToBeBought.price,
+        description: input.number_of_days + " DAYS",
+        priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
+        price: input.number_of_days * 40,
         email: ctx.session.user.email,
         packageName: input.packageName,
         method: input.method,
@@ -108,13 +101,14 @@ export const bookingRouter = createTRPCRouter({
         // price: "price_1P1uXaJsSW6jGUhsYiEo8ZbI",
         //subscription
         //price: "price_1P2BUrJsSW6jGUhs29zRsnYW",
-        price: PackageToBeBought.priceID,
-        quantity: PackageToBeBought.price,
+        price: "price_1P3OGbJsSW6jGUhshqmG2tYP",
+        quantity: input.number_of_days,
       };
       const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
       try {
         const sesh = await stripe.checkout.sessions.create({
-          mode: "payment",
+          //  mode: "payment",
+          mode: "subscription",
           payment_method_types: ["card", "us_bank_account"],
           line_items: [line_item],
           success_url: process.env.NEXT_PUBLIC_VERCEL_URL! + "/SUCCESS",
@@ -128,16 +122,17 @@ export const bookingRouter = createTRPCRouter({
             subscriptionStatus: false,
             metadata: " ",
             price_id: line_item.price,
-            quantity: PackageToBeBought.numberOfDays.toString(),
+            // number of days
+            NumberOfBoughtDays: input.number_of_days,
             cancel_at_period_end: false,
             created_at: new Date(),
             currentPeriod_start: new Date(),
             currentPeriod_end: new Date(),
             SessionID: sesh.id,
-            priceID: PackageToBeBought.priceID,
-            packageName: PackageToBeBought.packageName,
-            description: PackageToBeBought.description,
-            price: PackageToBeBought.price,
+            priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
+            packageName: input.number_of_days + " DAYS",
+            description: input.number_of_days + " DAYS",
+            price: input.number_of_days * 40,
           },
         });
         console.log(sesh);

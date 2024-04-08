@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import SummonStripeSubscriptionButton from "@/components/component/SummonStripeButton";
+import { IoIosCheckmarkCircle } from "react-icons/io";
 
 const Membership = () => {
   return (
@@ -28,15 +29,21 @@ const Membership = () => {
                 <h3 className="h-fit whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
                   Basic
                 </h3>
-                <p className="text-sm text-muted-foreground">$9.99/month</p>
+                <p className="text-sm text-muted-foreground">$40/month</p>
               </div>
               <div className=" bottom-5 flex flex-col justify-between p-6">
+                <div>This includes:</div>
                 <ul className="mb-4 list-inside list-disc">
-                  <li>Feature 1</li>
-                  <li>Feature 2</li>
+                  <li>1 night per month</li>
+                  <li>$55 per night for additional nights</li>
+                  <li>Storage of your items while away </li>
+                  <li>Bedding/ linens</li>
+
+                  <li>Towels</li>
                 </ul>
                 <SummonStripeSubscriptionButton
                   packageName={"250 BUCKS - 5 DAYS"}
+                  NumberOfDays={1}
                 />
               </div>
             </div>
@@ -48,16 +55,20 @@ const Membership = () => {
                 <h3 className="h-fit whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
                   Standard
                 </h3>
-                <p className="text-sm text-muted-foreground">$19.99/month</p>
+                <p className="text-sm text-muted-foreground">$200/month</p>
               </div>
               <div className=" bottom-5 flex flex-col justify-between p-6">
+                <div>This includes:</div>
                 <ul className="mb-4 list-inside list-disc">
-                  <li>Feature 1</li>
-                  <li>Feature 2</li>
-                  <li>Feature 3</li>
+                  <li>5 nights per month</li>
+                  <li>$55 per night for additional nights</li>
+                  <li>Storage of your items while away </li>
+                  <li>Bedding/ linens</li>
+                  <li>Towels</li>
                 </ul>
                 <SummonStripeSubscriptionButton
                   packageName={"350 BUCKS - 7 DAYS"}
+                  NumberOfDays={5}
                 />
               </div>
             </div>
@@ -69,17 +80,20 @@ const Membership = () => {
                 <h3 className="h-fit whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
                   Premium
                 </h3>
-                <p className="text-sm text-muted-foreground">$29.99/month</p>
+                <p className="text-sm text-muted-foreground">$400/month</p>
               </div>
               <div className=" bottom-5 flex flex-col justify-between p-6">
+                <div>This includes:</div>
                 <ul className="mb-4 list-inside list-disc">
-                  <li>Feature 1</li>
-                  <li>Feature 2</li>
-                  <li>Feature 3</li>
-                  <li>Feature 4</li>
+                  <li>10 nights per month</li>
+                  <li>$55 per night for additional nights</li>
+                  <li>Storage of your items while away </li>
+                  <li>Bedding/ linens</li>
+                  <li>Towels</li>
                 </ul>
                 <SummonStripeSubscriptionButton
                   packageName={"400 BUCKS - 11 DAYS"}
+                  NumberOfDays={10}
                 />
               </div>
             </div>
@@ -91,42 +105,46 @@ const Membership = () => {
                 <h3 className="h-fit whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
                   Pro
                 </h3>
-                <p className="text-sm text-muted-foreground">$39.99/month</p>
+                <p className="text-sm text-muted-foreground">$600/month</p>
               </div>
               <div className=" bottom-5 flex flex-col justify-between p-6">
+                <div>This includes:</div>
                 <ul className="mb-4 list-inside list-disc">
-                  <li>Feature 1</li>
-                  <li>Feature 2</li>
-                  <li>Feature 3</li>
-                  <li>Feature 4</li>
-                  <li>Feature 5</li>
+                  <li>15 nights per month</li>
+                  <li>$55 per night for additional nights</li>
+                  <li>Storage of your items while away </li>
+                  <li>Bedding/ linens</li>
+
+                  <li>Towels</li>
                 </ul>
                 <SummonStripeSubscriptionButton
                   packageName={"500 BUCKS - 13 DAYS"}
+                  NumberOfDays={15}
                 />
               </div>
             </div>
             <div
-              className=" rounded-lg border bg-card text-card-foreground shadow-sm"
+              className=" h-full rounded-lg border bg-card text-card-foreground shadow-sm"
               data-v0-t="card"
             >
               <div className="flex flex-col  space-y-1.5 p-6">
                 <h3 className="h-fit whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
                   Ultimate
                 </h3>
-                <p className="text-sm text-muted-foreground">$49.99/month</p>
+                <p className="text-sm text-muted-foreground">$1200/month</p>
               </div>
               <div className=" bottom-5 flex flex-col justify-between p-6">
+                <div>This includes:</div>
                 <ul className="mb-4 list-inside list-disc">
-                  <li>Feature 1</li>
-                  <li>Feature 2</li>
-                  <li>Feature 3</li>
-                  <li>Feature 4</li>
-                  <li>Feature 5</li>
-                  <li>Feature 6</li>
+                  <li>30 nights per month</li>
+                  <li>
+                    Stay all month, flex down to any lower tier or cancel the
+                    next month.
+                  </li>
                 </ul>
                 <SummonStripeSubscriptionButton
                   packageName={"600 BUCKS - 15 DAYS"}
+                  NumberOfDays={30}
                 />
               </div>
             </div>

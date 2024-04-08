@@ -145,7 +145,7 @@ model subscription  {
     metadata             String // needs to be json
     price_id             String
     //number of days you can stay in the hostel
-    quantity             String
+    NumberOfBoughtDays   Int
     cancel_at_period_end Boolean
     created_at           DateTime
     currentPeriod_start  DateTime
@@ -164,14 +164,14 @@ model subscription  {
     daysUsed             Int       @default(0)
 } 
 
-model SubscriptionPlans {
-    id                  String      @id @default(cuid())
-    priceID             String
-    packageName         String
-    description         String
-    numberOfDays        Int
-    price               Int
-}
+// model SubscriptionPlans {
+//     id                  String      @id @default(cuid())
+//     priceID             String
+//     packageName         String
+//     description         String
+//     numberOfDays        Int
+//     price               Int
+// }
 model HCL_user  {
     id                   String    @id @default(cuid())
     email                String    @unique
