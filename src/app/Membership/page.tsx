@@ -41,10 +41,7 @@ const Membership = () => {
 
                   <li>Towels</li>
                 </ul>
-                <SummonStripeSubscriptionButton
-                  packageName={"250 BUCKS - 5 DAYS"}
-                  NumberOfDays={1}
-                />
+                <SummonStripeSubscriptionButton NumberOfDays={1} />
               </div>
             </div>
             <div
@@ -66,10 +63,7 @@ const Membership = () => {
                   <li>Bedding/ linens</li>
                   <li>Towels</li>
                 </ul>
-                <SummonStripeSubscriptionButton
-                  packageName={"350 BUCKS - 7 DAYS"}
-                  NumberOfDays={5}
-                />
+                <SummonStripeSubscriptionButton NumberOfDays={5} />
               </div>
             </div>
             <div
@@ -91,10 +85,7 @@ const Membership = () => {
                   <li>Bedding/ linens</li>
                   <li>Towels</li>
                 </ul>
-                <SummonStripeSubscriptionButton
-                  packageName={"400 BUCKS - 11 DAYS"}
-                  NumberOfDays={10}
-                />
+                <SummonStripeSubscriptionButton NumberOfDays={10} />
               </div>
             </div>
             <div
@@ -117,10 +108,7 @@ const Membership = () => {
 
                   <li>Towels</li>
                 </ul>
-                <SummonStripeSubscriptionButton
-                  packageName={"500 BUCKS - 13 DAYS"}
-                  NumberOfDays={15}
-                />
+                <SummonStripeSubscriptionButton NumberOfDays={15} />
               </div>
             </div>
             <div
@@ -142,10 +130,7 @@ const Membership = () => {
                     next month.
                   </li>
                 </ul>
-                <SummonStripeSubscriptionButton
-                  packageName={"600 BUCKS - 15 DAYS"}
-                  NumberOfDays={30}
-                />
+                <SummonStripeSubscriptionButton NumberOfDays={30} />
               </div>
             </div>
           </div>

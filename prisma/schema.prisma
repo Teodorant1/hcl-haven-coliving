@@ -164,6 +164,16 @@ model subscription  {
     daysUsed             Int       @default(0)
 } 
 
+ model Usage {
+     id                  String      @id @default(cuid())
+     emailID             String
+     dateBought          DateTime
+     CurrentCycleStart   DateTime
+     CurrentCycleEnd     DateTime
+     numberOfDaysBought  Int
+     DaysUsed            Int
+ }
+
 // model SubscriptionPlans {
 //     id                  String      @id @default(cuid())
 //     priceID             String

@@ -2,12 +2,10 @@
 import React from "react";
 import { api } from "@/trpc/react";
 interface StripeButtonProps {
-  packageName: string;
   NumberOfDays: number;
 }
 
 const SummonStripeSubscriptionButton: React.FC<StripeButtonProps> = ({
-  packageName,
   NumberOfDays,
 }) => {
   const buy_subscription = api.booking.BuySubscription.useMutation({
@@ -19,7 +17,7 @@ const SummonStripeSubscriptionButton: React.FC<StripeButtonProps> = ({
 
   async function handle_buy() {
     buy_subscription.mutate({
-      packageName: "packageName",
+      // packageName: "packageName",
       method: "buy_subscription",
       number_of_days: NumberOfDays,
     });

@@ -10,7 +10,7 @@ export const bookingRouter = createTRPCRouter({
         // quantity: z.number(),
         // priceID: z.string().min(10),
         // description: z.string().min(10),
-        packageName: z.string().min(1),
+        // packageName: z.string().min(1),
         method: z.string().min(1),
         number_of_days: z.number(),
       }),
@@ -23,7 +23,7 @@ export const bookingRouter = createTRPCRouter({
         priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
         price: input.number_of_days * 40,
         email: ctx.session.user.email,
-        packageName: input.packageName,
+        packageName: input.number_of_days + " DAYS",
         method: input.method,
       };
       const line_item = {
