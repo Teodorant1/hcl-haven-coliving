@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-for-of */
 import { db } from "@/server/db";
 import bcrypt from "bcrypt";
 
@@ -60,4 +61,24 @@ export async function getImprovSession(email: string): Promise<{
 
     return newlyMadeSessionRedux;
   }
+}
+
+//update subscription table with current dates
+// trigger this with Golang Cronjob EVERYDAY AT 9 AM LA TIME
+// need to figure out how to only update that for subscriptions that start ON this day (30 days intervals)
+
+export async function PeriodBookkeeping() {
+  //get all subscriptions
+  const subscriptions = await db.subscription.findMany();
+  //for each sub
+  for (let i = 0; i < subscriptions.length; i++) {
+    console.log(subscriptions[i]);
+    // with STRIPE npm package check if last payment happened LESS THAN 30 days ago
+    //maybe add some checks for weird daylight savings stuff
+
+    //then check the status of the latest invoice
+    //if invoice is valid, update the  subscription in db
+  }
+
+  return "23984";
 }

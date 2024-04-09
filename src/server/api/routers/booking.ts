@@ -17,7 +17,6 @@ export const bookingRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       console.log("Buying subscription");
-
       const stripeMetada: StripeMetadata = {
         description: input.number_of_days + " DAYS",
         priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
@@ -137,6 +136,43 @@ export const bookingRouter = createTRPCRouter({
         });
         console.log(sesh);
         return sesh.url;
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+  StripeAPI_TEST_Function: protectedProcedure
+    // .input(
+    //   z.object({
+
+    //   }),
+    // )
+    .mutation(async ({ ctx, input }) => {
+      console.log("Buying subscription");
+
+      const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
+      try {
+        const subscriptionSchedules = await stripe.subscriptionSchedules.list({
+          customer: "cus_PtClBu3AijjyBV",
+        });
+
+        const subscriptions = await stripe.subscriptions.list({
+          customer: "cus_PtClBu3AijjyBV",
+        });
+
+        const invoice = await stripe.invoices.retrieve(
+          "in_1P3QOsJsSW6jGUhssrViXFII",
+        );
+
+        console.log(subscriptionSchedules);
+        console.log(
+          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        );
+        console.log(subscriptions);
+        console.log(
+          "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        );
+        console.log(invoice);
+        return "sesh.url";
       } catch (error) {
         console.log(error);
       }

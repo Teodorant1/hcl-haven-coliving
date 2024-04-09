@@ -139,7 +139,8 @@ model subscription  {
     id                   String    @id @default(cuid())
     SessionID            String    
     userEmail            String
-    customerID           String?
+    customerID           String? // important for stripe stuff
+    subscriptionID       String? // important for stripe stuff
     user_id              String   //pretty much everything bellow this we get from Stripe API
     subscriptionStatus   Boolean
     metadata             String // needs to be json

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import SummonStripeSubscriptionButton from "@/components/component/SummonStripeButton";
-import { IoIosCheckmarkCircle } from "react-icons/io";
 
 const Membership = () => {
   return (
