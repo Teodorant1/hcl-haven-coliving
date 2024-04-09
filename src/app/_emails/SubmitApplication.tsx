@@ -79,7 +79,7 @@ export const ApplicationSubmitUserEmail = ({
               you have succesfully applied to our program at{" "}
               <strong className="ml-5">TailwindClub.org</strong>.
             </Text>
-            <Section>
+            {/* <Section>
               <Row>
                 <Column align="right">
                   <Img
@@ -89,14 +89,7 @@ export const ApplicationSubmitUserEmail = ({
                     height="64"
                   />
                 </Column>
-                {/* <Column align="center">
-                  <Img
-                    src={`${baseUrl}/static/vercel-arrow.png`}
-                    width="12"
-                    height="9"
-                    alt="invited you to"
-                  />
-                </Column> */}
+
                 <Column align="left">
                   <Img
                     className="rounded-full"
@@ -106,7 +99,7 @@ export const ApplicationSubmitUserEmail = ({
                   />
                 </Column>
               </Row>
-            </Section>
+            </Section> */}
             <Section className="mb-[32px] mt-[32px] text-center">
               <Button
                 className="rounded bg-[#000000] px-5 py-3 text-center text-[12px] font-semibold text-white no-underline"

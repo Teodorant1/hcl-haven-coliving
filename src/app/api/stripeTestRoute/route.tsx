@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { db } from "@/server/db";
 import { type NextRequest, NextResponse } from "next/server";
-import { StripeMetadata } from "projtect-types";
+import { type StripeMetadata } from "projtect-types";
 
 const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!, {
   // https://github.com/stripe/stripe-node#configuration
@@ -12,6 +12,7 @@ const webhookSecret: string = process.env.NEXT_PRIVATE_STRIPE_WEBHOOK_SECRET!;
 const webhookHandler = async (req: NextRequest) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   // const body = await req.json();
+  const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
   console.log(req);
   // console.log(body);
   const sig = req.headers.get("stripe-signature")!;
@@ -68,24 +69,39 @@ const webhookHandler = async (req: NextRequest) => {
         const customerID = subscription.customer;
         const subscriptionID = event.data.object.subscription;
 
-        await db.subscription
-          .updateMany({
-            where: {
-              SessionID: event.data.object.id,
-            },
-            data: {
-              subscriptionStatus: true,
-              // might delete this in future version,
-              //since metadata seems to be giving errors here
-              // metadata: Stripe_Metadata,
-              user_id: customerID as string,
-              customerID: customerID as string,
-              subscriptionID: subscriptionID as string,
-            },
-          })
-          .then(() => {
-            console.log("UPDATED DB CHIEF");
-          });
+        const subscription_in_stripe_db = await stripe.subscriptions.retrieve(
+          subscriptionID as string,
+        );
+
+        const createdAtDate = new Date(subscription_in_stripe_db.created);
+
+        const currentPeriod_startDate = new Date(
+          subscription_in_stripe_db.current_period_start,
+        );
+        const currentPeriod_endDate = new Date(
+          subscription_in_stripe_db.current_period_end,
+        );
+        // const ended_atDate = new Date(subscription_in_stripe_db.ended_at!);
+        // const cancel_atDate = new Date(subscription_in_stripe_db.created);
+        // const cancelled_atDate = new Date(subscription_in_stripe_db.created);
+
+        await db.subscription.updateMany({
+          where: {
+            SessionID: event.data.object.id,
+          },
+          data: {
+            subscriptionStatus: true,
+            // might delete this in future version,
+            //since metadata seems to be giving errors here
+            // metadata: Stripe_Metadata,
+            user_id: customerID as string,
+            customerID: customerID as string,
+            subscriptionID: subscriptionID as string,
+            created_at: createdAtDate,
+            currentPeriod_end: currentPeriod_endDate,
+            currentPeriod_start: currentPeriod_startDate,
+          },
+        });
 
         console.log("4th try");
 

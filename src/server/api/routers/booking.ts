@@ -147,7 +147,7 @@ export const bookingRouter = createTRPCRouter({
     //   }),
     // )
     .mutation(async ({ ctx, input }) => {
-      console.log("Buying subscription");
+      console.log("COMMENCING STRIPE API TEST FUNCTION");
 
       const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
       try {

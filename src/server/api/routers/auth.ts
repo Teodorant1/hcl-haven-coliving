@@ -109,17 +109,17 @@ export const authRouter = createTRPCRouter({
           inviteLink: "/ApplicationApprover",
         }),
       });
-      await resend.emails.send({
-        from: "Acme <onboarding@e.tailwindclub.org>",
-        to: "dusanbojanic1@gmail.com",
-        //to: process.env.NEXT_PRIVATE_ADMIN_EMAIL!,
-        subject: "A new person applied to the TailwindClub program!",
-        react: ApplicationNotificationUserEmail({
-          invitedByUsername: ctx.session.user.email,
-          invitedByEmail: ctx.session.user.email,
-          inviteLink: "/ApplicationApprover",
-        }),
-      });
+      // await resend.emails.send({
+      //   from: "Acme <onboarding@e.tailwindclub.org>",
+      //   to: "obama@gmail.com",
+      //   //to: process.env.NEXT_PRIVATE_ADMIN_EMAIL!,
+      //   subject: "A new person applied to the TailwindClub program!",
+      //   react: ApplicationNotificationUserEmail({
+      //     invitedByUsername: ctx.session.user.email,
+      //     invitedByEmail: ctx.session.user.email,
+      //     inviteLink: "/ApplicationApprover",
+      //   }),
+      // });
 
       return "application submitted";
     }),

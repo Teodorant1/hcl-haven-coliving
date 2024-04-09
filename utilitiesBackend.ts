@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/prefer-for-of */
 import { db } from "@/server/db";
 import bcrypt from "bcrypt";
+import Stripe from "stripe";
+import { Resend } from "resend";
 
 export async function getImprovSession(email: string): Promise<{
   email: string | undefined;
@@ -68,21 +70,91 @@ export async function getImprovSession(email: string): Promise<{
 // need to figure out how to only update that for subscriptions that start ON this day (30 days intervals)
 
 export async function PeriodBookkeeping() {
+  const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
+
   //get all subscriptions
-  const subscriptions = await db.subscription.findMany();
+  const subscriptions = await db.subscription.findMany({
+    // where: {
+    //   subscriptionStatus: false,
+    // },
+  });
+
+  const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
+
   //for each sub
   for (let i = 0; i < subscriptions.length; i++) {
     console.log(subscriptions[i]);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    const subID = subscriptions[i]?.subscriptionID!;
+    const subscription_in_stripe_db =
+      await stripe.subscriptions.retrieve(subID);
+
+    const latestInvoiceID = subscription_in_stripe_db.latest_invoice;
+
+    const invoice_in_stripe_db = await stripe.invoices.retrieve(
+      latestInvoiceID as string,
+    );
+
+    const amountRemaining: number = invoice_in_stripe_db.amount_remaining;
+    const amountPaid: number = invoice_in_stripe_db.amount_paid;
+    const amountDue: number = invoice_in_stripe_db.amount_due;
+    const isPaid: boolean = invoice_in_stripe_db.paid;
+
+    const currentPeriod_startDate = new Date(
+      subscription_in_stripe_db.current_period_start,
+    );
+    const currentPeriod_endDate = new Date(
+      subscription_in_stripe_db.current_period_end,
+    );
+
+    if (amountRemaining === 0 && amountDue === amountPaid && isPaid === true) {
+      await db.subscription.updateMany({
+        where: { subscriptionID: subID },
+        data: {
+          subscriptionStatus: true,
+          currentPeriod_end: currentPeriod_endDate,
+          currentPeriod_start: currentPeriod_startDate,
+        },
+      });
+    } else {
+      await db.subscription.updateMany({
+        where: { subscriptionID: subID },
+        data: {
+          subscriptionStatus: false,
+          // currentPeriod_end: currentPeriod_endDate,
+          // currentPeriod_start: currentPeriod_startDate,
+        },
+      });
+
+      await resend.emails.send({
+        from: "Acme <onboarding@e.tailwindclub.org>",
+        to: process.env.NEXT_PRIVATE_ADMIN_EMAIL!,
+        subject: "WARNING , something has gone wrong with a subscription",
+        html:
+          "<p>Something has gone wrong with the subscription with id: " +
+          subscriptions[i]!.id +
+          " and email: " +
+          subscriptions[i]!.userEmail +
+          " , you should investigate this matter</p>",
+      });
+    }
+
     // with STRIPE npm package check if last payment happened LESS THAN 30 days ago
     //maybe add some checks for weird daylight savings stuff
     //then check the status of the latest invoice
     //if invoice is valid, update the  subscription in db
+    const date = subscriptions[i]?.currentPeriod_start;
+
+    await sleep(1000); // Pause for 1000 milliseconds (1 seconds)
   }
 
-  return "23984";
+  return "monthy python";
 }
 
-function is31DaysAfter(var1: number, var2: number): boolean {
+export async function is31DaysAfter(
+  var1: number,
+  var2: number,
+): Promise<boolean> {
   const millisecondsInDay = 86400000; // 24 * 60 * 60 * 1000
   const var1Date = new Date(var1 * 1000); // Convert epoch seconds to milliseconds
   const var2Date = new Date(var2 * 1000);
@@ -94,7 +166,29 @@ function is31DaysAfter(var1: number, var2: number): boolean {
 
   return differenceInDays <= 31;
 }
-
-export async function PeriodBookkeeping1() {
-  console.log(" ");
+export async function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
+export async function dateToEpochSeconds(date: Date): Promise<number> {
+  return Math.floor(date.getTime() / 1000);
+}
+
+// export async function getLA_date(date: Date) {
+//   const options: Intl.DateTimeFormatOptions = {
+//     timeZone: "America/Los_Angeles",
+//     weekday: "long",
+//     year: "numeric",
+//     month: "long",
+//     day: "numeric",
+//     hour: "numeric",
+//     minute: "numeric",
+//     second: "numeric",
+//     hour12: true,
+//   };
+
+//   const formattedDate = date.toLocaleString("en-US", options);
+
+//   return formattedDate;
+// }
