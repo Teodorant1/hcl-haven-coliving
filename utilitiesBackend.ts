@@ -75,10 +75,26 @@ export async function PeriodBookkeeping() {
     console.log(subscriptions[i]);
     // with STRIPE npm package check if last payment happened LESS THAN 30 days ago
     //maybe add some checks for weird daylight savings stuff
-
     //then check the status of the latest invoice
     //if invoice is valid, update the  subscription in db
   }
 
   return "23984";
+}
+
+function is31DaysAfter(var1: number, var2: number): boolean {
+  const millisecondsInDay = 86400000; // 24 * 60 * 60 * 1000
+  const var1Date = new Date(var1 * 1000); // Convert epoch seconds to milliseconds
+  const var2Date = new Date(var2 * 1000);
+
+  const differenceInMilliseconds = var1Date.getTime() - var2Date.getTime();
+  const differenceInDays = Math.abs(
+    differenceInMilliseconds / millisecondsInDay,
+  );
+
+  return differenceInDays <= 31;
+}
+
+export async function PeriodBookkeeping1() {
+  console.log(" ");
 }

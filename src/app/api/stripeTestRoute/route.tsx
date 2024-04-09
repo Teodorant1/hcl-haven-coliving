@@ -66,6 +66,7 @@ const webhookHandler = async (req: NextRequest) => {
         console.log(Stripe_Metadata.priceID);
 
         const customerID = subscription.customer;
+        const subscriptionID = event.data.object.subscription;
 
         await db.subscription
           .updateMany({
@@ -79,6 +80,7 @@ const webhookHandler = async (req: NextRequest) => {
               // metadata: Stripe_Metadata,
               user_id: customerID as string,
               customerID: customerID as string,
+              subscriptionID: subscriptionID as string,
             },
           })
           .then(() => {
