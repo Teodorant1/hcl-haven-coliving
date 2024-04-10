@@ -106,7 +106,7 @@ model cloudbeds_reservation {
     check_out          DateTime
     isCheckedIn        Boolean
     numberOfNights     Int
-    
+    timestamp          Decimal
     TotalPrice         Int       @default(0)
     status             Boolean
     source             String
