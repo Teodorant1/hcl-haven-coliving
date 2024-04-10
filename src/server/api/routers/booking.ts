@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import Stripe from "stripe";
-import { type StripeMetadata } from "projtect-types";
+import { type StripeMetadata } from "project-types";
 
 export const bookingRouter = createTRPCRouter({
   BuySubscription: protectedProcedure

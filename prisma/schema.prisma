@@ -106,7 +106,16 @@ model cloudbeds_reservation {
     roomType           String
     URL                String
     number_of_guests   Int
+    roomNumber         String
 }
+
+model cloudbeds_room {
+    id                 String    @id @default(cuid())
+    roomNumber         String    @unique
+    roomType           String
+    number_of_guests   Int
+}
+
 model customer {
     id                   String    @id @default(cuid())
     stripe_customer_id   String
@@ -165,6 +174,7 @@ model subscription  {
     daysUsed             Int       @default(0)
 } 
 
+// we need to update this via cron job
  model Usage {
      id                  String      @id @default(cuid())
      emailID             String
