@@ -100,22 +100,31 @@ model cloudbeds_reservation {
     id                 String    @id @default(cuid())
     name               String
     surname            String
-    reservation_id     String    @unique
+    reservation_id     Int    @unique
+    isCheckedIn        Boolean @default(false)
     check_in           DateTime
     check_out          DateTime
-    isCheckedIn        Boolean
     numberOfNights     Int
     timestamp          Decimal
     TotalPrice         Int       @default(0)
-    status             Boolean
-    source             String
+    status             String
+    source             String    @default("cloudbeds") 
 
+    roomType           String?
+    URL                String?
+    number_of_guests   Int?
+    roomNumber         String?
 
-
-    roomType           String
-    URL                String
-    number_of_guests   Int
-    roomNumber         String
+    queueTaskID        Int?
+    guestID            String?
+    propertyID         Int?
+    propertyID_str     Int?
+    roomID             String?
+    queueTaskId_str    Int?
+    roomBlockID        String?
+    roomBlockType      String?
+    roomBlockReason    String?
+    
 }
 
 model cloudbeds_room {

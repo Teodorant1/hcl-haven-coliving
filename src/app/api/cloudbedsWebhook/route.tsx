@@ -24,14 +24,16 @@ export async function POST(req: NextRequest) {
           name: " ",
           surname: " ",
 
-          reservation_id: " ",
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
           check_in: start_date,
           check_out: end_date,
-          isCheckedIn: false,
-          numberOfNights: 1,
 
-          TotalPrice: 1000,
-          status: true,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+          //   isCheckedIn: false,
+          numberOfNights: 0,
+          TotalPrice: 0,
+          status: "false",
           source: " ",
           roomType: " ",
           URL: " ",
@@ -41,9 +43,68 @@ export async function POST(req: NextRequest) {
         },
       });
       break;
-    case "reservation/deleted":
-      console.log("2");
+    case "reservation/status_changed":
+      await db.cloudbeds_reservation.update({
+        where: {
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+        },
+        data: {
+          status: "confirmed",
+        },
+      });
 
+      break;
+
+    case "reservation/dates_changed":
+      const start_date1 = convert_date_string_to_DATE(
+        CLOUDBEDS_WEBHOOK_RESPONSE.startDate!,
+      );
+      const end_date1 = convert_date_string_to_DATE(
+        CLOUDBEDS_WEBHOOK_RESPONSE.endDate!,
+      );
+
+      await db.cloudbeds_reservation.update({
+        where: {
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+        },
+        data: {
+          check_in: start_date1,
+          check_out: end_date1,
+        },
+      });
+
+      break;
+
+    case "reservation/accommodation_status_changed":
+      await db.cloudbeds_reservation.update({
+        where: {
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+        },
+        data: {
+          status: "occupied",
+          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId,
+        },
+      });
+      break;
+    case "reservation/accommodation_type_changed":
+      break;
+    case "reservation/status_changed":
+      break;
+    case "reservation/status_changed":
+      break;
+    case "reservation/status_changed":
+      break;
+    case "reservation/status_changed":
+      break;
+    case "reservation/status_changed":
+      break;
+    case "reservation/status_changed":
       break;
   }
 
