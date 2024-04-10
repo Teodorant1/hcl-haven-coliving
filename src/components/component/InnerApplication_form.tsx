@@ -311,22 +311,22 @@ export function InnerApplication_form() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button
+            {/* <Button
               onClick={() => {
                 console.log(session.user);
               }}
               className="ml-auto"
             >
               print user
-            </Button>
-            {/* <Button
+            </Button> */}
+            <Button
               onClick={async () => {
                 await ApplyToAirlineProgram();
               }}
               className="ml-auto"
             >
               Submit
-            </Button> */}
+            </Button>
           </CardFooter>
         </Card>
       )}

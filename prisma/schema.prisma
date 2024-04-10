@@ -100,7 +100,6 @@ model cloudbeds_reservation {
     id                 String    @id @default(cuid())
     name               String
     surname            String
-    created_at         DateTime
     reservation_id     String    @unique
     check_in           DateTime
     check_out          DateTime
@@ -110,6 +109,8 @@ model cloudbeds_reservation {
     TotalPrice         Int       @default(0)
     status             Boolean
     source             String
+
+
 
     roomType           String
     URL                String
