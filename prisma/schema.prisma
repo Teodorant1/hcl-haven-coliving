@@ -87,6 +87,7 @@ model cloudbeds_guest {
     id                 String    @id @default(cuid())
     created_at         DateTime
     guest_id           String
+    guest_id_str       String
     guest_first_name   String
     guest_last_name    String
     guest_phone        String
@@ -94,6 +95,10 @@ model cloudbeds_guest {
     guest_country_code String
     check_in           DateTime
     check_out          DateTime
+    reservation_id     Int    
+    propertyID         Int
+    propertyID_str     Int
+    roomID             String
 } 
 
 model cloudbeds_reservation {

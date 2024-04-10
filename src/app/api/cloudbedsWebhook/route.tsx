@@ -93,18 +93,91 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "reservation/accommodation_type_changed":
+      await db.cloudbeds_reservation.update({
+        where: {
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+        },
+        data: {
+          roomType: CLOUDBEDS_WEBHOOK_RESPONSE.roomTypeID!.toString(),
+        },
+      });
       break;
-    case "reservation/status_changed":
+    case "reservation/accommodation_changed":
+      await db.cloudbeds_reservation.update({
+        where: {
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+        },
+        data: {
+          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId!,
+        },
+      });
       break;
-    case "reservation/status_changed":
+    case "reservation/deleted":
+      await db.cloudbeds_reservation.delete({
+        where: {
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+        },
+      });
+
       break;
-    case "reservation/status_changed":
+    case "guest/created":
+      await db.cloudbeds_guest.create({
+        data: {
+          created_at: new Date(),
+          reservation_id: 98274398274,
+          guest_first_name: "",
+          guest_last_name: "",
+          guest_phone: "",
+          guest_email: "",
+          guest_country_code: "",
+          check_in: new Date(),
+          check_out: new Date(),
+
+          guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId!.toString(),
+          guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str!.toString(),
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID!,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str!,
+          roomID: "123",
+        },
+      });
       break;
-    case "reservation/status_changed":
+    case "guest/assigned":
+      await db.cloudbeds_guest.updateMany({
+        where: {
+          guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+          guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+        },
+        data: {
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
+        },
+      });
       break;
-    case "reservation/status_changed":
+    case "guest/created":
       break;
-    case "reservation/status_changed":
+    case "guest/created":
+      break;
+    case "guest/created":
+      break;
+    case "guest/created":
+      break;
+    case "guest/created":
+      break;
+    case "guest/created":
+      break;
+    case "guest/created":
+      break;
+    case "guest/created":
+      break;
+    case "guest/created":
       break;
   }
 
