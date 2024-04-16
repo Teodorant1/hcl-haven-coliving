@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
       await db.cloudbeds_guest.create({
         data: {
           created_at: new Date(),
-          reservation_id: 98274398274,
+          reservation_id: "98274398274",
           guest_first_name: "",
           guest_last_name: "",
           guest_phone: "",
@@ -141,7 +141,8 @@ export async function POST(req: NextRequest) {
 
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId!.toString(),
           guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str!.toString(),
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId!,
+          propertyID:
+            CLOUDBEDS_WEBHOOK_RESPONSE.propertyId as unknown as string,
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
           roomID: "93867596798594kfgkgsgdfkgfakfgafgafgfgkfgk",
         },
@@ -152,7 +153,8 @@ export async function POST(req: NextRequest) {
         where: {
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
           guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+          propertyID:
+            CLOUDBEDS_WEBHOOK_RESPONSE.propertyId as unknown as string,
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
         },
         data: {
@@ -166,7 +168,8 @@ export async function POST(req: NextRequest) {
         where: {
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
           guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+          propertyID:
+            CLOUDBEDS_WEBHOOK_RESPONSE.propertyId as unknown as string,
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
           roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
@@ -196,7 +199,8 @@ export async function POST(req: NextRequest) {
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
         },
         data: {
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+          propertyID:
+            CLOUDBEDS_WEBHOOK_RESPONSE.propertyId as unknown as string,
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
           roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId,
         },
