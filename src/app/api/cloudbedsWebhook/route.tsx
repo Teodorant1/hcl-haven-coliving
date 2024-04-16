@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
           name: " ",
           surname: " ",
 
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
           check_in: start_date,
           check_out: end_date,
 
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "reservation/status_changed":
-      await db.cloudbeds_reservation.update({
+      await db.cloudbeds_reservation.updateMany({
         where: {
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
           propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
@@ -65,11 +65,11 @@ export async function POST(req: NextRequest) {
         CLOUDBEDS_WEBHOOK_RESPONSE.endDate!,
       );
 
-      await db.cloudbeds_reservation.update({
+      await db.cloudbeds_reservation.updateMany({
         where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
         },
         data: {
           check_in: start_date1,
@@ -80,11 +80,11 @@ export async function POST(req: NextRequest) {
       break;
 
     case "reservation/accommodation_status_changed":
-      await db.cloudbeds_reservation.update({
+      await db.cloudbeds_reservation.updateMany({
         where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
         },
         data: {
           status: "occupied",
@@ -93,23 +93,23 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "reservation/accommodation_type_changed":
-      await db.cloudbeds_reservation.update({
+      await db.cloudbeds_reservation.updateMany({
         where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
         },
         data: {
-          roomType: CLOUDBEDS_WEBHOOK_RESPONSE.roomTypeID!.toString(),
+          roomType: CLOUDBEDS_WEBHOOK_RESPONSE.roomTypeId!.toString(),
         },
       });
       break;
     case "reservation/accommodation_changed":
-      await db.cloudbeds_reservation.update({
+      await db.cloudbeds_reservation.updateMany({
         where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
         },
         data: {
           roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId!,
@@ -119,9 +119,9 @@ export async function POST(req: NextRequest) {
     case "reservation/deleted":
       await db.cloudbeds_reservation.delete({
         where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
         },
       });
 
@@ -141,9 +141,9 @@ export async function POST(req: NextRequest) {
 
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId!.toString(),
           guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str!.toString(),
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID!,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str!,
-          roomID: "123",
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId!,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
+          roomID: "93867596798594kfgkgsgdfkgfakfgafgafgfgkfgk",
         },
       });
       break;
@@ -152,8 +152,8 @@ export async function POST(req: NextRequest) {
         where: {
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
           guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
         },
         data: {
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
@@ -161,15 +161,52 @@ export async function POST(req: NextRequest) {
         },
       });
       break;
-    case "guest/created":
+    case "guest/removed":
+      await db.cloudbeds_guest.deleteMany({
+        where: {
+          guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+          guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
+        },
+      });
       break;
-    case "guest/created":
+    case "guest/details_changed":
+      //I have no idea from the documentation what this is supposed to do
+      //maybe do email notification OR trigger an API call to cloudbeds
+
+      // await db.cloudbeds_guest.deleteMany({
+      //   where: {
+      //     guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+      //     guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
+      //     propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+      //     propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+      //     reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+      //     roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
+      //   },
+      // });
       break;
-    case "guest/created":
+    case "guest/accommodation_changed":
+      await db.cloudbeds_guest.updateMany({
+        where: {
+          guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+          guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+        },
+        data: {
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId,
+        },
+      });
       break;
-    case "guest/created":
+    case "guest/appstate_changed":
+      //not quite sure what do with this one either
       break;
-    case "guest/created":
+    case "guest/rate_status_changed":
+      //not quite sure what do with this one either
       break;
     case "guest/created":
       break;

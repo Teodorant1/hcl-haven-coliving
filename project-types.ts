@@ -23,15 +23,16 @@ export type CloudbedsAPIresponse = {
   propertyID?: number;
   propertyID_str?: number;
   reservationID?: number;
+  reservationId?: number;
   startDate?: string;
   endDate?: string;
   status?: string;
   propertyId?: number;
   propertyId_str?: number;
-  reservationId?: number;
   roomId?: string;
   roomID?: string;
   roomTypeID?: number;
+  roomTypeId?: number;
   guestId?: number;
   guestId_str?: number;
   clientID?: number;
