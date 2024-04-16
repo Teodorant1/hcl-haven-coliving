@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "subscription" ADD COLUMN     "lastTimeUpdated" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

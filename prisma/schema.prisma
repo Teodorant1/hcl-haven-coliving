@@ -129,6 +129,8 @@ model cloudbeds_reservation {
     roomBlockID        String?
     roomBlockType      String?
     roomBlockReason    String?
+    lastTimeUpdated      DateTime @default(now())
+
     
 }
 
@@ -189,6 +191,8 @@ model subscription  {
     cancelled_at         DateTime?
     trial_start          DateTime?
     trial_end            DateTime?
+
+    lastTimeUpdated      DateTime @default(now())
 
     priceID             String
     packageName         String

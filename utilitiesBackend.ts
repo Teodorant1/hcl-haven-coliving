@@ -3,6 +3,7 @@ import { db } from "@/server/db";
 import bcrypt from "bcrypt";
 import Stripe from "stripe";
 import { Resend } from "resend";
+import { isSameDay, isSameMonth, isSameYear } from "date-fns";
 
 export async function getImprovSession(email: string): Promise<{
   email: string | undefined;
@@ -69,7 +70,7 @@ export async function getImprovSession(email: string): Promise<{
 // trigger this with Golang Cronjob EVERYDAY AT 9 AM LA TIME
 // need to figure out how to only update that for subscriptions that start ON this day (30 days intervals)
 
-export async function PeriodBookkeeping() {
+export async function Stripe_PeriodBookkeeping() {
   const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
 
   //get all subscriptions
@@ -149,6 +150,32 @@ export async function PeriodBookkeeping() {
   }
 
   return "monthy python";
+}
+
+export async function handle_room_usage_metrics() {
+  const reservations = await db.cloudbeds_reservation.findMany({
+    where: {
+      isCheckedIn: true,
+    },
+  });
+
+  const currentDate = new Date();
+
+  for (let i = 0; i < reservations.length; i++) {
+    if (
+      isSameDay(currentDate, reservations[i]!.lastTimeUpdated as Date) ===
+        false &&
+      isSameMonth(currentDate, reservations[i]!.lastTimeUpdated as Date) ===
+        false &&
+      isSameYear(currentDate, reservations[i]!.lastTimeUpdated as Date) ===
+        false
+    ) {
+      console.log("these happened on different days");
+      // add 1 day of usage
+    }
+  }
+
+  console.log("!@$");
 }
 
 export async function is31DaysAfter(
