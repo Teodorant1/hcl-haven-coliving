@@ -137,6 +137,7 @@ model cloudbeds_room {
     roomNumber         String    @unique
     roomType           String
     number_of_guests   Int
+    gender             String    
 }
 
 model customer {
