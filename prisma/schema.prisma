@@ -95,9 +95,9 @@ model cloudbeds_guest {
     guest_country_code String
     check_in           DateTime
     check_out          DateTime
-    reservation_id     Int    
-    propertyID         Int
-    propertyID_str     Int
+    reservation_id     String    
+    propertyID         String
+    propertyID_str     String
     roomID             String
 } 
 

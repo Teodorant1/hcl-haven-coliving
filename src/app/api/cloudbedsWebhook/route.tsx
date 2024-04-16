@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     case "reservation/status_changed":
       await db.cloudbeds_reservation.updateMany({
         where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID! ,
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
           propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
         },
@@ -153,7 +153,7 @@ export async function POST(req: NextRequest) {
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
           guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
           propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
         },
         data: {
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
