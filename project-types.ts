@@ -22,8 +22,8 @@ export type CloudbedsAPIresponse = {
   event: string;
   propertyID?: number;
   propertyID_str?: number;
-  reservationID?: number;
-  reservationId?: number;
+  reservationID?: string;
+  reservationId?: string;
   startDate?: string;
   endDate?: string;
   status?: string;
