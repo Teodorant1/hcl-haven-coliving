@@ -141,8 +141,7 @@ export async function POST(req: NextRequest) {
 
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId!.toString(),
           guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str!.toString(),
-          propertyID:
-            CLOUDBEDS_WEBHOOK_RESPONSE.propertyId as unknown as string,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId!.toString(),
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
           roomID: "93867596798594kfgkgsgdfkgfakfgafgafgfgkfgk",
         },
@@ -153,8 +152,7 @@ export async function POST(req: NextRequest) {
         where: {
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
           guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
-          propertyID:
-            CLOUDBEDS_WEBHOOK_RESPONSE.propertyId as unknown as string,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId?.toString(),
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
         },
         data: {
@@ -168,8 +166,7 @@ export async function POST(req: NextRequest) {
         where: {
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
           guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
-          propertyID:
-            CLOUDBEDS_WEBHOOK_RESPONSE.propertyId as unknown as string,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId?.toString(),
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
           roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
