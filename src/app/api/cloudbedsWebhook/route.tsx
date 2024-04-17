@@ -199,8 +199,7 @@ export async function POST(req: NextRequest) {
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
         },
         data: {
-          propertyID:
-            CLOUDBEDS_WEBHOOK_RESPONSE.propertyId as unknown as string,
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId?.toString(),
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
           roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId,
         },

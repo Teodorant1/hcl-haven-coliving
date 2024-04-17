@@ -144,9 +144,9 @@ export async function Stripe_PeriodBookkeeping() {
     //maybe add some checks for weird daylight savings stuff
     //then check the status of the latest invoice
     //if invoice is valid, update the  subscription in db
-    const date = subscriptions[i]?.currentPeriod_start;
+    // const date = subscriptions[i]?.currentPeriod_start;
 
-    await sleep(1000); // Pause for 1000 milliseconds (1 seconds)
+    await sleep(60); // Pause for 1000 milliseconds (1 seconds)
   }
 
   return "monthy python";
@@ -163,12 +163,9 @@ export async function handle_room_usage_metrics() {
 
   for (let i = 0; i < reservations.length; i++) {
     if (
-      isSameDay(currentDate, reservations[i]!.lastTimeUpdated as Date) ===
-        false &&
-      isSameMonth(currentDate, reservations[i]!.lastTimeUpdated as Date) ===
-        false &&
-      isSameYear(currentDate, reservations[i]!.lastTimeUpdated as Date) ===
-        false
+      isSameDay(currentDate, reservations[i]!.lastTimeUpdated) === false &&
+      isSameMonth(currentDate, reservations[i]!.lastTimeUpdated) === false &&
+      isSameYear(currentDate, reservations[i]!.lastTimeUpdated) === false
     ) {
       console.log("these happened on different days");
       // add 1 day of usage
@@ -198,24 +195,3 @@ export async function sleep(ms: number): Promise<void> {
     setTimeout(resolve, ms);
   });
 }
-export async function dateToEpochSeconds(date: Date): Promise<number> {
-  return Math.floor(date.getTime() / 1000);
-}
-
-// export async function getLA_date(date: Date) {
-//   const options: Intl.DateTimeFormatOptions = {
-//     timeZone: "America/Los_Angeles",
-//     weekday: "long",
-//     year: "numeric",
-//     month: "long",
-//     day: "numeric",
-//     hour: "numeric",
-//     minute: "numeric",
-//     second: "numeric",
-//     hour12: true,
-//   };
-
-//   const formattedDate = date.toLocaleString("en-US", options);
-
-//   return formattedDate;
-// }

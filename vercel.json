@@ -3,6 +3,10 @@
     {
       "path": "/api/CRONS/CRON1",
       "schedule": "0 5 * * *"
+    },
+    {
+      "path": "/api/CRONS/CRON2",
+      "schedule": "0 6 * * *"
     }
   ]
 }
