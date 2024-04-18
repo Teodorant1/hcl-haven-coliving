@@ -16,6 +16,38 @@ export type StripeMetadata = {
   method: string;
 };
 
+export type V1D1_CloudbedsAPIresponse = {
+  success: boolean;
+  data: {
+    firstName: string;
+    lastName: string;
+    gender: string;
+    email: string;
+    phone: string;
+    cellPhone: string;
+    country: string;
+    address1: string;
+    address2: string;
+    city: string;
+    zip: string;
+    state: string;
+    birthDate: Date;
+    documentType: string;
+    documentNumber: string;
+    documentIssueDate: Date;
+    documentIssuingCountry: string;
+    specialRequests: string;
+    taxID?: string;
+    companyTaxID?: string;
+    companyName?: string;
+    isAnonymized: boolean;
+    guestOptIn: boolean;
+    isMerged: string;
+    newGuestID: string;
+  };
+};
+
+// v 1.0
 export type CloudbedsAPIresponse = {
   version: string;
   timestamp: Decimal;

@@ -82,6 +82,12 @@ model checkin {
     check_in      DateTime
     check_out     DateTime
 }
+model cbguest_overview_object {
+    id                 String    @id @default(cuid())
+    email              String
+    guest_id           String    @unique       
+    guest_id_str       String    @unique   
+}    
 
 model cloudbeds_guest {
     id                 String    @id @default(cuid())
@@ -91,7 +97,7 @@ model cloudbeds_guest {
     guest_first_name   String
     guest_last_name    String
     guest_phone        String
-    guest_email        String    @unique
+    guest_email        String   
     guest_country_code String
     check_in           DateTime
     check_out          DateTime

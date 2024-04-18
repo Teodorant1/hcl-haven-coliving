@@ -36,6 +36,7 @@
     "@types/express": "^4.17.21",
     "@types/recharts": "^1.8.29",
     "@types/stripe": "^8.0.417",
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

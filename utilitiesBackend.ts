@@ -4,6 +4,8 @@ import bcrypt from "bcrypt";
 import Stripe from "stripe";
 import { Resend } from "resend";
 import { isSameDay, isSameMonth, isSameYear } from "date-fns";
+import axios from "axios";
+import { V1D1_CloudbedsAPIresponse } from "project-types";
 
 export async function getImprovSession(email: string): Promise<{
   email: string | undefined;
@@ -194,4 +196,26 @@ export async function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
+}
+
+export async function GetGuestDetails(
+  guestId: number,
+  reservationId: string,
+  propertyId: number,
+) {
+  const parcel = {
+    propertyIDoptional: 1,
+    reservationIDoptional: "",
+    guestIDoptional: 2,
+  };
+
+  //axios boilerplate
+  const result = axios
+    .post("https://api.cloudbeds.com/api/v1.1/getUsers", parcel)
+    .then((resp) => {
+      console.log(resp.data);
+      return resp.data as V1D1_CloudbedsAPIresponse;
+    });
+
+  return result;
 }
