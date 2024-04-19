@@ -6,6 +6,7 @@ import {
 } from "utilitiesBackend";
 
 export async function POST(req: NextRequest) {
+  console.log("starting cron1");
   await Stripe_PeriodBookkeeping();
 
   return NextResponse.json({ received: true, status: 200 });
