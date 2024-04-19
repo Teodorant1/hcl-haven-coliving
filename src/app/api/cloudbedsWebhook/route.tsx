@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { db } from "@/server/db";
 import { type CloudbedsAPIresponse } from "project-types";
 import { convert_date_string_to_DATE } from "utilities";
+import { GetGuestDetails } from "utilitiesBackend";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -148,6 +149,22 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "guest/assigned":
+      //update user email when they're assigned through cloudbedsAPI
+      const guestDetails = await GetGuestDetails(
+        CLOUDBEDS_WEBHOOK_RESPONSE.guestId!,
+        CLOUDBEDS_WEBHOOK_RESPONSE.propertyID!,
+      );
+
+      // await db.cloudbeds_guest.updateMany({
+      //   where: {
+      //     guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId!.toString(),
+      //     propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID!.toString(),
+      //   },
+      //   data: {
+      //     guest_email: guestDetails.data.email,
+      //   },
+      // });
+
       await db.cloudbeds_guest.updateMany({
         where: {
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
@@ -158,8 +175,22 @@ export async function POST(req: NextRequest) {
         data: {
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
           roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
+          guest_email: guestDetails.data.email,
         },
       });
+
+      await db.cloudbeds_reservation.updateMany({
+        where: {
+          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
+          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+        },
+        data: {
+          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
+          guestID: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+        },
+      });
+
       break;
     case "guest/removed":
       await db.cloudbeds_guest.deleteMany({
