@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "HavenColiving",
-  description: "HavenColiving web-app",
+  title: "Tailwindclub.org",
+  description: "Tailwindclub.org web-app",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import Stripe from "stripe";
 import { type StripeMetadata } from "project-types";
+import axios from "axios";
 
 export const bookingRouter = createTRPCRouter({
   BuySubscription: protectedProcedure
@@ -176,5 +177,31 @@ export const bookingRouter = createTRPCRouter({
       } catch (error) {
         console.log(error);
       }
+    }),
+  cloudbedsTest1: protectedProcedure
+    // .input(
+    //   z.object({
+    //     packageName: z.string().min(1),
+    //     method: z.string().min(1),
+    //     number_of_days: z.number(),
+    //   }),
+    // )
+    .mutation(async ({ ctx, input }) => {
+      console.log("commencingcbtest");
+
+      const url = "https://api.cloudbeds.com/api/v1.1/getGuest";
+      const params = {
+        propertyID: 309910,
+        guestID: 102139710,
+      };
+
+      axios
+        .get(url, { params })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }),
 });

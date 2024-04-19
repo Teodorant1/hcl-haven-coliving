@@ -29,6 +29,11 @@ const StripeTest = () => {
     });
   }
 
+  const doCBtest1 = api.booking.cloudbedsTest1.useMutation({});
+
+  async function handle_doCBtest1() {
+    doCBtest1.mutate();
+  }
   // async function handle_buyExtraDay() {
   //   buyExtraDay.mutate({
   //     packageName: "600 BUCKS - 15 DAYS",
@@ -54,6 +59,14 @@ const StripeTest = () => {
         }}
       >
         DO THE TEST{" "}
+      </button>{" "}
+      <button
+        className="m-5 bg-black p-5 text-white"
+        onClick={async () => {
+          await handle_doCBtest1();
+        }}
+      >
+        handle_doCBtest1{" "}
       </button>
     </div>
   );
