@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/prefer-for-of */
 import { db } from "@/server/db";
 import bcrypt from "bcrypt";
@@ -5,15 +6,13 @@ import Stripe from "stripe";
 import { Resend } from "resend";
 import { isSameDay, isSameMonth, isSameYear } from "date-fns";
 import axios from "axios";
-import { V1D1_CloudbedsAPIresponse } from "project-types";
+import { type V1D1_CloudbedsAPIresponse } from "project-types";
 
 export async function getImprovSession(email: string): Promise<{
   email: string | undefined;
   isAdmin: boolean | undefined;
   isApproved: boolean | undefined;
 }> {
-  // console.log("getImprovSession for " + email);
-
   const adhocSession = await db.hCL_user.findFirst({
     where: {
       email: email,
@@ -87,10 +86,10 @@ export async function Stripe_PeriodBookkeeping() {
   //for each sub
   for (let i = 0; i < subscriptions.length; i++) {
     console.log(subscriptions[i]);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-    const subID = subscriptions[i]?.subscriptionID!;
-    const subscription_in_stripe_db =
-      await stripe.subscriptions.retrieve(subID);
+    const subID = subscriptions[i]?.subscriptionID;
+    const subscription_in_stripe_db = await stripe.subscriptions.retrieve(
+      subID!,
+    );
 
     const latestInvoiceID = subscription_in_stripe_db.latest_invoice;
 
@@ -200,22 +199,28 @@ export async function sleep(ms: number): Promise<void> {
 
 export async function GetGuestDetails(
   guestId: number,
-  reservationId: string,
+  // reservationId: string,
   propertyId: number,
 ) {
-  const parcel = {
-    propertyIDoptional: 1,
-    reservationIDoptional: "",
-    guestIDoptional: 2,
+  const url = "https://api.cloudbeds.com/api/v1.1/getGuest";
+  const params = {
+    propertyID: guestId,
+    guestID: propertyId,
   };
 
-  //axios boilerplate
-  const result = axios
-    .post("https://api.cloudbeds.com/api/v1.1/getUsers", parcel)
-    .then((resp) => {
-      console.log(resp.data);
-      return resp.data as V1D1_CloudbedsAPIresponse;
-    });
+  const apiKey = process.env.NEXT_PRIVATE_CLOUDBEDS_CLIENT_API_KEY!;
 
-  return result;
+  try {
+    const response = await axios.get(url, {
+      params,
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
+    const result: V1D1_CloudbedsAPIresponse = response.data;
+    return result; // Add this line to ensure the function returns a value
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Optional: rethrow the error to handle it further up the call stack
+  }
 }

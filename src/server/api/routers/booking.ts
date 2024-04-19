@@ -3,6 +3,7 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import Stripe from "stripe";
 import { type StripeMetadata } from "project-types";
 import axios from "axios";
+import { GetGuestDetails } from "utilitiesBackend";
 
 export const bookingRouter = createTRPCRouter({
   BuySubscription: protectedProcedure
@@ -155,11 +156,9 @@ export const bookingRouter = createTRPCRouter({
         const subscriptionSchedules = await stripe.subscriptionSchedules.list({
           customer: "cus_PtClBu3AijjyBV",
         });
-
         const subscriptions = await stripe.subscriptions.list({
           customer: "cus_PtClBu3AijjyBV",
         });
-
         const invoice = await stripe.invoices.retrieve(
           "in_1P3QOsJsSW6jGUhssrViXFII",
         );
@@ -188,20 +187,11 @@ export const bookingRouter = createTRPCRouter({
     // )
     .mutation(async ({ ctx, input }) => {
       console.log("commencingcbtest");
+      const guestDetails = await GetGuestDetails(309910, 102139710);
 
-      const url = "https://api.cloudbeds.com/api/v1.1/getGuest";
-      const params = {
-        propertyID: 309910,
-        guestID: 102139710,
-      };
+      console.log("guestDetails is, as follows");
+      console.log(guestDetails);
 
-      axios
-        .get(url, { params })
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      console.log(guestDetails.data.email);
     }),
 });
