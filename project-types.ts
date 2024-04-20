@@ -1,4 +1,5 @@
 import { type Decimal } from "@prisma/client/runtime/library";
+import { type DateRange } from "react-day-picker";
 
 export type registrationForm = {
   email: string;
@@ -77,3 +78,9 @@ export type CloudbedsAPIresponse = {
   roomBlockReason?: string;
   rooms?: string[];
 };
+
+export interface CalendarDateRangePickerProps {
+  className?: string;
+  date: DateRange | undefined;
+  setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
+}

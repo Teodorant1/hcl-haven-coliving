@@ -13,18 +13,7 @@ export default async function Component() {
 
   return (
     <div className="flex h-full flex-col">
-      <header className="flex h-24 items-center px-4 lg:px-6">
-        <div className="flex items-center justify-center">
-          <Image
-            alt="The Tailwind Club Logo"
-            src={`https://rcprbmdrrmrvjubkxifr.supabase.co/storage/v1/object/public/images/tailwind-club-logo-last.png`}
-            className="mt-16"
-            height="100"
-            width="100"
-          />
-          <span className="sr-only">The Tailwind Club</span>
-        </div>
-      </header>
+      <header className="flex h-24 items-center px-4 lg:px-6"></header>
       <main className="flex-1">
         <section className=" h-1/2 w-full py-12  md:py-24 lg:py-32">
           <div className=" bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center ">

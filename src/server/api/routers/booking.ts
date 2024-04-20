@@ -2,7 +2,6 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import Stripe from "stripe";
 import { type StripeMetadata } from "project-types";
-import axios from "axios";
 import { GetGuestDetails } from "utilitiesBackend";
 
 export const bookingRouter = createTRPCRouter({
@@ -185,6 +184,27 @@ export const bookingRouter = createTRPCRouter({
     //     number_of_days: z.number(),
     //   }),
     // )
+    .mutation(async ({ ctx, input }) => {
+      console.log("commencingcbtest");
+      const guestDetails = await GetGuestDetails(309910, 102139710);
+
+      console.log("guestDetails is, as follows");
+      console.log(guestDetails);
+
+      console.log(guestDetails.data.email);
+    }),
+  Book_a_room: protectedProcedure
+    .input(
+      z.object({
+        packageName: z.string().min(1),
+        method: z.string().min(1),
+        number_of_days: z.number(),
+        dateRange: z.object({
+          from: z.date().nullable(),
+          to: z.date().nullable(),
+        }),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       console.log("commencingcbtest");
       const guestDetails = await GetGuestDetails(309910, 102139710);
