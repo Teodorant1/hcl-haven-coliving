@@ -47,7 +47,7 @@ const Gallery = () => {
         </div>
         <div className="group">
           <Image
-            src="/placeholder.svg"
+            src="https://imagedelivery.net/Q9F_VW9Wo-_WrvOGy6WAeQ/6f96c813-68f8-4654-b344-8d847f9b6e00/public"
             alt="Hotel Interior 3"
             width="1000"
             height="1000"
@@ -57,7 +57,7 @@ const Gallery = () => {
         </div>
         <div className="group">
           <Image
-            src="/placeholder.svg"
+            src="https://imagedelivery.net/Q9F_VW9Wo-_WrvOGy6WAeQ/27851663-9b08-4227-212b-a04198cf8300/public"
             alt="Hotel Exterior 3"
             width="1000"
             height="1000"
