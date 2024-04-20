@@ -218,6 +218,8 @@ export async function GetGuestDetails(
       },
     });
     const result: V1D1_CloudbedsAPIresponse = response.data;
+    console.log("RESULT IS AS FOLLOWS");
+    console.log(result);
     return result; // Add this line to ensure the function returns a value
   } catch (error) {
     console.error("Error:", error);

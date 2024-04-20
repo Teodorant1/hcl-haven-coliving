@@ -7,7 +7,7 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    domains: ["imagedelivery.net"],
+    domains: ["imagedelivery.net", "rcprbmdrrmrvjubkxifr.supabase.co"],
   },
 };
 

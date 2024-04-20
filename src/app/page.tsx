@@ -12,39 +12,42 @@ export default async function Component() {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="flex h-14 items-center px-4 lg:px-6">
-        <Link className="flex items-center justify-center" href="#" rel="ugc">
+    <div className="flex h-full flex-col">
+      <header className="flex h-24 items-center px-4 lg:px-6">
+        <div className="flex items-center justify-center">
           <Image
             alt="The Tailwind Club Logo"
-            height="24"
-            src="/placeholder.svg"
-            className=""
-            //style="aspect-ratio:24/24;object-fit:cover"
-            width="24"
+            src={`https://rcprbmdrrmrvjubkxifr.supabase.co/storage/v1/object/public/images/tailwind-club-logo-last.png`}
+            className="mt-16"
+            height="100"
+            width="100"
           />
           <span className="sr-only">The Tailwind Club</span>
-        </Link>
+        </div>
       </header>
       <main className="flex-1">
-        <section className="relative w-full py-12 md:py-24 lg:py-32">
-          <Image
-            alt="Hotel Luxe"
-            className="mx-auto aspect-[2/1] overflow-hidden rounded-t-xl object-cover"
-            height="600"
-            src="/placeholder.svg"
-            width="1200"
-          />
-          <div className="absolute bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center">
-            <h1 className="text-4xl font-bold text-white">The Tailwind Club</h1>
+        <section className=" h-1/2 w-full py-12  md:py-24 lg:py-32">
+          <div className=" bottom-0 left-0 right-0 top-0 flex flex-col items-center justify-center ">
+            <h1 className="m-5 text-4xl font-bold text-black">
+              Welcome to the Tailwind Club
+            </h1>
+
+            <h3 className="text-gray-500">
+              Experience the epitome of luxury with our exclusive amenities,{" "}
+            </h3>
+            <h3 className="mb-6 text-gray-500">
+              personalized service, and unique experiences.{" "}
+            </h3>
+
             <Image
-              alt="random image"
-              title="random image"
+              alt="room image"
+              title="room image"
+              className="mx-auto aspect-[2/1] overflow-hidden rounded-t-xl object-cover"
               src={
-                "https://imagedelivery.net/Q9F_VW9Wo-_WrvOGy6WAeQ/433a3a36-a003-4b5d-c4b6-1f4ee4cd2700/public"
+                "https://imagedelivery.net/Q9F_VW9Wo-_WrvOGy6WAeQ/6f96c813-68f8-4654-b344-8d847f9b6e00/public"
               }
-              width={500}
-              height={500}
+              width={1000}
+              height={1000}
             />
             <p className="mt-4 text-xl text-gray-300">Aviators Welcome</p>
             <div className="mt-8 flex gap-4 pt-4">
@@ -84,11 +87,14 @@ export default async function Component() {
                   </p>
                 </div>
                 <Image
-                  alt="Comfort"
-                  className="mx-auto aspect-[1/1] overflow-hidden rounded-t-xl object-cover"
-                  height="200"
-                  src="/placeholder.svg"
-                  width="200"
+                  alt="Dining"
+                  title="Dining"
+                  className="mx-auto aspect-auto overflow-hidden rounded-t-xl object-cover"
+                  src={
+                    "https://imagedelivery.net/Q9F_VW9Wo-_WrvOGy6WAeQ/961ceadb-e90f-45e1-7261-d70130d34900/public"
+                  }
+                  width={300}
+                  height={300}
                 />
               </div>
               <div
@@ -105,12 +111,16 @@ export default async function Component() {
                     Enjoy a variety of dining options, from casual to elegant.
                   </p>
                 </div>
+
                 <Image
                   alt="Dining"
-                  className="mx-auto aspect-[1/1] overflow-hidden rounded-t-xl object-cover"
-                  height="200"
-                  src="/placeholder.svg"
-                  width="200"
+                  title="Dining"
+                  className="mx-auto aspect-auto overflow-hidden rounded-t-xl object-cover"
+                  src={
+                    "https://imagedelivery.net/Q9F_VW9Wo-_WrvOGy6WAeQ/433a3a36-a003-4b5d-c4b6-1f4ee4cd2700/public"
+                  }
+                  width={300}
+                  height={300}
                 />
               </div>
               <div
@@ -129,10 +139,13 @@ export default async function Component() {
                 </div>
                 <Image
                   alt="Spa"
-                  className="mx-auto aspect-[1/1] overflow-hidden rounded-t-xl object-cover"
-                  height="200"
-                  src="/placeholder.svg"
-                  width="200"
+                  title="Spa"
+                  className="mx-auto aspect-auto overflow-hidden rounded-t-xl object-cover"
+                  src={
+                    "https://imagedelivery.net/Q9F_VW9Wo-_WrvOGy6WAeQ/0ceaf862-10eb-4789-2aa0-736acfd45e00/public"
+                  }
+                  width={300}
+                  height={300}
                 />
               </div>
             </div>
