@@ -6,7 +6,7 @@ import Stripe from "stripe";
 import { Resend } from "resend";
 import { isSameDay, isSameMonth, isSameYear } from "date-fns";
 import axios from "axios";
-import { type V1D1_CloudbedsAPIresponse } from "project-types";
+import { type CB_get_user_response } from "project-types";
 
 export async function getImprovSession(email: string): Promise<{
   email: string | undefined;
@@ -217,7 +217,7 @@ export async function GetGuestDetails(
         Authorization: `Bearer ${apiKey}`,
       },
     });
-    const result: V1D1_CloudbedsAPIresponse = response.data;
+    const result: CB_get_user_response = response.data;
     console.log("RESULT IS AS FOLLOWS");
     console.log(result);
     return result; // Add this line to ensure the function returns a value

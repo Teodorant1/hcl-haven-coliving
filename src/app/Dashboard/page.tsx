@@ -19,9 +19,10 @@ import { useState } from "react";
 import { type DateRange } from "react-day-picker";
 import { addDays } from "date-fns";
 import DashboardModal from "@/components/component/DashboardModal";
+import DashboardConfirmedModal from "@/components/component/DashboardConfirmedModal";
 
 export default function DashboardPage() {
-  const [showmodal, setshowmodal] = useState<boolean>(false);
+  const [stage, setstage] = useState<string | undefined>("1");
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(),
     to: addDays(new Date(), 7),
@@ -29,7 +30,9 @@ export default function DashboardPage() {
 
   return (
     <>
-      {showmodal === true && <DashboardModal date={date} setDate={setDate} />}
+      {stage === "2" && (
+        <DashboardModal date={date} setDate={setDate} setStage={setstage} />
+      )}
       {/* <div className="md:hidden">
         <Image
           src="/examples/dashboard-light.png"
@@ -46,8 +49,8 @@ export default function DashboardPage() {
           className="hidden dark:block"
         />
       </div> */}
-
-      {showmodal === false && (
+      {stage === "3" && <DashboardConfirmedModal />}
+      {stage === "1" && (
         <div className="hidden flex-col md:flex">
           <div className="border-b">
             <div className="flex h-16 items-center px-4">
@@ -63,10 +66,14 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between space-y-2">
               <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
               <div className="flex items-center space-x-2">
-                <CalendarDateRangePicker date={date} setDate={setDate} />
+                <CalendarDateRangePicker
+                  date={date}
+                  setDate={setDate}
+                  setStage={setstage}
+                />
                 <Button
                   onClick={() => {
-                    setshowmodal(true);
+                    setstage("2");
                   }}
                 >
                   Book Stay

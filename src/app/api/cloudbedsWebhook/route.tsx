@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { type NextRequest, NextResponse } from "next/server";
 import { db } from "@/server/db";
-import { type CloudbedsAPIresponse } from "project-types";
+import { type Cloudbeds_webhook_APIresponse } from "project-types";
 import { convert_date_string_to_DATE } from "utilities";
 import { GetGuestDetails } from "utilitiesBackend";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const CLOUDBEDS_WEBHOOK_RESPONSE: CloudbedsAPIresponse = body;
+  const CLOUDBEDS_WEBHOOK_RESPONSE: Cloudbeds_webhook_APIresponse = body;
   console.log("CLOUDBEDS_WEBHOOK_RESPONSE");
   console.log(CLOUDBEDS_WEBHOOK_RESPONSE);
 

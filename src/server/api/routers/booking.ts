@@ -193,6 +193,27 @@ export const bookingRouter = createTRPCRouter({
 
       console.log(guestDetails.data.email);
     }),
+
+  // in this method we need to add a user to a room, and
+  // if the user doesn't exist, add them to cloudbeds table
+  // ( ours and cloudbeds db)
+  // 1. send reservation to CB , 1.5 check if webhook does something
+  // 2. add or update CB tables on our side 3. mark room as used for that period
+  Get_AvailableRooms_From_Cloudbeds: protectedProcedure
+    .input(
+      z.object({
+        packageName: z.string().min(1),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      console.log("commencingcbtest");
+      const guestDetails = await GetGuestDetails(309910, 102139710);
+
+      console.log("guestDetails is, as follows");
+      console.log(guestDetails);
+
+      console.log(guestDetails.data.email);
+    }),
   Book_a_room: protectedProcedure
     .input(
       z.object({

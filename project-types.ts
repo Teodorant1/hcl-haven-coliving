@@ -17,7 +17,7 @@ export type StripeMetadata = {
   method: string;
 };
 
-export type V1D1_CloudbedsAPIresponse = {
+export type CB_get_user_response = {
   success: boolean;
   data: {
     firstName: string;
@@ -48,8 +48,20 @@ export type V1D1_CloudbedsAPIresponse = {
   };
 };
 
-// v 1.0
-export type CloudbedsAPIresponse = {
+export type CB_get_empty_rooms_response = {
+  success: boolean;
+  data: {
+    propertyID: number;
+    rooms: {
+      roomID: string;
+      roomName: string;
+      dormRoomName: string;
+    };
+  };
+};
+
+// v 1.0 result from webhook
+export type Cloudbeds_webhook_APIresponse = {
   version: string;
   timestamp: Decimal;
   event: string;
@@ -83,4 +95,5 @@ export interface CalendarDateRangePickerProps {
   className?: string;
   date: DateRange | undefined;
   setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
+  setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
 }

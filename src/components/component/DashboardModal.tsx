@@ -4,9 +4,9 @@ import { CalendarDateRangePicker } from "@/app/_components/date-range-picker";
 import React from "react";
 
 function DashboardModal({
-  className,
   date,
   setDate,
+  setStage,
 }: CalendarDateRangePickerProps) {
   return (
     <div className="z-20 mx-auto max-h-screen max-w-full  p-4 sm:py-8 md:py-10 lg:px-6">
@@ -61,7 +61,11 @@ function DashboardModal({
               </div> */}
               <div className="m-2">Check In & Check Out</div>
               <div>
-                <CalendarDateRangePicker date={date} setDate={setDate} />
+                <CalendarDateRangePicker
+                  date={date}
+                  setDate={setDate}
+                  setStage={setStage}
+                />
               </div>
             </div>
           </div>
@@ -73,7 +77,7 @@ function DashboardModal({
                 console.log(date);
               }}
             >
-              Search
+              Search for available beds
             </button>
           </div>
         </div>
@@ -97,7 +101,12 @@ function DashboardModal({
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge</p>
             </div>
             <div className="flex items-center p-6">
-              <button className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+              <button
+                onClick={() => {
+                  setStage("3");
+                }}
+                className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              >
                 Book Now
               </button>
             </div>
@@ -116,7 +125,12 @@ function DashboardModal({
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge, Coffee Maker</p>
             </div>
             <div className="flex items-center p-6">
-              <button className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+              <button
+                onClick={() => {
+                  setStage("3");
+                }}
+                className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+              >
                 Book Now
               </button>
             </div>
