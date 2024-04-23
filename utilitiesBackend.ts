@@ -6,7 +6,12 @@ import Stripe from "stripe";
 import { Resend } from "resend";
 import { isSameDay, isSameMonth, isSameYear } from "date-fns";
 import axios from "axios";
-import { type CB_get_user_response } from "project-types";
+import {
+  type CB_get_user_response,
+  type CB_get_empty_rooms_response,
+  type cb_room_subtype,
+  type Cloudbeds_post_reservation_payload,
+} from "project-types";
 
 export async function getImprovSession(email: string): Promise<{
   email: string | undefined;
@@ -198,14 +203,19 @@ export async function sleep(ms: number): Promise<void> {
 }
 
 export async function GetGuestDetails(
-  guestId: number,
-  // reservationId: string,
   propertyId: number,
+  // reservationId: string,
+  guestId: number,
 ) {
   const url = "https://api.cloudbeds.com/api/v1.1/getGuest";
+  // const params = {
+  //   propertyID: guestId,
+  //   guestID: propertyId,
+  // };
+
   const params = {
-    propertyID: guestId,
-    guestID: propertyId,
+    propertyID: propertyId,
+    guestID: guestId,
   };
 
   const apiKey = process.env.NEXT_PRIVATE_CLOUDBEDS_CLIENT_API_KEY!;
@@ -220,6 +230,106 @@ export async function GetGuestDetails(
     const result: CB_get_user_response = response.data;
     console.log("RESULT IS AS FOLLOWS");
     console.log(result);
+    return result; // Add this line to ensure the function returns a value
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Optional: rethrow the error to handle it further up the call stack
+  }
+}
+
+export async function get_unassigned_rooms(propertyIds: number[]) {
+  const url = "https://api.cloudbeds.com/api/v1.1/getRoomsUnassigned";
+  const params = {
+    propertyIDs: propertyIds,
+  };
+
+  const apiKey = process.env.NEXT_PRIVATE_CLOUDBEDS_CLIENT_API_KEY!;
+
+  try {
+    const response = await axios.get(url, {
+      params,
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
+    const result: CB_get_empty_rooms_response = response.data;
+    return result; // Add this line to ensure the function returns a value
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Optional: rethrow the error to handle it further up the call stack
+  }
+}
+export async function getGendered_rooms(
+  CB_get_empty_rooms_response: CB_get_empty_rooms_response,
+) {
+  const male_Rooms: cb_room_subtype[] = [];
+  const female_Rooms: cb_room_subtype[] = [];
+  for (let i = 0; i < CB_get_empty_rooms_response.data[0]!.rooms.length; i++) {
+    const room_type_name_broken_down =
+      CB_get_empty_rooms_response.data[0]!.rooms[i]?.roomTypeName.split(" ");
+    console.log(room_type_name_broken_down);
+    if (room_type_name_broken_down![0] === "Male") {
+      male_Rooms.push(CB_get_empty_rooms_response.data[0]!.rooms[i]!);
+    }
+    if (room_type_name_broken_down![0] === "Female") {
+      female_Rooms.push(CB_get_empty_rooms_response.data[0]!.rooms[i]!);
+    }
+  }
+  const omni_return = {
+    og_response: CB_get_empty_rooms_response,
+    male_Rooms: male_Rooms,
+    female_Rooms: female_Rooms,
+  };
+  console.log(omni_return);
+  return omni_return;
+}
+
+export async function book_a_room(
+  propertyID: number,
+  startDate: Date,
+  endDate: Date,
+  guestEmail: string,
+  roomID: number,
+) {
+  const url = "https://api.cloudbeds.com/api/v1.1/getRoomsUnassigned";
+  const params: Cloudbeds_post_reservation_payload = {
+    propertyID: propertyID,
+    startDate: startDate,
+    endDate: endDate,
+    guestFirstName: guestEmail,
+    guestLastName: guestEmail,
+    guestCountry: "US",
+    guestZip: "21000",
+    guestEmail: guestEmail,
+
+    rooms: {
+      roomTypeID: 0,
+      quantity: 1,
+      roomID: roomID,
+    },
+    adults: {
+      roomTypeID: 0,
+      quantity: 1,
+      roomID: roomID,
+    },
+    children: {
+      roomTypeID: 0,
+      quantity: 0,
+      roomID: roomID,
+    },
+    paymentMethod: "ebanking",
+  };
+
+  const apiKey = process.env.NEXT_PRIVATE_CLOUDBEDS_CLIENT_API_KEY!;
+
+  try {
+    const response = await axios.get(url, {
+      params,
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
+    const result: CB_get_empty_rooms_response = response.data;
     return result; // Add this line to ensure the function returns a value
   } catch (error) {
     console.error("Error:", error);

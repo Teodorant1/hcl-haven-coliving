@@ -48,6 +48,7 @@ export type CB_get_user_response = {
   };
 };
 
+//  https://hotels.cloudbeds.com/api/v1.1/docs/#api-Room-getRoomsUnassigned
 export type CB_get_empty_rooms_response = {
   success: boolean;
   data: {
@@ -56,8 +57,31 @@ export type CB_get_empty_rooms_response = {
       roomID: string;
       roomName: string;
       dormRoomName: string;
-    };
-  };
+      roomDescription: string;
+      maxGuests: number;
+      isPrivate: boolean;
+      roomBlocked: boolean;
+      roomTypeID: number;
+      roomTypeName: string;
+      roomTypeNameShort: string;
+    }[];
+  }[];
+  count: number;
+  total: number;
+  message?: string;
+};
+
+export type cb_room_subtype = {
+  roomID: string;
+  roomName: string;
+  dormRoomName: string;
+  roomDescription: string;
+  maxGuests: number;
+  isPrivate: boolean;
+  roomBlocked: boolean;
+  roomTypeID: number;
+  roomTypeName: string;
+  roomTypeNameShort: string;
 };
 
 // v 1.0 result from webhook
@@ -97,3 +121,45 @@ export interface CalendarDateRangePickerProps {
   setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
   setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
+
+export type Cloudbeds_post_reservation_payload = {
+  propertyID?: number;
+  sourceID?: number;
+  thirdPartyIdentifier?: string;
+  startDate: Date;
+  endDate: Date;
+  guestFirstName: string;
+  guestLastName: string;
+  guestGender?: string;
+  guestCountry: string;
+  guestZip: string;
+  guestEmail: string;
+  guestPhone?: string;
+  estimatedArrivalTime?: Date;
+  rooms: {
+    roomTypeID: number;
+    quantity: number;
+    roomID?: number;
+    roomRateID?: number;
+  };
+  adults: {
+    roomTypeID: number;
+    quantity: number;
+    roomID?: number;
+  };
+  children: {
+    roomTypeID: number;
+    quantity: number;
+    roomID?: number;
+  };
+  paymentMethod: string;
+  cardToken?: string;
+  paymentAuthorizationCode?: string;
+  customfields?: {
+    fieldName: "fieldValue";
+  };
+  promoCode?: string;
+  allotmentBlockCode?: string;
+  dateCreated?: Date;
+  sendEmailConfirmation?: boolean;
+};

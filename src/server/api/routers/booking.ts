@@ -2,16 +2,16 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import Stripe from "stripe";
 import { type StripeMetadata } from "project-types";
-import { GetGuestDetails } from "utilitiesBackend";
+import {
+  GetGuestDetails,
+  get_unassigned_rooms,
+  getGendered_rooms,
+} from "utilitiesBackend";
 
 export const bookingRouter = createTRPCRouter({
   BuySubscription: protectedProcedure
     .input(
       z.object({
-        // quantity: z.number(),
-        // priceID: z.string().min(10),
-        // description: z.string().min(10),
-        // packageName: z.string().min(1),
         method: z.string().min(1),
         number_of_days: z.number(),
       }),
@@ -71,9 +71,6 @@ export const bookingRouter = createTRPCRouter({
   BuyExtraDay: protectedProcedure
     .input(
       z.object({
-        // quantity: z.number(),
-        // priceID: z.string().min(10),
-        // description: z.string().min(10),
         packageName: z.string().min(1),
         method: z.string().min(1),
         number_of_days: z.number(),
@@ -199,40 +196,22 @@ export const bookingRouter = createTRPCRouter({
   // ( ours and cloudbeds db)
   // 1. send reservation to CB , 1.5 check if webhook does something
   // 2. add or update CB tables on our side 3. mark room as used for that period
-  Get_AvailableRooms_From_Cloudbeds: protectedProcedure
-    .input(
-      z.object({
-        packageName: z.string().min(1),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
-      console.log("commencingcbtest");
-      const guestDetails = await GetGuestDetails(309910, 102139710);
-
-      console.log("guestDetails is, as follows");
-      console.log(guestDetails);
-
-      console.log(guestDetails.data.email);
-    }),
+  Get_AvailableRooms_From_Cloudbeds: protectedProcedure.query(
+    async ({ ctx, input }) => {
+      const unassigned_rooms = await get_unassigned_rooms([309910]);
+      const gendered_rooms = await getGendered_rooms(unassigned_rooms);
+      return gendered_rooms;
+    },
+  ),
   Book_a_room: protectedProcedure
     .input(
       z.object({
         packageName: z.string().min(1),
-        method: z.string().min(1),
-        number_of_days: z.number(),
-        dateRange: z.object({
-          from: z.date().nullable(),
-          to: z.date().nullable(),
-        }),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log("commencingcbtest");
-      const guestDetails = await GetGuestDetails(309910, 102139710);
-
-      console.log("guestDetails is, as follows");
-      console.log(guestDetails);
-
-      console.log(guestDetails.data.email);
+      const unassigned_rooms = await get_unassigned_rooms([309910]);
+      const gendered_rooms = await getGendered_rooms(unassigned_rooms);
+      return gendered_rooms;
     }),
 });

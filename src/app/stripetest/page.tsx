@@ -34,6 +34,9 @@ const StripeTest = () => {
   async function handle_doCBtest1() {
     doCBtest1.mutate();
   }
+  const unassigned_rooms =
+    api.booking.Get_AvailableRooms_From_Cloudbeds.useQuery();
+
   // async function handle_buyExtraDay() {
   //   buyExtraDay.mutate({
   //     packageName: "600 BUCKS - 15 DAYS",
@@ -67,6 +70,14 @@ const StripeTest = () => {
         }}
       >
         handle_doCBtest1{" "}
+      </button>
+      <button
+        onClick={async () => {
+          console.log(unassigned_rooms.data!);
+        }}
+        className="m-5 bg-black p-5 text-white"
+      >
+        print out free rooms
       </button>
     </div>
   );
