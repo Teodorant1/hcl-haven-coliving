@@ -245,7 +245,9 @@ model HCL_user  {
     payment_method       String? // needs to be json
     isAdmin              Boolean  @default(false)
     isApproved           Boolean  @default(false)
+    // ooopsie, gotta remove this before production
     gender               Gender   @default(Male)
+    GenderSex            String   @default("Male")
 }
 
 model HCL_Application {

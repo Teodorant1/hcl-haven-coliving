@@ -9,6 +9,7 @@ import {
 import ApplicationSubmitUserEmail from "@/app/_emails/SubmitApplication";
 import ApplicationNotificationUserEmail from "@/app/_emails/AdminApplicationNotification";
 import ApplicationResponseEmail from "@/app/_emails/ApplicationResponse";
+import { Gender } from "@prisma/client";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure
@@ -151,6 +152,7 @@ export const authRouter = createTRPCRouter({
         },
         data: {
           isApproved: input.isApproved,
+          GenderSex: input.gender,
         },
       });
 
