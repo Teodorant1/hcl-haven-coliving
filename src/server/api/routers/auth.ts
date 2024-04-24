@@ -130,6 +130,7 @@ export const authRouter = createTRPCRouter({
         userEmail: z.string().min(1).email(),
         applicationID: z.string().min(1),
         isApproved: z.boolean(),
+        gender: z.string().min(4),
         //  isReviewed: z.boolean(),
       }),
     )
@@ -163,9 +164,9 @@ export const authRouter = createTRPCRouter({
         react: ApplicationResponseEmail({
           username: ctx.session.user.email,
 
-          invitedByUsername: "3",
-          invitedByEmail: "paloki@gmail.com",
-          teamName: "PalokiTeam",
+          invitedByUsername: "_",
+          invitedByEmail: "_",
+          teamName: "_",
           teamImage:
             "https://rcprbmdrrmrvjubkxifr.supabase.co/storage/v1/object/public/images/tailwind-club-logo-last.png",
           inviteLink: "/invitelink",
@@ -187,10 +188,8 @@ export const authRouter = createTRPCRouter({
             isReviewed: false,
           },
         });
-
         return applications_to_review;
       }
-
       // adding this so that TRPC doesn't give me errors
       // const emptyarray: HCL_Application[] = [];
       // return emptyarray;

@@ -135,7 +135,7 @@ export type Cloudbeds_post_reservation_payload = {
   guestZip: string;
   guestEmail: string;
   guestPhone?: string;
-  estimatedArrivalTime?: Date;
+  estimatedArrivalTime?: Date; //needs to be time instead
   rooms: {
     roomTypeID: number;
     quantity: number;

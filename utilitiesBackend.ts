@@ -262,6 +262,12 @@ export async function get_unassigned_rooms(propertyIds: number[]) {
 export async function getGendered_rooms(
   CB_get_empty_rooms_response: CB_get_empty_rooms_response,
 ) {
+  const male_Rooms_twin_size: cb_room_subtype[] = [];
+  const female_Rooms_twin_size: cb_room_subtype[] = [];
+
+  const male_Rooms_fullsize: cb_room_subtype[] = [];
+  const female_Rooms_fullsize: cb_room_subtype[] = [];
+
   const male_Rooms: cb_room_subtype[] = [];
   const female_Rooms: cb_room_subtype[] = [];
   for (let i = 0; i < CB_get_empty_rooms_response.data[0]!.rooms.length; i++) {
@@ -310,14 +316,12 @@ export async function book_a_room(
     adults: {
       roomTypeID: 0,
       quantity: 1,
-      roomID: roomID,
     },
     children: {
       roomTypeID: 0,
       quantity: 0,
-      roomID: roomID,
     },
-    paymentMethod: "ebanking",
+    paymentMethod: "cash",
   };
 
   const apiKey = process.env.NEXT_PRIVATE_CLOUDBEDS_CLIENT_API_KEY!;

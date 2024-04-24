@@ -89,6 +89,12 @@ model cbguest_overview_object {
     guest_id_str       String    @unique   
 }    
 
+enum Gender {
+  Male
+  Female
+  Other
+}
+
 model cloudbeds_guest {
     id                 String    @id @default(cuid())
     created_at         DateTime
@@ -239,6 +245,7 @@ model HCL_user  {
     payment_method       String? // needs to be json
     isAdmin              Boolean  @default(false)
     isApproved           Boolean  @default(false)
+    
 
 }
 
