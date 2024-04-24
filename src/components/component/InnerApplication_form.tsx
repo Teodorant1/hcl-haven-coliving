@@ -187,7 +187,6 @@ export function InnerApplication_form() {
                     Male
                   </SelectItem>
                   <SelectItem value="female">Female</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
