@@ -151,8 +151,8 @@ export async function POST(req: NextRequest) {
     case "guest/assigned":
       //update user email when they're assigned through cloudbedsAPI
       const guestDetails = await GetGuestDetails(
-        CLOUDBEDS_WEBHOOK_RESPONSE.guestId!,
         CLOUDBEDS_WEBHOOK_RESPONSE.propertyID!,
+        CLOUDBEDS_WEBHOOK_RESPONSE.guestId!,
       );
 
       // await db.cloudbeds_guest.updateMany({
