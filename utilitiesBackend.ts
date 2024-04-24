@@ -275,9 +275,31 @@ export async function getGendered_rooms(
       CB_get_empty_rooms_response.data[0]!.rooms[i]?.roomTypeName.split(" ");
     console.log(room_type_name_broken_down);
     if (room_type_name_broken_down![0] === "Male") {
+      if (room_type_name_broken_down![3] === "Full") {
+        male_Rooms_fullsize.push(
+          CB_get_empty_rooms_response.data[0]!.rooms[i]!,
+        );
+      }
+      if (room_type_name_broken_down![3] === "Twin") {
+        male_Rooms_twin_size.push(
+          CB_get_empty_rooms_response.data[0]!.rooms[i]!,
+        );
+      }
+
       male_Rooms.push(CB_get_empty_rooms_response.data[0]!.rooms[i]!);
     }
     if (room_type_name_broken_down![0] === "Female") {
+      if (room_type_name_broken_down![3] === "Full") {
+        female_Rooms_fullsize.push(
+          CB_get_empty_rooms_response.data[0]!.rooms[i]!,
+        );
+      }
+      if (room_type_name_broken_down![3] === "Twin") {
+        female_Rooms_twin_size.push(
+          CB_get_empty_rooms_response.data[0]!.rooms[i]!,
+        );
+      }
+
       female_Rooms.push(CB_get_empty_rooms_response.data[0]!.rooms[i]!);
     }
   }
@@ -285,6 +307,10 @@ export async function getGendered_rooms(
     og_response: CB_get_empty_rooms_response,
     male_Rooms: male_Rooms,
     female_Rooms: female_Rooms,
+    male_Rooms_twin_size: male_Rooms_twin_size,
+    female_Rooms_twin_size: female_Rooms_fullsize,
+    male_Rooms_fullsize: male_Rooms_fullsize,
+    female_Rooms_fullsize: female_Rooms_fullsize,
   };
   console.log(omni_return);
   return omni_return;
@@ -297,7 +323,7 @@ export async function book_a_room(
   guestEmail: string,
   roomID: number,
 ) {
-  const url = "https://api.cloudbeds.com/api/v1.1/getRoomsUnassigned";
+  const url = "https://api.cloudbeds.com/api/v1.1/postReservation";
   const params: Cloudbeds_post_reservation_payload = {
     propertyID: propertyID,
     startDate: startDate,
@@ -307,7 +333,6 @@ export async function book_a_room(
     guestCountry: "US",
     guestZip: "21000",
     guestEmail: guestEmail,
-
     rooms: {
       roomTypeID: 0,
       quantity: 1,
