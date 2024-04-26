@@ -6,6 +6,7 @@ import {
   GetGuestDetails,
   get_unassigned_rooms,
   getGendered_rooms,
+  book_first_room_available,
 } from "utilitiesBackend";
 
 export const bookingRouter = createTRPCRouter({
@@ -183,6 +184,8 @@ export const bookingRouter = createTRPCRouter({
     // )
     .mutation(async ({ ctx, input }) => {
       console.log("commencingcbtest");
+      console.log("ctx.session");
+      console.log(ctx.session);
       const guestDetails = await GetGuestDetails(309910, 102139710);
 
       console.log("guestDetails is, as follows");
@@ -206,12 +209,56 @@ export const bookingRouter = createTRPCRouter({
   Book_a_room: protectedProcedure
     .input(
       z.object({
-        packageName: z.string().min(1),
+        propertyID: z.number(),
+        startDate: z.date(),
+        endDate: z.date(),
+        gender: z.string().min(4),
+        type: z.string().min(4),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const unassigned_rooms = await get_unassigned_rooms([309910]);
       const gendered_rooms = await getGendered_rooms(unassigned_rooms);
-      return gendered_rooms;
+
+      if (input.gender === "Male" && input.type === "Full") {
+        const response = await book_first_room_available(
+          gendered_rooms.male_Rooms_fullsize,
+          input.propertyID,
+          input.startDate,
+          input.endDate,
+          ctx.session.user.email,
+        );
+        return response;
+      }
+      if (input.gender === "Male" && input.type === "Twin") {
+        const response = await book_first_room_available(
+          gendered_rooms.male_Rooms_twin_size,
+          input.propertyID,
+          input.startDate,
+          input.endDate,
+          ctx.session.user.email,
+        );
+        return response;
+      }
+      if (input.gender === "Female" && input.type === "Full") {
+        const response = await book_first_room_available(
+          gendered_rooms.female_Rooms_fullsize,
+          input.propertyID,
+          input.startDate,
+          input.endDate,
+          ctx.session.user.email,
+        );
+        return response;
+      }
+      if (input.gender === "Female" && input.type === "Twin") {
+        const response = await book_first_room_available(
+          gendered_rooms.female_Rooms_twin_size,
+          input.propertyID,
+          input.startDate,
+          input.endDate,
+          ctx.session.user.email,
+        );
+        return response;
+      }
     }),
 });

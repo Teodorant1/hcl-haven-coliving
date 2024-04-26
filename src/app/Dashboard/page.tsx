@@ -20,6 +20,7 @@ import { type DateRange } from "react-day-picker";
 import { addDays } from "date-fns";
 import DashboardModal from "@/components/component/DashboardModal";
 import DashboardConfirmedModal from "@/components/component/DashboardConfirmedModal";
+import { Single_day_calendar } from "@/components/ui/single_day_calendar";
 
 export default function DashboardPage() {
   const [stage, setstage] = useState<string | undefined>("1");
@@ -30,6 +31,7 @@ export default function DashboardPage() {
 
   return (
     <>
+      <Single_day_calendar />
       {stage === "2" && (
         <DashboardModal date={date} setDate={setDate} setStage={setstage} />
       )}

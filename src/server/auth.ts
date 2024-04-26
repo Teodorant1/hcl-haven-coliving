@@ -34,6 +34,7 @@ declare module "next-auth" {
       avatar_url: string;
       isApproved: boolean;
       isAdmin: boolean;
+      genderSex: string;
     } & DefaultSession["user"];
   }
 
@@ -140,11 +141,6 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET!,
   callbacks: {
     async jwt({ user, token, profile }: any) {
-      // console.log(token);
-      // console.log(profile);
-
-      // console.log(user);
-      // console.log("jwt callback");
       if (user) {
         user.isApproved = token.isApproved;
         user.isAdmin = token.isAdmin;
@@ -156,19 +152,16 @@ export const authOptions: NextAuthOptions = {
       return { ...token, ...user };
     },
     async session({ session, token, profile }: any) {
-      // console.log(token);
-      // console.log(profile);
-      // console.log(session);
-      // console.log("session callback");
-      // console.log();
       if (session?.user) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         const adhocSession = await getImprovSession(token.email);
         session.user.isApproved = token.isApproved;
         session.user.isAdmin = token.isAdmin;
         session.user.sub = token.sub;
+        session.user.genderSex = token.genderSex;
         token.isAdmin = adhocSession.isAdmin;
         token.isApproved = adhocSession.isApproved;
+        token.genderSex = adhocSession.GenderSex;
       }
 
       return { ...token, ...session, profile };

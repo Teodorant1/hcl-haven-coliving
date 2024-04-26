@@ -1,3 +1,5 @@
+import React from "react";
+
 export function convert_date_string_to_DATE(dateString: string) {
   const dateParts = dateString.split("-"); // Split the string into an array of parts
 
@@ -11,3 +13,11 @@ export function convert_date_string_to_DATE(dateString: string) {
 
   return ActualDate;
 }
+
+export const isAfterToday = (
+  date1: Date | undefined,
+  date2: Date | undefined,
+): boolean => {
+  if (!date1 || !date2) return false;
+  return date1.getTime() < date2.getTime();
+};

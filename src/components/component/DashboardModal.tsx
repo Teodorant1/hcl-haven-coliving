@@ -2,12 +2,35 @@
 import { type CalendarDateRangePickerProps } from "project-types";
 import { CalendarDateRangePicker } from "@/app/_components/date-range-picker";
 import React from "react";
+import { useSession } from "next-auth/react";
+import { api } from "@/trpc/react";
 
 function DashboardModal({
   date,
   setDate,
   setStage,
 }: CalendarDateRangePickerProps) {
+  const session = useSession();
+  const unassigned_rooms =
+    api.booking.Get_AvailableRooms_From_Cloudbeds.useQuery();
+
+  const book_a_room = api.booking.Book_a_room.useMutation({
+    onSuccess: () => {
+      // setapplicationSent(true);
+      setStage("3");
+    },
+  });
+
+  async function handle_book_a_room(type: string) {
+    book_a_room.mutate({
+      type: type,
+      gender: session.data!.user.genderSex,
+      propertyID: 309910,
+      startDate: date!.from!,
+      endDate: date!.to!,
+    });
+  }
+
   return (
     <div className="z-20 mx-auto max-h-screen max-w-full  p-4 sm:py-8 md:py-10 lg:px-6">
       <section className="grid gap-6">
@@ -17,48 +40,6 @@ function DashboardModal({
         <div className="grid gap-4 md:grid-cols-4 md:gap-6">
           <div className="md:col-span-2">
             <div className=" gap-4">
-              {/* <div>
-                <label
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  htmlFor="check-in"
-                >
-                  Check in
-                </label>
-                <button
-                  className="inline-flex h-auto w-full flex-col items-start justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-                  type="button"
-                  aria-haspopup="dialog"
-                  aria-expanded="false"
-                  aria-controls="radix-:R9mdafnnja:"
-                  data-state="closed"
-                >
-                  <span className="text-[0.65rem] font-semibold uppercase">
-                    Check in
-                  </span>
-                  <span className="font-normal">Select date</span>
-                </button>
-              </div>
-              <div>
-                <label
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  htmlFor="check-out"
-                >
-                  Check out
-                </label>
-                <button
-                  className="inline-flex h-auto w-full flex-col items-start justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-                  type="button"
-                  aria-haspopup="dialog"
-                  aria-expanded="false"
-                  aria-controls="radix-:Ramdafnnja:"
-                  data-state="closed"
-                >
-                  <span className="text-[0.65rem] font-semibold uppercase">
-                    Check out
-                  </span>
-                  <span className="font-normal">Select date</span>
-                </button>
-              </div> */}
               <div className="m-2">Check In & Check Out</div>
               <div>
                 <CalendarDateRangePicker
@@ -93,23 +74,48 @@ function DashboardModal({
           >
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
-                Twin Sized Bed
+                Twin Sized Bed -{" "}
+                {session.data?.user.genderSex === "Male" && (
+                  <>{unassigned_rooms.data?.male_Rooms_twin_size.length} </>
+                )}{" "}
+                {session.data?.user.genderSex === "Female" && (
+                  <>{unassigned_rooms.data?.female_Rooms_twin_size.length} </>
+                )}{" "}
+                Available
               </h3>
             </div>
             <div className="p-6">
               <p>$100 per night</p>
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge</p>
             </div>
-            <div className="flex items-center p-6">
-              <button
-                onClick={() => {
-                  setStage("3");
-                }}
-                className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-              >
-                Book Now
-              </button>
-            </div>
+            {unassigned_rooms.data &&
+              session.data?.user.genderSex === "Female" &&
+              unassigned_rooms.data.female_Rooms_twin_size.length > 0 && (
+                <div className="flex items-center p-6">
+                  <button
+                    onClick={() => {
+                      setStage("3");
+                    }}
+                    className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              )}{" "}
+            {unassigned_rooms.data &&
+              session.data?.user.genderSex === "Male" &&
+              unassigned_rooms.data.male_Rooms_twin_size.length > 0 && (
+                <div className="flex items-center p-6">
+                  <button
+                    onClick={() => {
+                      setStage("3");
+                    }}
+                    className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              )}
           </div>
           <div
             className="rounded-lg border bg-card text-card-foreground shadow-sm"
@@ -117,23 +123,48 @@ function DashboardModal({
           >
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
-                Full Sized Bed
+                Full Sized Bed-{" "}
+                {session.data?.user.genderSex === "Male" && (
+                  <>{unassigned_rooms.data?.male_Rooms_fullsize.length} </>
+                )}{" "}
+                {session.data?.user.genderSex === "Female" && (
+                  <>{unassigned_rooms.data?.female_Rooms_fullsize.length} </>
+                )}{" "}
+                Available
               </h3>
             </div>
             <div className="p-6">
               <p>$150 per night</p>
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge, Coffee Maker</p>
             </div>
-            <div className="flex items-center p-6">
-              <button
-                onClick={() => {
-                  setStage("3");
-                }}
-                className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-              >
-                Book Now
-              </button>
-            </div>
+            {unassigned_rooms.data &&
+              session.data?.user.genderSex === "Female" &&
+              unassigned_rooms.data.female_Rooms_fullsize.length > 0 && (
+                <div className="flex items-center p-6">
+                  <button
+                    onClick={() => {
+                      setStage("3");
+                    }}
+                    className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              )}{" "}
+            {unassigned_rooms.data &&
+              session.data?.user.genderSex === "Male" &&
+              unassigned_rooms.data.male_Rooms_fullsize.length > 0 && (
+                <div className="flex items-center p-6">
+                  <button
+                    onClick={() => {
+                      setStage("3");
+                    }}
+                    className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              )}
           </div>
         </div>
       </section>

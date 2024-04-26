@@ -12,11 +12,13 @@ import {
   type cb_room_subtype,
   type Cloudbeds_post_reservation_payload,
 } from "project-types";
+import { Gender } from "@prisma/client";
 
 export async function getImprovSession(email: string): Promise<{
   email: string | undefined;
   isAdmin: boolean | undefined;
   isApproved: boolean | undefined;
+  GenderSex: string | undefined;
 }> {
   const adhocSession = await db.hCL_user.findFirst({
     where: {
@@ -26,6 +28,7 @@ export async function getImprovSession(email: string): Promise<{
       email: true,
       isAdmin: true,
       isApproved: true,
+      GenderSex: true,
     },
   });
 
@@ -34,6 +37,7 @@ export async function getImprovSession(email: string): Promise<{
       email: adhocSession?.email,
       isAdmin: adhocSession?.isAdmin,
       isApproved: adhocSession?.isApproved,
+      GenderSex: adhocSession?.GenderSex,
     };
 
     return adhocSessionRedux;
@@ -66,6 +70,7 @@ export async function getImprovSession(email: string): Promise<{
       email: newlyMadeSession?.email,
       isAdmin: newlyMadeSession?.isAdmin,
       isApproved: newlyMadeSession?.isApproved,
+      GenderSex: "Male",
     };
 
     return newlyMadeSessionRedux;
@@ -90,7 +95,6 @@ export async function Stripe_PeriodBookkeeping() {
 
   //for each sub
   for (let i = 0; i < subscriptions.length; i++) {
-    console.log(subscriptions[i]);
     const subID = subscriptions[i]?.subscriptionID;
     const subscription_in_stripe_db = await stripe.subscriptions.retrieve(
       subID!,
@@ -173,12 +177,10 @@ export async function handle_room_usage_metrics() {
       isSameMonth(currentDate, reservations[i]!.lastTimeUpdated) === false &&
       isSameYear(currentDate, reservations[i]!.lastTimeUpdated) === false
     ) {
-      console.log("these happened on different days");
+      //  console.log("these happened on different days");
       // add 1 day of usage
     }
   }
-
-  console.log("!@$");
 }
 
 export async function is31DaysAfter(
@@ -228,8 +230,6 @@ export async function GetGuestDetails(
       },
     });
     const result: CB_get_user_response = response.data;
-    console.log("RESULT IS AS FOLLOWS");
-    console.log(result);
     return result; // Add this line to ensure the function returns a value
   } catch (error) {
     console.error("Error:", error);
@@ -273,7 +273,6 @@ export async function getGendered_rooms(
   for (let i = 0; i < CB_get_empty_rooms_response.data[0]!.rooms.length; i++) {
     const room_type_name_broken_down =
       CB_get_empty_rooms_response.data[0]!.rooms[i]?.roomTypeName.split(" ");
-    console.log(room_type_name_broken_down);
     if (room_type_name_broken_down![0] === "Male") {
       if (room_type_name_broken_down![3] === "Full") {
         male_Rooms_fullsize.push(
@@ -312,8 +311,26 @@ export async function getGendered_rooms(
     male_Rooms_fullsize: male_Rooms_fullsize,
     female_Rooms_fullsize: female_Rooms_fullsize,
   };
-  console.log(omni_return);
   return omni_return;
+}
+
+export async function book_first_room_available(
+  rooms: cb_room_subtype[],
+  propertyID: number,
+  startDate: Date,
+  endDate: Date,
+  guestEmail: string,
+) {
+  const book_a_room_response = await book_a_room(
+    propertyID,
+    startDate,
+    endDate,
+    guestEmail,
+    rooms[0]!.roomID as unknown as number,
+    rooms[0]!.roomTypeID,
+  );
+
+  return book_a_room_response;
 }
 
 export async function book_a_room(
@@ -322,6 +339,7 @@ export async function book_a_room(
   endDate: Date,
   guestEmail: string,
   roomID: number,
+  roomTypeID: number,
 ) {
   const url = "https://api.cloudbeds.com/api/v1.1/postReservation";
   const params: Cloudbeds_post_reservation_payload = {
@@ -334,16 +352,16 @@ export async function book_a_room(
     guestZip: "21000",
     guestEmail: guestEmail,
     rooms: {
-      roomTypeID: 0,
+      roomTypeID: roomTypeID,
       quantity: 1,
       roomID: roomID,
     },
     adults: {
-      roomTypeID: 0,
-      quantity: 1,
+      roomTypeID: roomTypeID,
+      quantity: 0,
     },
     children: {
-      roomTypeID: 0,
+      roomTypeID: roomTypeID,
       quantity: 0,
     },
     paymentMethod: "cash",

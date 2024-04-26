@@ -122,6 +122,14 @@ export interface CalendarDateRangePickerProps {
   setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
+export interface Single_Day_Calendar_Props {
+  className?: string;
+  date: Date | undefined;
+  currentDate: Date | undefined;
+  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
+
 export type Cloudbeds_post_reservation_payload = {
   propertyID?: number;
   sourceID?: number;
