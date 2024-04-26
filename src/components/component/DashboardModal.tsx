@@ -1,15 +1,17 @@
 "use client";
-import { type CalendarDateRangePickerProps } from "project-types";
-import { CalendarDateRangePicker } from "@/app/_components/date-range-picker";
+import { type Single_Day_Calendar_Props } from "project-types";
 import React from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@/trpc/react";
+import { Single_day_calendar } from "../ui/single_day_calendar";
+import { isAfterToday } from "utilities";
 
 function DashboardModal({
   date,
   setDate,
   setStage,
-}: CalendarDateRangePickerProps) {
+  currentDate,
+}: Single_Day_Calendar_Props) {
   const session = useSession();
   const unassigned_rooms =
     api.booking.Get_AvailableRooms_From_Cloudbeds.useQuery();
@@ -26,8 +28,8 @@ function DashboardModal({
       type: type,
       gender: session.data!.user.genderSex,
       propertyID: 309910,
-      startDate: date!.from!,
-      endDate: date!.to!,
+      startDate: currentDate!,
+      endDate: date!,
     });
   }
 
@@ -37,29 +39,31 @@ function DashboardModal({
         <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">
           Your plan ends May 12. You have 3 days left
         </h1>
-        <div className="grid gap-4 md:grid-cols-4 md:gap-6">
+        <div className="flex justify-center gap-4 md:grid-cols-4 md:gap-6">
           <div className="md:col-span-2">
             <div className=" gap-4">
-              <div className="m-2">Check In & Check Out</div>
-              <div>
-                <CalendarDateRangePicker
-                  date={date}
-                  setDate={setDate}
-                  setStage={setStage}
-                />
+              <div className="m-2 flex justify-center">
+                Check In & Check Out
               </div>
+
+              <Single_day_calendar
+                date={date}
+                setDate={setDate}
+                setStage={setStage}
+                currentDate={currentDate}
+              />
+            </div>{" "}
+            <div className="flex items-end">
+              <button
+                className="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                //   type="submit"
+                onClick={() => {
+                  console.log(date);
+                }}
+              >
+                Search for available beds
+              </button>
             </div>
-          </div>
-          <div className="flex items-end">
-            <button
-              className="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-              //   type="submit"
-              onClick={() => {
-                console.log(date);
-              }}
-            >
-              Search for available beds
-            </button>
           </div>
         </div>
       </section>
@@ -88,13 +92,14 @@ function DashboardModal({
               <p>$100 per night</p>
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge</p>
             </div>
-            {unassigned_rooms.data &&
+            {isAfterToday(currentDate, date) &&
+              unassigned_rooms.data &&
               session.data?.user.genderSex === "Female" &&
               unassigned_rooms.data.female_Rooms_twin_size.length > 0 && (
                 <div className="flex items-center p-6">
                   <button
-                    onClick={() => {
-                      setStage("3");
+                    onClick={async () => {
+                      await handle_book_a_room("Twin");
                     }}
                     className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                   >
@@ -102,13 +107,14 @@ function DashboardModal({
                   </button>
                 </div>
               )}{" "}
-            {unassigned_rooms.data &&
+            {isAfterToday(currentDate, date) &&
+              unassigned_rooms.data &&
               session.data?.user.genderSex === "Male" &&
               unassigned_rooms.data.male_Rooms_twin_size.length > 0 && (
                 <div className="flex items-center p-6">
                   <button
-                    onClick={() => {
-                      setStage("3");
+                    onClick={async () => {
+                      await handle_book_a_room("Twin");
                     }}
                     className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                   >
@@ -137,13 +143,14 @@ function DashboardModal({
               <p>$150 per night</p>
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge, Coffee Maker</p>
             </div>
-            {unassigned_rooms.data &&
+            {isAfterToday(currentDate, date) &&
+              unassigned_rooms.data &&
               session.data?.user.genderSex === "Female" &&
               unassigned_rooms.data.female_Rooms_fullsize.length > 0 && (
                 <div className="flex items-center p-6">
                   <button
-                    onClick={() => {
-                      setStage("3");
+                    onClick={async () => {
+                      await handle_book_a_room("Full");
                     }}
                     className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                   >
@@ -151,13 +158,14 @@ function DashboardModal({
                   </button>
                 </div>
               )}{" "}
-            {unassigned_rooms.data &&
+            {isAfterToday(currentDate, date) &&
+              unassigned_rooms.data &&
               session.data?.user.genderSex === "Male" &&
               unassigned_rooms.data.male_Rooms_fullsize.length > 0 && (
                 <div className="flex items-center p-6">
                   <button
-                    onClick={() => {
-                      setStage("3");
+                    onClick={async () => {
+                      await handle_book_a_room("Full");
                     }}
                     className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                   >

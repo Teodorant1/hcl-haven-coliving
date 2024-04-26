@@ -11,8 +11,8 @@ import {
   type CB_get_empty_rooms_response,
   type cb_room_subtype,
   type Cloudbeds_post_reservation_payload,
+  type Cloudbeds_post_reservation_RESPONSE,
 } from "project-types";
-import { Gender } from "@prisma/client";
 
 export async function getImprovSession(email: string): Promise<{
   email: string | undefined;
@@ -358,7 +358,7 @@ export async function book_a_room(
     },
     adults: {
       roomTypeID: roomTypeID,
-      quantity: 0,
+      quantity: 1,
     },
     children: {
       roomTypeID: roomTypeID,
@@ -376,7 +376,8 @@ export async function book_a_room(
         Authorization: `Bearer ${apiKey}`,
       },
     });
-    const result: CB_get_empty_rooms_response = response.data;
+    const result: Cloudbeds_post_reservation_RESPONSE = response.data;
+    console.log(result);
     return result; // Add this line to ensure the function returns a value
   } catch (error) {
     console.error("Error:", error);

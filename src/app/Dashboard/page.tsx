@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CalendarDateRangePicker } from "../_components/date-range-picker";
 import { MainNav } from "../_components/main-nav";
 import { Overview } from "../_components/overview";
 import { RecentSales } from "../_components/recent-sales";
@@ -16,7 +15,7 @@ import { Search } from "../_components/search";
 import TeamSwitcher from "../_components/team-switcher";
 import { UserNav } from "../_components/user-nav";
 import { useState } from "react";
-import { type DateRange } from "react-day-picker";
+
 import { addDays } from "date-fns";
 import DashboardModal from "@/components/component/DashboardModal";
 import DashboardConfirmedModal from "@/components/component/DashboardConfirmedModal";
@@ -24,16 +23,18 @@ import { Single_day_calendar } from "@/components/ui/single_day_calendar";
 
 export default function DashboardPage() {
   const [stage, setstage] = useState<string | undefined>("1");
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 7),
-  });
+  const [currentDate, setcurrentDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>(addDays(new Date(), 7));
 
   return (
     <>
-      <Single_day_calendar />
       {stage === "2" && (
-        <DashboardModal date={date} setDate={setDate} setStage={setstage} />
+        <DashboardModal
+          date={date}
+          setDate={setDate}
+          setStage={setstage}
+          currentDate={currentDate}
+        />
       )}
       {/* <div className="md:hidden">
         <Image
@@ -68,10 +69,16 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between space-y-2">
               <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
               <div className="flex items-center space-x-2">
-                <CalendarDateRangePicker
+                {/* <CalendarDateRangePicker
                   date={date}
                   setDate={setDate}
                   setStage={setstage}
+                /> */}
+                <Single_day_calendar
+                  date={date}
+                  setDate={setDate}
+                  setStage={setstage}
+                  currentDate={currentDate}
                 />
                 <Button
                   onClick={() => {

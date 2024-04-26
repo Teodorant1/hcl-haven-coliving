@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
         },
         data: {
-          status: "confirmed",
+          status: CLOUDBEDS_WEBHOOK_RESPONSE.status,
         },
       });
 
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
           propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
         },
         data: {
-          status: "occupied",
+          status: CLOUDBEDS_WEBHOOK_RESPONSE.status,
           roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId,
         },
       });

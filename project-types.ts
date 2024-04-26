@@ -171,3 +171,30 @@ export type Cloudbeds_post_reservation_payload = {
   dateCreated?: Date;
   sendEmailConfirmation?: boolean;
 };
+export type Cloudbeds_post_reservation_RESPONSE = {
+  success: boolean;
+  reservationID: string;
+  status: string;
+  guestID: string;
+  guestFirstName: string;
+  guestLastName: string;
+  guestGender: string;
+  guestEmail: string;
+  startDate: Date;
+  endDate: Date;
+  dateCreated: Date;
+  grandTotal: number;
+  unassigned: {
+    subReservationID: string;
+    roomTypeName: string;
+    roomTypeID: string;
+    adults: number;
+    children: number;
+    dailyrates: {
+      date: Date;
+      rate: number;
+    };
+    roomTotal: number;
+  };
+  message?: string;
+};
