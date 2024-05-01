@@ -134,8 +134,8 @@ export type Cloudbeds_post_reservation_payload = {
   propertyID?: number;
   sourceID?: number;
   thirdPartyIdentifier?: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   guestFirstName: string;
   guestLastName: string;
   guestGender?: string;
@@ -149,23 +149,23 @@ export type Cloudbeds_post_reservation_payload = {
     quantity: number;
     roomID?: number;
     roomRateID?: number;
-  };
+  }[];
   adults: {
     roomTypeID: number;
     quantity: number;
     roomID?: number;
-  };
+  }[];
   children: {
     roomTypeID: number;
     quantity: number;
     roomID?: number;
-  };
+  }[];
   paymentMethod: string;
   cardToken?: string;
   paymentAuthorizationCode?: string;
   customfields?: {
-    fieldName: "fieldValue";
-  };
+    fieldName: string;
+  }[];
   promoCode?: string;
   allotmentBlockCode?: string;
   dateCreated?: Date;

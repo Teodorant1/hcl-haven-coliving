@@ -342,35 +342,58 @@ export async function book_a_room(
   roomTypeID: number,
 ) {
   const url = "https://api.cloudbeds.com/api/v1.1/postReservation";
+
+  console.log(startDate);
+  console.log(endDate);
+
+  const startDate1 = formatDateToYYMMDD(startDate);
+  const endDate1 = formatDateToYYMMDD(endDate);
+
+  console.log(startDate1);
+  console.log(endDate1);
+
+  const roomID_str: string = roomID.toString();
+  const roomID_number: number = parseInt(roomID_str); // Second argument is the radix (base), e.g., base 10
+
   const params: Cloudbeds_post_reservation_payload = {
     propertyID: propertyID,
-    startDate: startDate,
-    endDate: endDate,
+    startDate: startDate1,
+    endDate: endDate1,
     guestFirstName: guestEmail,
     guestLastName: guestEmail,
     guestCountry: "US",
     guestZip: "21000",
     guestEmail: guestEmail,
-    rooms: {
-      roomTypeID: roomTypeID,
-      quantity: 1,
-      roomID: roomID,
-    },
-    adults: {
-      roomTypeID: roomTypeID,
-      quantity: 1,
-    },
-    children: {
-      roomTypeID: roomTypeID,
-      quantity: 0,
-    },
+    rooms: [
+      {
+        roomTypeID: roomTypeID,
+        quantity: 1,
+        roomID: roomID_number,
+      },
+    ],
+    adults: [
+      {
+        roomID: roomID_number,
+        roomTypeID: roomTypeID,
+        quantity: 1,
+      },
+    ],
+    children: [
+      {
+        roomID: roomID_number,
+        roomTypeID: roomTypeID,
+        quantity: 0,
+      },
+    ],
     paymentMethod: "cash",
   };
+
+  console.log(params);
 
   const apiKey = process.env.NEXT_PRIVATE_CLOUDBEDS_CLIENT_API_KEY!;
 
   try {
-    const response = await axios.get(url, {
+    const response = await axios.post(url, {
       params,
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -383,4 +406,11 @@ export async function book_a_room(
     console.error("Error:", error);
     throw error; // Optional: rethrow the error to handle it further up the call stack
   }
+}
+
+export function formatDateToYYMMDD(date: Date): string {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because months are 0-indexed
+  const day = date.getDate().toString().padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
