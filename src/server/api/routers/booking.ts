@@ -6,7 +6,8 @@ import {
   GetGuestDetails,
   get_unassigned_rooms,
   getGendered_rooms,
-  book_first_room_available,
+  get_available_room_types,
+  book_a_room,
 } from "utilitiesBackend";
 
 export const bookingRouter = createTRPCRouter({
@@ -201,64 +202,56 @@ export const bookingRouter = createTRPCRouter({
   // 2. add or update CB tables on our side 3. mark room as used for that period
   Get_AvailableRooms_From_Cloudbeds: protectedProcedure.query(
     async ({ ctx, input }) => {
+      console.log("fetching empty rooms");
       const unassigned_rooms = await get_unassigned_rooms([309910]);
       const gendered_rooms = await getGendered_rooms(unassigned_rooms);
+      console.log("returning empty rooms");
       return gendered_rooms;
     },
   ),
+  Get_Room_Types_From_Cloudbeds: protectedProcedure
+    .input(
+      z.object({
+        propertyIDs: z.string(),
+        startDate: z.date(),
+        endDate: z.date(),
+        // gender: z.string().min(4),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      console.log("fetching available room types");
+      // const startDate = new Date();
+      // const endDate = addDays(new Date(), 7);
+      const availableRooms = await get_available_room_types(
+        input.propertyIDs,
+        input.startDate,
+        input.endDate,
+      );
+      console.log("availableRooms are as follows");
+      // console.log(availableRooms.data[0]);
+      // console.log(availableRooms.data[0]?.propertyRooms);
+      return availableRooms;
+    }),
   Book_a_room: protectedProcedure
     .input(
       z.object({
         propertyID: z.number(),
         startDate: z.date(),
         endDate: z.date(),
-        gender: z.string().min(4),
-        type: z.string().min(4),
+        // gender: z.string().min(4),
+        // type: z.string().min(4),
+        roomTypeID: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const unassigned_rooms = await get_unassigned_rooms([309910]);
-      const gendered_rooms = await getGendered_rooms(unassigned_rooms);
+      await book_a_room(
+        309910,
+        input.startDate,
+        input.endDate,
+        ctx.session.user.email,
+        input.roomTypeID,
+      );
 
-      if (input.gender === "Male" && input.type === "Full") {
-        const response = await book_first_room_available(
-          gendered_rooms.male_Rooms_fullsize,
-          input.propertyID,
-          input.startDate,
-          input.endDate,
-          ctx.session.user.email,
-        );
-        return response;
-      }
-      if (input.gender === "Male" && input.type === "Twin") {
-        const response = await book_first_room_available(
-          gendered_rooms.male_Rooms_twin_size,
-          input.propertyID,
-          input.startDate,
-          input.endDate,
-          ctx.session.user.email,
-        );
-        return response;
-      }
-      if (input.gender === "Female" && input.type === "Full") {
-        const response = await book_first_room_available(
-          gendered_rooms.female_Rooms_fullsize,
-          input.propertyID,
-          input.startDate,
-          input.endDate,
-          ctx.session.user.email,
-        );
-        return response;
-      }
-      if (input.gender === "Female" && input.type === "Twin") {
-        const response = await book_first_room_available(
-          gendered_rooms.female_Rooms_twin_size,
-          input.propertyID,
-          input.startDate,
-          input.endDate,
-          ctx.session.user.email,
-        );
-        return response;
-      }
+      return 0;
     }),
 });

@@ -5,13 +5,16 @@ import bcrypt from "bcrypt";
 import Stripe from "stripe";
 import { Resend } from "resend";
 import { isSameDay, isSameMonth, isSameYear } from "date-fns";
-import axios from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import {
   type CB_get_user_response,
   type CB_get_empty_rooms_response,
   type cb_room_subtype,
   type Cloudbeds_post_reservation_payload,
   type Cloudbeds_post_reservation_RESPONSE,
+  type getAvailableRoomTypes_payload,
+  type getAvailableRoomTypes_Result,
+  type propertyRoom,
 } from "project-types";
 
 export async function getImprovSession(email: string): Promise<{
@@ -236,6 +239,65 @@ export async function GetGuestDetails(
     throw error; // Optional: rethrow the error to handle it further up the call stack
   }
 }
+export async function get_available_room_types(
+  propertyIDs: string,
+  startDate: Date,
+  endDate: Date,
+  // rooms: number,
+  // adults: number,
+  // children: number,
+) {
+  const url = "https://api.cloudbeds.com/api/v1.1/getAvailableRoomTypes";
+  const apiKey = process.env.NEXT_PRIVATE_CLOUDBEDS_CLIENT_API_KEY!;
+
+  const starDateString = formatDateToYYMMDD(startDate);
+  const endDateString = formatDateToYYMMDD(endDate);
+
+  const params: getAvailableRoomTypes_payload = {
+    propertyIDs: propertyIDs,
+    startDate: starDateString,
+    endDate: endDateString,
+    rooms: 1,
+    adults: 1,
+    children: 0,
+  };
+
+  try {
+    const response = await axios.get(url, {
+      params,
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
+
+    console.log(response.data);
+    const result: getAvailableRoomTypes_Result = response.data;
+    console.log(result.data[0]?.propertyRooms);
+
+    const FilteredResult = await get_available_room_types_by_gender(result);
+
+    return FilteredResult; // Add this line to ensure the function returns a value
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Optional: rethrow the error to handle it further up the call stack
+  }
+}
+
+export async function get_available_room_types_by_gender(
+  result: getAvailableRoomTypes_Result,
+) {
+  const propertyRooms = result.data[0]?.propertyRooms;
+  const RoomsMap = new Map<string, propertyRoom>();
+
+  // Transform the array into a map
+  propertyRooms!.forEach((propertyRoom) => {
+    // console.log("propertyRoom is as follows");
+    // console.log(propertyRoom);
+    RoomsMap.set(propertyRoom.roomTypeName, propertyRoom);
+  });
+
+  return RoomsMap;
+}
 
 export async function get_unassigned_rooms(propertyIds: number[]) {
   const url = "https://api.cloudbeds.com/api/v1.1/getRoomsUnassigned";
@@ -314,46 +376,18 @@ export async function getGendered_rooms(
   return omni_return;
 }
 
-export async function book_first_room_available(
-  rooms: cb_room_subtype[],
-  propertyID: number,
-  startDate: Date,
-  endDate: Date,
-  guestEmail: string,
-) {
-  const book_a_room_response = await book_a_room(
-    propertyID,
-    startDate,
-    endDate,
-    guestEmail,
-    rooms[0]!.roomID as unknown as number,
-    rooms[0]!.roomTypeID,
-  );
-
-  return book_a_room_response;
-}
-
 export async function book_a_room(
   propertyID: number,
   startDate: Date,
   endDate: Date,
   guestEmail: string,
-  roomID: number,
+  // roomID: number,
   roomTypeID: number,
 ) {
   const url = "https://api.cloudbeds.com/api/v1.1/postReservation";
 
-  console.log(startDate);
-  console.log(endDate);
-
   const startDate1 = formatDateToYYMMDD(startDate);
   const endDate1 = formatDateToYYMMDD(endDate);
-
-  console.log(startDate1);
-  console.log(endDate1);
-
-  const roomID_str: string = roomID.toString();
-  const roomID_number: number = parseInt(roomID_str); // Second argument is the radix (base), e.g., base 10
 
   const params: Cloudbeds_post_reservation_payload = {
     propertyID: propertyID,
@@ -368,43 +402,90 @@ export async function book_a_room(
       {
         roomTypeID: roomTypeID,
         quantity: 1,
-        roomID: roomID_number,
+        //  roomID: roomID_number,
       },
     ],
     adults: [
       {
-        roomID: roomID_number,
+        //  roomID: roomID_number,
         roomTypeID: roomTypeID,
         quantity: 1,
       },
     ],
     children: [
       {
-        roomID: roomID_number,
+        //  roomID: roomID_number,
         roomTypeID: roomTypeID,
         quantity: 0,
       },
     ],
     paymentMethod: "cash",
   };
-
+  console.log("params");
   console.log(params);
 
   const apiKey = process.env.NEXT_PRIVATE_CLOUDBEDS_CLIENT_API_KEY!;
 
+  // try {
+  //   const response = await axios.post(url, {
+  //     headers: {
+  //       Authorization: `Bearer ${apiKey}`,
+  //     },
+  //     params,
+  //   });
+  //   const result: Cloudbeds_post_reservation_RESPONSE = response.data;
+  //   console.log(result);
+  //   // return result; // Add this line to ensure the function returns a value
+  // } catch (error) {
+  //   console.error("Error:", error);
+  //   throw error; // Optional: rethrow the error to handle it further up the call stack
+  // }
+
+  const data: FormData = new FormData();
+  data.append("startDate", params.startDate);
+  data.append("endDate", params.endDate);
+  data.append("guestFirstName", params.guestFirstName);
+  data.append("guestLastName", params.guestLastName);
+  data.append("guestCountry", params.guestCountry);
+  data.append("guestZip", params.guestZip);
+  data.append("guestEmail", params.guestEmail);
+  data.append("guestPhone", "654123987");
+  data.append("paymentMethod", "cash");
+  data.append("propertyID", propertyID.toString());
+  data.append("rooms[0][roomTypeID]", params.rooms[0]!.roomTypeID.toString());
+  // data.append("rooms[0][roomTypeID]", "598925");
+  data.append("rooms[0][quantity]", "1");
+  // data.append("rooms[0][roomID]", params.rooms[0]!.roomID!.toString());
+  data.append("adults[0][quantity]", "1");
+  //  data.append("adults[0][roomID]", params.adults[0]!.roomID!.toString());
+  data.append("adults[0][roomTypeID]", params.adults[0]!.roomTypeID.toString());
+  data.append("children[0][quantity]", "0");
+  // data.append("children[0][roomID]", params.children[0]!.roomID!.toString());
+  data.append(
+    "children[0][roomTypeID]",
+    params.children[0]!.roomTypeID.toString(),
+  );
+
+  const config: AxiosRequestConfig = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: url,
+    headers: {
+      "x-api-key": apiKey,
+      Cookie:
+        "acessa_session=d4a791d913c603b7a51fa345a4199048f6f53755; acessa_session_enabled=1",
+    },
+    data: data,
+  };
+
   try {
-    const response = await axios.post(url, {
-      params,
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-      },
-    });
+    const response = await axios.request(config);
     const result: Cloudbeds_post_reservation_RESPONSE = response.data;
     console.log(result);
-    return result; // Add this line to ensure the function returns a value
+    console.log(JSON.stringify(response.data));
+    return result;
   } catch (error) {
-    console.error("Error:", error);
-    throw error; // Optional: rethrow the error to handle it further up the call stack
+    console.log(error);
   }
 }
 

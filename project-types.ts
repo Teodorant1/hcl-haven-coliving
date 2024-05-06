@@ -130,6 +130,17 @@ export interface Single_Day_Calendar_Props {
   setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
+export interface DashboardModalConfirmation_Props {
+  hotel_name: string;
+  roomtype: string;
+  checkin_date: string;
+  checkout_date: string;
+  totalprice: number;
+  name: string;
+  email: string;
+  phone: string;
+}
+
 export type Cloudbeds_post_reservation_payload = {
   propertyID?: number;
   sourceID?: number;
@@ -197,4 +208,53 @@ export type Cloudbeds_post_reservation_RESPONSE = {
     roomTotal: number;
   };
   message?: string;
+};
+
+export type getAvailableRoomTypes_payload = {
+  propertyIDs: string;
+  startDate: string;
+  endDate: string;
+  rooms: number;
+  adults: number;
+  children: number;
+};
+
+export type getAvailableRoomTypes_Result = {
+  success: boolean;
+  data: {
+    propertyID: number;
+    propertyCurrency: {
+      currencyCode: string;
+      currencySymbol: string;
+      currencyPosition: string;
+    };
+    propertyRooms: propertyRoom[];
+  }[];
+  roomCount: number;
+  count: number;
+  total: number;
+  message?: string;
+};
+
+export type propertyRoom = {
+  roomTypeID: number;
+  roomTypeName: string;
+  roomTypeNameShort: string;
+  roomTypeDescription: string;
+  maxGuests: number;
+  adultsIncluded: number;
+  childrenIncluded: number;
+  roomTypePhotos: {
+    thumb: string;
+    image: string;
+  }[];
+  roomTypeFeatures: string[];
+  roomRate: number;
+  roomRateID: number;
+  ratePlanNamePublic: string;
+  ratePlanNamePrivate: string;
+  roomsAvailable: number;
+  roomRateDetailed: { date: Date; rate: number };
+  derivedType: string;
+  derivedValue: number;
 };

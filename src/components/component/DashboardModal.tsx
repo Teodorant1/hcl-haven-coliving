@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { api } from "@/trpc/react";
 import { Single_day_calendar } from "../ui/single_day_calendar";
 import { isAfterToday } from "utilities";
-
+import { addDays } from "date-fns";
 function DashboardModal({
   date,
   setDate,
@@ -13,8 +13,8 @@ function DashboardModal({
   currentDate,
 }: Single_Day_Calendar_Props) {
   const session = useSession();
-  const unassigned_rooms =
-    api.booking.Get_AvailableRooms_From_Cloudbeds.useQuery();
+  // const unassigned_rooms =
+  //   api.booking.Get_AvailableRooms_From_Cloudbeds.useQuery();
 
   const book_a_room = api.booking.Book_a_room.useMutation({
     onSuccess: () => {
@@ -23,13 +23,19 @@ function DashboardModal({
     },
   });
 
-  async function handle_book_a_room(type: string) {
+  const available_room_types =
+    api.booking.Get_Room_Types_From_Cloudbeds.useQuery({
+      propertyIDs: "309910",
+      startDate: date!,
+      endDate: addDays(date!, 7),
+      // gender: session.data!.user?.genderSex,
+    });
+  async function handle_book_a_room(roomTypeID: number) {
     book_a_room.mutate({
-      type: type,
-      gender: session.data!.user.genderSex,
       propertyID: 309910,
       startDate: currentDate!,
       endDate: date!,
+      roomTypeID: roomTypeID,
     });
   }
 
@@ -59,9 +65,20 @@ function DashboardModal({
                 //   type="submit"
                 onClick={() => {
                   console.log(date);
+                  console.log(available_room_types.data);
                 }}
               >
                 Search for available beds
+              </button>{" "}
+              <button
+                className="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                //   type="submit"
+                onClick={() => {
+                  console.log(date);
+                  console.log(available_room_types.data);
+                }}
+              >
+                print available beds
               </button>
             </div>
           </div>
@@ -78,14 +95,40 @@ function DashboardModal({
           >
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
-                Twin Sized Bed -{" "}
-                {session.data?.user.genderSex === "Male" && (
-                  <>{unassigned_rooms.data?.male_Rooms_twin_size.length} </>
+                Twin Sized Bed{" "}
+                {/* {session.data?.user.genderSex === "Male" && (
+                  <>
+                    {" "}
+                    {available_room_types.data?.has(
+                      "Female Dormitory - Twin Size Bed",
+                    ) ? (
+                      <button className="m-5 bg-black p-5 text-white">
+                        Female Dormitory - Twin Size Bed is available
+                      </button>
+                    ) : (
+                      <button className="m-5 bg-red-600 p-5 text-white">
+                        Female Dormitory - Twin Size Bed Doesnt is not available{" "}
+                      </button>
+                    )}{" "}
+                  </>
                 )}{" "}
                 {session.data?.user.genderSex === "Female" && (
-                  <>{unassigned_rooms.data?.female_Rooms_twin_size.length} </>
+                  <>
+                    {" "}
+                    {available_room_types.data?.has(
+                      "Female Dormitory - Twin Size Bed",
+                    ) ? (
+                      <button className="m-5 bg-black p-5 text-white">
+                        Female Dormitory - Twin Size Bed is available
+                      </button>
+                    ) : (
+                      <button className="m-5 bg-red-600 p-5 text-white">
+                        Female Dormitory - Twin Size Bed Doesnt is not available{" "}
+                      </button>
+                    )}{" "}
+                  </>
                 )}{" "}
-                Available
+                Available */}
               </h3>
             </div>
             <div className="p-6">
@@ -93,13 +136,19 @@ function DashboardModal({
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge</p>
             </div>
             {isAfterToday(currentDate, date) &&
-              unassigned_rooms.data &&
+              available_room_types.data &&
               session.data?.user.genderSex === "Female" &&
-              unassigned_rooms.data.female_Rooms_twin_size.length > 0 && (
+              available_room_types.data.has(
+                "Female Dormitory - Twin Size Bed",
+              ) && (
                 <div className="flex items-center p-6">
                   <button
                     onClick={async () => {
-                      await handle_book_a_room("Twin");
+                      await handle_book_a_room(
+                        available_room_types.data.get(
+                          "Female Dormitory - Twin Size Bed",
+                        )!.roomTypeID,
+                      );
                     }}
                     className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                   >
@@ -108,13 +157,19 @@ function DashboardModal({
                 </div>
               )}{" "}
             {isAfterToday(currentDate, date) &&
-              unassigned_rooms.data &&
+              available_room_types.data &&
               session.data?.user.genderSex === "Male" &&
-              unassigned_rooms.data.male_Rooms_twin_size.length > 0 && (
+              available_room_types.data.has(
+                "Male Dormitory - Twin Size Bed - 12 Bed",
+              ) && (
                 <div className="flex items-center p-6">
                   <button
                     onClick={async () => {
-                      await handle_book_a_room("Twin");
+                      await handle_book_a_room(
+                        available_room_types.data.get(
+                          "Male Dormitory - Twin Size Bed - 12 Bed",
+                        )!.roomTypeID,
+                      );
                     }}
                     className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                   >
@@ -129,14 +184,7 @@ function DashboardModal({
           >
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
-                Full Sized Bed-{" "}
-                {session.data?.user.genderSex === "Male" && (
-                  <>{unassigned_rooms.data?.male_Rooms_fullsize.length} </>
-                )}{" "}
-                {session.data?.user.genderSex === "Female" && (
-                  <>{unassigned_rooms.data?.female_Rooms_fullsize.length} </>
-                )}{" "}
-                Available
+                Full Sized Bed{" "}
               </h3>
             </div>
             <div className="p-6">
@@ -144,13 +192,19 @@ function DashboardModal({
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge, Coffee Maker</p>
             </div>
             {isAfterToday(currentDate, date) &&
-              unassigned_rooms.data &&
+              available_room_types.data &&
               session.data?.user.genderSex === "Female" &&
-              unassigned_rooms.data.female_Rooms_fullsize.length > 0 && (
+              available_room_types.data.has(
+                "Female Dormitory - Full Size Bed",
+              ) && (
                 <div className="flex items-center p-6">
                   <button
                     onClick={async () => {
-                      await handle_book_a_room("Full");
+                      await handle_book_a_room(
+                        available_room_types.data.get(
+                          "Female Dormitory - Full Size Bed",
+                        )!.roomTypeID,
+                      );
                     }}
                     className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                   >
@@ -159,13 +213,19 @@ function DashboardModal({
                 </div>
               )}{" "}
             {isAfterToday(currentDate, date) &&
-              unassigned_rooms.data &&
+              available_room_types.data &&
               session.data?.user.genderSex === "Male" &&
-              unassigned_rooms.data.male_Rooms_fullsize.length > 0 && (
+              available_room_types.data.has(
+                "Male Dormitory - Full Size Bed",
+              ) && (
                 <div className="flex items-center p-6">
                   <button
                     onClick={async () => {
-                      await handle_book_a_room("Full");
+                      await handle_book_a_room(
+                        available_room_types.data.get(
+                          "Male Dormitory - Full Size Bed",
+                        )!.roomTypeID,
+                      );
                     }}
                     className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                   >
