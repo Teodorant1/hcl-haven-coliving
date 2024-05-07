@@ -17,6 +17,12 @@ import {
   type propertyRoom,
 } from "project-types";
 
+//this function will be used to figure out how much someone has paid for their membership
+// and how much time they have available and how much time
+export async function GetStatusOfSubcsription() {
+  return 0;
+}
+
 export async function getImprovSession(email: string): Promise<{
   email: string | undefined;
   isAdmin: boolean | undefined;
