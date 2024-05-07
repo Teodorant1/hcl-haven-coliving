@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "HCL_user" ADD COLUMN     "account_creation_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

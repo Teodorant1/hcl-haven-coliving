@@ -234,26 +234,27 @@ model subscription  {
 //     price               Int
 // }
 model HCL_user  {
-    id                   String    @id @default(cuid())
-    email                String    @unique
-    recovery_email       String?   @unique
-    username             String    @unique
-    password             String    @default(cuid()) 
-    full_name            String?
-    avatar_url           String? 
-    billing_address      String? // needs to be json
-    payment_method       String? // needs to be json
-    isAdmin              Boolean  @default(false)
-    isApproved           Boolean  @default(false)
+    id                            String    @id @default(cuid())
+    email                         String    @unique
+    recovery_email                String?   @unique
+    username                      String    @unique
+    password                      String    @default(cuid()) 
+    full_name                     String?
+    avatar_url                    String? 
+    billing_address               String? // needs to be json
+    payment_method                String? // needs to be json
+    isAdmin                       Boolean  @default(false)
+    isApproved                    Boolean  @default(false)
     // ooopsie, gotta remove this before production
-    gender               Gender   @default(Male)
-    GenderSex            String   @default("Male")
+    gender                        Gender   @default(Male)
+    GenderSex                     String   @default("Male")
+    account_creation_date         DateTime @default(now())
 }
 
 model HCL_Application {
     id                             String    @id @default(cuid())
     name                           String
-    email                          String   
+    email                          String   // maybe make this unique for launch
     DateOfBirth                    DateTime
     gender                         String
     phoneNumber                    String
