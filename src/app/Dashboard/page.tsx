@@ -15,16 +15,19 @@ import { Search } from "../_components/search";
 import TeamSwitcher from "../_components/team-switcher";
 import { UserNav } from "../_components/user-nav";
 import { useState } from "react";
-
 import { addDays } from "date-fns";
 import DashboardModal from "@/components/component/DashboardModal";
 import DashboardConfirmedModal from "@/components/component/DashboardConfirmedModal";
 import { Single_day_calendar } from "@/components/ui/single_day_calendar";
+import { type Cloudbeds_post_reservation_RESPONSE } from "project-types";
 
 export default function DashboardPage() {
   const [stage, setstage] = useState<string | undefined>("1");
   const [currentDate, setcurrentDate] = useState<Date | undefined>(new Date());
   const [date, setDate] = useState<Date | undefined>(addDays(new Date(), 7));
+  const [CBEDS_response, setCBEDS_response] = useState<
+    Cloudbeds_post_reservation_RESPONSE | undefined
+  >();
 
   return (
     <>
@@ -34,6 +37,8 @@ export default function DashboardPage() {
           setDate={setDate}
           setStage={setstage}
           currentDate={currentDate}
+          setCBEDS_response={setCBEDS_response}
+          CBEDS_response={CBEDS_response}
         />
       )}
       {/* <div className="md:hidden">
@@ -52,7 +57,16 @@ export default function DashboardPage() {
           className="hidden dark:block"
         />
       </div> */}
-      {stage === "3" && <DashboardConfirmedModal />}
+      {stage === "3" && CBEDS_response && (
+        <DashboardConfirmedModal
+          date={date}
+          setDate={setDate}
+          setStage={setstage}
+          currentDate={currentDate}
+          CBEDS_response={CBEDS_response}
+          setCBEDS_response={setCBEDS_response}
+        />
+      )}
       {stage === "1" && (
         <div className="hidden flex-col md:flex">
           <div className="border-b">

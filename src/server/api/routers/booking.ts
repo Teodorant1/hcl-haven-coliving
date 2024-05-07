@@ -244,7 +244,7 @@ export const bookingRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await book_a_room(
+      const reservationResponse = await book_a_room(
         309910,
         input.startDate,
         input.endDate,
@@ -252,6 +252,6 @@ export const bookingRouter = createTRPCRouter({
         input.roomTypeID,
       );
 
-      return 0;
+      return reservationResponse;
     }),
 });

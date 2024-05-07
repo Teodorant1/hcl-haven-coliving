@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
+import { type Single_Day_Calendar_Props } from "project-types";
 
-const DashboardConfirmedModal = () => {
+const DashboardConfirmedModal = (props: Single_Day_Calendar_Props) => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-md space-y-8">
@@ -12,17 +14,33 @@ const DashboardConfirmedModal = () => {
         <div className="overflow-hidden rounded-lg bg-white p-8 shadow-md">
           <div className="mb-4">
             <h3 className="text-lg font-semibold">Booking Details</h3>
-            <p className="text-gray-600">Hotel Name: Grand Hotel</p>
-            <p className="text-gray-600">Room Type: Deluxe Suite</p>
-            <p className="text-gray-600">Check-in: April 20, 2024</p>
-            <p className="text-gray-600">Check-out: April 25, 2024</p>
-            <p className="text-gray-600">Total Price: $500</p>
+            <p className="text-gray-600">Hotel Name: Haven-Coliving</p>
+            <p className="text-gray-600">
+              Room Type{": "}{" "}
+              {props.CBEDS_response?.unassigned[0]!.roomTypeName}
+            </p>
+            <p className="text-gray-600">
+              Check-in: {props.CBEDS_response?.startDate.toString()}
+            </p>
+            <p className="text-gray-600">
+              Check-out:{props.CBEDS_response?.endDate.toString()}
+            </p>
+            <p className="text-gray-600">
+              Total Price: {props.CBEDS_response?.grandTotal} {" $"}
+            </p>
           </div>
           <div className="mb-4">
             <h3 className="text-lg font-semibold">Guest Information</h3>
-            <p className="text-gray-600">Name: John Doe</p>
-            <p className="text-gray-600">Email: john.doe@example.com</p>
-            <p className="text-gray-600">Phone: +1 234 567 890</p>
+            <p className="text-gray-600">
+              Name{": "} {props.CBEDS_response?.guestFirstName}{" "}
+              {props.CBEDS_response?.guestLastName}{" "}
+            </p>
+            <p className="text-gray-600">
+              Email{": "} {props.CBEDS_response?.guestEmail}
+            </p>
+            {/* <p className="text-gray-600">
+              Phone: +1 234 567 890 {props.CBEDS_response?.guestEmail}
+            </p> */}
           </div>
           <div className="mb-4">
             <h3 className="text-lg font-semibold">Confirmation</h3>

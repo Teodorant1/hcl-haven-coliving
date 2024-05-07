@@ -128,13 +128,29 @@ export interface Single_Day_Calendar_Props {
   currentDate: Date | undefined;
   setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
   setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
+  CBEDS_response?: Cloudbeds_post_reservation_RESPONSE | undefined;
+  setCBEDS_response?: React.Dispatch<
+    React.SetStateAction<Cloudbeds_post_reservation_RESPONSE | undefined>
+  >;
+}
+
+export interface Dashboard_Confirmation_modal_Props {
+  className?: string;
+  date: Date | undefined;
+  currentDate: Date | undefined;
+  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
+  CBEDS_response: Cloudbeds_post_reservation_RESPONSE | undefined;
+  setCBEDS_response: React.Dispatch<
+    React.SetStateAction<Cloudbeds_post_reservation_RESPONSE | undefined>
+  >;
 }
 
 export interface DashboardModalConfirmation_Props {
   hotel_name: string;
   roomtype: string;
-  checkin_date: string;
-  checkout_date: string;
+  checkin_date: Date;
+  checkout_date: Date;
   totalprice: number;
   name: string;
   email: string;
@@ -206,7 +222,7 @@ export type Cloudbeds_post_reservation_RESPONSE = {
       rate: number;
     };
     roomTotal: number;
-  };
+  }[];
   message?: string;
 };
 

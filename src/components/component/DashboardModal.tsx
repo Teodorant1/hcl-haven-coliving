@@ -1,5 +1,5 @@
 "use client";
-import { type Single_Day_Calendar_Props } from "project-types";
+import { type Dashboard_Confirmation_modal_Props } from "project-types";
 import React from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@/trpc/react";
@@ -11,15 +11,18 @@ function DashboardModal({
   setDate,
   setStage,
   currentDate,
-}: Single_Day_Calendar_Props) {
+  setCBEDS_response,
+}: Dashboard_Confirmation_modal_Props) {
   const session = useSession();
   // const unassigned_rooms =
   //   api.booking.Get_AvailableRooms_From_Cloudbeds.useQuery();
 
   const book_a_room = api.booking.Book_a_room.useMutation({
-    onSuccess: () => {
+    onSuccess: (reservationResponse) => {
       // setapplicationSent(true);
+      console.log(reservationResponse);
       setStage("3");
+      setCBEDS_response(reservationResponse);
     },
   });
 
@@ -70,7 +73,7 @@ function DashboardModal({
               >
                 Search for available beds
               </button>{" "}
-              <button
+              {/* <button
                 className="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                 //   type="submit"
                 onClick={() => {
@@ -79,7 +82,7 @@ function DashboardModal({
                 }}
               >
                 print available beds
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
