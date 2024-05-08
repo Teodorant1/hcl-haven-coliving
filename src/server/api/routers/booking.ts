@@ -250,6 +250,7 @@ export const bookingRouter = createTRPCRouter({
         input.endDate,
         ctx.session.user.email,
         input.roomTypeID,
+        ctx.session.user.fullname,
       );
 
       return reservationResponse;

@@ -35,6 +35,7 @@ declare module "next-auth" {
       isApproved: boolean;
       isAdmin: boolean;
       genderSex: string;
+      fullname: string;
     } & DefaultSession["user"];
   }
 
@@ -162,6 +163,7 @@ export const authOptions: NextAuthOptions = {
         token.isAdmin = adhocSession.isAdmin;
         token.isApproved = adhocSession.isApproved;
         token.genderSex = adhocSession.GenderSex;
+        session.user.fullname = adhocSession.fullname;
       }
 
       return { ...token, ...session, profile };

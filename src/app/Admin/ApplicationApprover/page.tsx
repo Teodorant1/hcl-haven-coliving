@@ -21,12 +21,14 @@ const ApplicationApprover = () => {
     applicationID: string,
     isApproved: boolean,
     gender: string,
+    fullname: string,
   ) {
     AdminAction.mutate({
       userEmail: userEmail,
       applicationID: applicationID,
       isApproved: isApproved,
       gender: gender,
+      fullname: fullname,
     });
   }
 
@@ -147,6 +149,7 @@ const ApplicationApprover = () => {
                                 applicant.id,
                                 true,
                                 applicant.gender,
+                                applicant.name,
                               );
                             }}
                           >
@@ -165,6 +168,7 @@ const ApplicationApprover = () => {
                                 applicant.id,
                                 false,
                                 applicant.gender,
+                                applicant.name,
                               );
                             }}
                           >

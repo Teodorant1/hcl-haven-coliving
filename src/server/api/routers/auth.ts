@@ -131,6 +131,7 @@ export const authRouter = createTRPCRouter({
         applicationID: z.string().min(1),
         isApproved: z.boolean(),
         gender: z.string().min(4),
+        fullname: z.string().min(2),
         //  isReviewed: z.boolean(),
       }),
     )
@@ -152,6 +153,7 @@ export const authRouter = createTRPCRouter({
         data: {
           isApproved: input.isApproved,
           GenderSex: input.gender,
+          full_name: input.fullname,
         },
       });
 

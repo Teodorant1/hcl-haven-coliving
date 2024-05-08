@@ -28,6 +28,7 @@ export async function getImprovSession(email: string): Promise<{
   isAdmin: boolean | undefined;
   isApproved: boolean | undefined;
   GenderSex: string | undefined;
+  fullname: string | undefined;
 }> {
   const adhocSession = await db.hCL_user.findFirst({
     where: {
@@ -38,6 +39,7 @@ export async function getImprovSession(email: string): Promise<{
       isAdmin: true,
       isApproved: true,
       GenderSex: true,
+      full_name: true,
     },
   });
 
@@ -47,6 +49,7 @@ export async function getImprovSession(email: string): Promise<{
       isAdmin: adhocSession?.isAdmin,
       isApproved: adhocSession?.isApproved,
       GenderSex: adhocSession?.GenderSex,
+      fullname: adhocSession?.full_name,
     };
 
     return adhocSessionRedux;
@@ -80,6 +83,7 @@ export async function getImprovSession(email: string): Promise<{
       isAdmin: newlyMadeSession?.isAdmin,
       isApproved: newlyMadeSession?.isApproved,
       GenderSex: "Male",
+      fullname: newlyMadeSession?.full_name,
     };
 
     return newlyMadeSessionRedux;
@@ -389,6 +393,7 @@ export async function book_a_room(
   guestEmail: string,
   // roomID: number,
   roomTypeID: number,
+  fullname: string,
 ) {
   const url = "https://api.cloudbeds.com/api/v1.1/postReservation";
 
@@ -399,8 +404,8 @@ export async function book_a_room(
     propertyID: propertyID,
     startDate: startDate1,
     endDate: endDate1,
-    guestFirstName: guestEmail,
-    guestLastName: guestEmail,
+    guestFirstName: fullname,
+    guestLastName: " ",
     guestCountry: "US",
     guestZip: "21000",
     guestEmail: guestEmail,
