@@ -67,13 +67,13 @@ export default function DashboardPage() {
           className="hidden dark:block"
         />
       </div> */}
-          <button
+          {/* <button
             onClick={() => {
               isBefore_11_am_for_today(dateRange?.from!);
             }}
           >
             handle isAfterToday function
-          </button>
+          </button> */}
           {stage === "3" && CBEDS_response && (
             <DashboardConfirmedModal
               date={dateRange}
