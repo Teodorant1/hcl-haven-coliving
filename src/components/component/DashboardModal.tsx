@@ -1,18 +1,13 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 "use client";
-import { type Dashboard_Confirmation_modal_Props } from "project-types";
+import { type DashBoardPageProps } from "project-types";
 import React from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@/trpc/react";
-import { Single_day_calendar } from "../ui/single_day_calendar";
 import { isAfterToday } from "utilities";
-import { addDays } from "date-fns";
-function DashboardModal({
-  date,
-  setDate,
-  setStage,
-  currentDate,
-  setCBEDS_response,
-}: Dashboard_Confirmation_modal_Props) {
+import { CalendarDateRangePicker } from "@/app/_components/date-range-picker";
+import { DateRange } from "react-day-picker";
+function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   const session = useSession();
   // const unassigned_rooms =
   //   api.booking.Get_AvailableRooms_From_Cloudbeds.useQuery();
@@ -21,23 +16,23 @@ function DashboardModal({
     onSuccess: (reservationResponse) => {
       // setapplicationSent(true);
       console.log(reservationResponse);
-      setStage("3");
-      setCBEDS_response(reservationResponse);
+      DashBoardPageProps.setStage("3");
+      DashBoardPageProps.setCBEDS_response(reservationResponse);
     },
   });
 
   const available_room_types =
     api.booking.Get_Room_Types_From_Cloudbeds.useQuery({
       propertyIDs: "309910",
-      startDate: date!,
-      endDate: addDays(date!, 7),
+      startDate: DashBoardPageProps.date?.from!,
+      endDate: DashBoardPageProps.date?.to!,
       // gender: session.data!.user?.genderSex,
     });
   async function handle_book_a_room(roomTypeID: number) {
     book_a_room.mutate({
       propertyID: 309910,
-      startDate: currentDate!,
-      endDate: date!,
+      startDate: DashBoardPageProps.date?.from!,
+      endDate: DashBoardPageProps.date?.to!,
       roomTypeID: roomTypeID,
     });
   }
@@ -55,11 +50,10 @@ function DashboardModal({
                 Check In & Check Out
               </div>
 
-              <Single_day_calendar
-                date={date}
-                setDate={setDate}
-                setStage={setStage}
-                currentDate={currentDate}
+              <CalendarDateRangePicker
+                date={DashBoardPageProps.date}
+                setDate={DashBoardPageProps.setDate}
+                setStage={DashBoardPageProps.setStage}
               />
             </div>{" "}
             <div className="flex items-end">
@@ -67,7 +61,7 @@ function DashboardModal({
                 className="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                 //   type="submit"
                 onClick={() => {
-                  console.log(date);
+                  console.log(DashBoardPageProps.date);
                   console.log(available_room_types.data);
                 }}
               >
@@ -138,7 +132,10 @@ function DashboardModal({
               <p>$100 per night</p>
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge</p>
             </div>
-            {isAfterToday(currentDate, date) &&
+            {isAfterToday(
+              DashBoardPageProps.date?.from,
+              DashBoardPageProps.date?.to,
+            ) &&
               available_room_types.data &&
               session.data?.user.genderSex === "Female" &&
               available_room_types.data.has(
@@ -159,7 +156,10 @@ function DashboardModal({
                   </button>
                 </div>
               )}{" "}
-            {isAfterToday(currentDate, date) &&
+            {isAfterToday(
+              DashBoardPageProps.date?.from,
+              DashBoardPageProps.date?.to,
+            ) &&
               available_room_types.data &&
               session.data?.user.genderSex === "Male" &&
               available_room_types.data.has(
@@ -194,7 +194,10 @@ function DashboardModal({
               <p>$150 per night</p>
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge, Coffee Maker</p>
             </div>
-            {isAfterToday(currentDate, date) &&
+            {isAfterToday(
+              DashBoardPageProps.date?.from,
+              DashBoardPageProps.date?.to,
+            ) &&
               available_room_types.data &&
               session.data?.user.genderSex === "Female" &&
               available_room_types.data.has(
@@ -215,7 +218,10 @@ function DashboardModal({
                   </button>
                 </div>
               )}{" "}
-            {isAfterToday(currentDate, date) &&
+            {isAfterToday(
+              DashBoardPageProps.date?.from,
+              DashBoardPageProps.date?.to,
+            ) &&
               available_room_types.data &&
               session.data?.user.genderSex === "Male" &&
               available_room_types.data.has(

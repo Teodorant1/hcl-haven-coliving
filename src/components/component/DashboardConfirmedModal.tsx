@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { type Single_Day_Calendar_Props } from "project-types";
+import { type DashBoardPageProps } from "project-types";
 
-const DashboardConfirmedModal = (props: Single_Day_Calendar_Props) => {
+const DashboardConfirmedModal = (props: DashBoardPageProps) => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-md space-y-8">

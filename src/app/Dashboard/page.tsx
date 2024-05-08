@@ -18,19 +18,23 @@ import { useState } from "react";
 import { addDays } from "date-fns";
 import DashboardModal from "@/components/component/DashboardModal";
 import DashboardConfirmedModal from "@/components/component/DashboardConfirmedModal";
-import { Single_day_calendar } from "@/components/ui/single_day_calendar";
 import { type Cloudbeds_post_reservation_RESPONSE } from "project-types";
 import { useSession } from "next-auth/react";
-
+import { CalendarDateRangePicker } from "../_components/date-range-picker";
+import { type DateRange } from "react-day-picker";
+import React from "react";
 export default function DashboardPage() {
   const { status, data: session } = useSession();
   const [stage, setstage] = useState<string | undefined>("1");
-  const [currentDate, setcurrentDate] = useState<Date | undefined>(new Date());
-  const [date, setDate] = useState<Date | undefined>(addDays(new Date(), 7));
+  // const [currentDate, setcurrentDate] = useState<Date | undefined>(new Date());
+  // const [date, setDate] = useState<Date | undefined>(addDays(new Date(), 7));
   const [CBEDS_response, setCBEDS_response] = useState<
     Cloudbeds_post_reservation_RESPONSE | undefined
   >();
-
+  const [dateRange, setdateRange] = React.useState<DateRange | undefined>({
+    from: addDays(new Date(), 1),
+    to: addDays(new Date(), 8),
+  });
   return (
     <>
       {session?.user.isApproved === true && (
@@ -38,10 +42,9 @@ export default function DashboardPage() {
           {" "}
           {stage === "2" && (
             <DashboardModal
-              date={date}
-              setDate={setDate}
+              date={dateRange}
+              setDate={setdateRange}
               setStage={setstage}
-              currentDate={currentDate}
               setCBEDS_response={setCBEDS_response}
               CBEDS_response={CBEDS_response}
             />
@@ -64,10 +67,9 @@ export default function DashboardPage() {
       </div> */}
           {stage === "3" && CBEDS_response && (
             <DashboardConfirmedModal
-              date={date}
-              setDate={setDate}
+              date={dateRange}
+              setDate={setdateRange}
               setStage={setstage}
-              currentDate={currentDate}
               CBEDS_response={CBEDS_response}
               setCBEDS_response={setCBEDS_response}
             />
@@ -90,17 +92,19 @@ export default function DashboardPage() {
                     Dashboard
                   </h2>
                   <div className="flex items-center space-x-2">
-                    {/* <CalendarDateRangePicker
-                  date={date}
-                  setDate={setDate}
-                  setStage={setstage}
-                /> */}
-                    <Single_day_calendar
+                    <CalendarDateRangePicker
+                      date={dateRange}
+                      setDate={setdateRange}
+                      setStage={setstage}
+                      // CBEDS_response={CBEDS_response}
+                      // setCBEDS_response={setCBEDS_response}
+                    />
+                    {/* <Single_day_calendar
                       date={date}
                       setDate={setDate}
                       setStage={setstage}
                       currentDate={currentDate}
-                    />
+                    /> */}
                     <Button
                       onClick={() => {
                         setstage("2");

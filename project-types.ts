@@ -122,6 +122,17 @@ export interface CalendarDateRangePickerProps {
   setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
+export interface DashBoardPageProps {
+  className?: string;
+  date: DateRange | undefined;
+  setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
+  setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
+  CBEDS_response: Cloudbeds_post_reservation_RESPONSE | undefined;
+  setCBEDS_response: React.Dispatch<
+    React.SetStateAction<Cloudbeds_post_reservation_RESPONSE | undefined>
+  >;
+}
+
 export interface Single_Day_Calendar_Props {
   className?: string;
   date: Date | undefined;
