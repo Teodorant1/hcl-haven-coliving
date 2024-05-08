@@ -239,7 +239,7 @@ model HCL_user  {
     recovery_email                String?   @unique
     username                      String    @unique
     password                      String    @default(cuid()) 
-    full_name                     String?
+    full_name                     String    @default("full name")
     avatar_url                    String? 
     billing_address               String? // needs to be json
     payment_method                String? // needs to be json

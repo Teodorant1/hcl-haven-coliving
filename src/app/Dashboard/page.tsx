@@ -33,7 +33,6 @@ export default function DashboardPage() {
 
   return (
     <>
-      {" "}
       {session?.user.isApproved === true && (
         <>
           {" "}
