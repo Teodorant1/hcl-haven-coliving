@@ -9,6 +9,7 @@ import { CalendarDateRangePicker } from "@/app/_components/date-range-picker";
 import { DateRange } from "react-day-picker";
 function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   const session = useSession();
+  const [currentDate, setcurrentDate] = React.useState<Date>(new Date());
   // const unassigned_rooms =
   //   api.booking.Get_AvailableRooms_From_Cloudbeds.useQuery();
 
@@ -132,10 +133,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
               <p>$100 per night</p>
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge</p>
             </div>
-            {isAfterToday(
-              DashBoardPageProps.date?.from,
-              DashBoardPageProps.date?.to,
-            ) &&
+            {isAfterToday(currentDate, DashBoardPageProps.date?.from) &&
               available_room_types.data &&
               session.data?.user.genderSex === "Female" &&
               available_room_types.data.has(
@@ -156,10 +154,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                   </button>
                 </div>
               )}{" "}
-            {isAfterToday(
-              DashBoardPageProps.date?.from,
-              DashBoardPageProps.date?.to,
-            ) &&
+            {isAfterToday(currentDate, DashBoardPageProps.date?.from) &&
               available_room_types.data &&
               session.data?.user.genderSex === "Male" &&
               available_room_types.data.has(
@@ -194,10 +189,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
               <p>$150 per night</p>
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge, Coffee Maker</p>
             </div>
-            {isAfterToday(
-              DashBoardPageProps.date?.from,
-              DashBoardPageProps.date?.to,
-            ) &&
+            {isAfterToday(currentDate, DashBoardPageProps.date?.from) &&
               available_room_types.data &&
               session.data?.user.genderSex === "Female" &&
               available_room_types.data.has(
@@ -218,10 +210,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                   </button>
                 </div>
               )}{" "}
-            {isAfterToday(
-              DashBoardPageProps.date?.from,
-              DashBoardPageProps.date?.to,
-            ) &&
+            {isAfterToday(currentDate, DashBoardPageProps.date?.from) &&
               available_room_types.data &&
               session.data?.user.genderSex === "Male" &&
               available_room_types.data.has(

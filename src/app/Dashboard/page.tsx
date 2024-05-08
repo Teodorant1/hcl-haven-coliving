@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 "use client";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +24,7 @@ import { useSession } from "next-auth/react";
 import { CalendarDateRangePicker } from "../_components/date-range-picker";
 import { type DateRange } from "react-day-picker";
 import React from "react";
+import { isBefore_11_am_for_today } from "utilities";
 export default function DashboardPage() {
   const { status, data: session } = useSession();
   const [stage, setstage] = useState<string | undefined>("1");
@@ -32,8 +34,8 @@ export default function DashboardPage() {
     Cloudbeds_post_reservation_RESPONSE | undefined
   >();
   const [dateRange, setdateRange] = React.useState<DateRange | undefined>({
-    from: addDays(new Date(), 1),
-    to: addDays(new Date(), 8),
+    from: addDays(new Date(), 0),
+    to: addDays(new Date(), 7),
   });
   return (
     <>
@@ -65,6 +67,13 @@ export default function DashboardPage() {
           className="hidden dark:block"
         />
       </div> */}
+          <button
+            onClick={() => {
+              isBefore_11_am_for_today(dateRange?.from!);
+            }}
+          >
+            handle isAfterToday function
+          </button>
           {stage === "3" && CBEDS_response && (
             <DashboardConfirmedModal
               date={dateRange}
@@ -75,7 +84,8 @@ export default function DashboardPage() {
             />
           )}
           {stage === "1" && (
-            <div className="hidden flex-col md:flex">
+            <div className="flex flex-col">
+              {/* <div className="hidden flex-col md:flex"> */}
               <div className="border-b">
                 <div className="flex h-16 items-center px-4">
                   <TeamSwitcher />

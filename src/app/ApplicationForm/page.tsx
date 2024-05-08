@@ -7,7 +7,7 @@ const Application_Form = () => {
   const session = useSession();
 
   return (
-    <>{session.data?.user.isApproved === true && <InnerApplication_form />}</>
+    <>{session.data?.user.isApproved === false && <InnerApplication_form />}</>
   );
 };
 
