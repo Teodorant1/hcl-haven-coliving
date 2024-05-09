@@ -30,6 +30,7 @@ export async function getReservations() {
   const params = {
     propertyIDs: 309910,
     includeGuestsDetails: true,
+    sortByRecent: true,
   };
 
   const apiKey = process.env.NEXT_PRIVATE_CLOUDBEDS_CLIENT_API_KEY!;
