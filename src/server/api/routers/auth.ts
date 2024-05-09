@@ -136,6 +136,9 @@ export const authRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      if (ctx.session.user.isAdmin !== true) {
+        return null;
+      }
       await ctx.db.hCL_Application.update({
         where: {
           id: input.applicationID,

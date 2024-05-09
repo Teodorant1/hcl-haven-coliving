@@ -24,7 +24,8 @@ import { useSession } from "next-auth/react";
 import { CalendarDateRangePicker } from "../_components/date-range-picker";
 import { type DateRange } from "react-day-picker";
 import React from "react";
-import { isBefore_11_am_for_today } from "utilities";
+import { api } from "@/trpc/react";
+
 export default function DashboardPage() {
   const { status, data: session } = useSession();
   const [stage, setstage] = useState<string | undefined>("1");
@@ -37,8 +38,36 @@ export default function DashboardPage() {
     from: addDays(new Date(), 0),
     to: addDays(new Date(), 7),
   });
+
+  const reservations = api.booking.getReservations.useQuery();
+
   return (
     <>
+      <button
+        onClick={() => {
+          console.log(reservations.data);
+        }}
+        className="m-5 bg-black p-5 text-white"
+      >
+        {" "}
+        PRINT RESERVATIONS{" "}
+      </button>
+
+      <button
+        onClick={() => {
+          console.log(reservations.data?.data[0]!.guestID);
+          console.log(
+            reservations.data?.data[0]?.guestList[
+              reservations.data?.data[0].guestID
+            ],
+          );
+        }}
+        className="m-5 bg-black p-5 text-white"
+      >
+        {" "}
+        PRINT 1st RESERVATION user and email{" "}
+      </button>
+
       {session?.user.isApproved === true && (
         <>
           {" "}
@@ -255,12 +284,20 @@ export default function DashboardPage() {
                       <Card className="col-span-3">
                         <CardHeader>
                           <CardTitle>Recent Sales</CardTitle>
-                          <CardDescription>
-                            You made 265 sales this month.
-                          </CardDescription>
+                          {reservations.data &&
+                            reservations.data.success === true &&
+                            reservations.data.data.length > 0 && (
+                              <CardDescription>
+                                You made {reservations.data.data.length} sales
+                                this month.
+                              </CardDescription>
+                            )}
                         </CardHeader>
                         <CardContent>
-                          <RecentSales />
+                          <RecentSales
+                            success={reservations.data?.success!}
+                            data={reservations.data?.data!}
+                          />
                         </CardContent>
                       </Card>
                     </div>

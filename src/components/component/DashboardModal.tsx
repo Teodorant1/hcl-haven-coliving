@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { api } from "@/trpc/react";
 import { isAfterToday } from "utilities";
 import { CalendarDateRangePicker } from "@/app/_components/date-range-picker";
-import { DateRange } from "react-day-picker";
 function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   const session = useSession();
   const [currentDate, setcurrentDate] = React.useState<Date>(new Date());
@@ -18,7 +17,9 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
       // setapplicationSent(true);
       console.log(reservationResponse);
       DashBoardPageProps.setStage("3");
-      DashBoardPageProps.setCBEDS_response(reservationResponse);
+      if (DashBoardPageProps?.setCBEDS_response) {
+        DashBoardPageProps.setCBEDS_response(reservationResponse!);
+      }
     },
   });
 

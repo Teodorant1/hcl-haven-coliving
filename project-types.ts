@@ -128,7 +128,7 @@ export interface DashBoardPageProps {
   setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
   setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
   CBEDS_response: Cloudbeds_post_reservation_RESPONSE | undefined;
-  setCBEDS_response: React.Dispatch<
+  setCBEDS_response?: React.Dispatch<
     React.SetStateAction<Cloudbeds_post_reservation_RESPONSE | undefined>
   >;
 }
@@ -284,4 +284,85 @@ export type propertyRoom = {
   roomRateDetailed: { date: Date; rate: number };
   derivedType: string;
   derivedValue: number;
+};
+
+export type getReservations_payload = {
+  propertyID?: number;
+  includeGuestsDetails?: boolean;
+  status?: string;
+  // resultsFrom?: string;
+  // resultsTo?: string;
+  // sortByRecent?: boolean;
+  // pageNumber?: number;
+  // pageSize?: number;
+};
+export type getReservations_result = {
+  success: boolean;
+  data: Reservation[];
+};
+
+export type Reservation = {
+  propertyID: string;
+  reservationID: string;
+  dateCreated: string;
+  dateModified: string;
+  status: string;
+  guestID: string;
+  guestName: string;
+  startDate: string;
+  endDate: string;
+  adults: string;
+  children: string;
+  balance: number;
+  sourceName: string;
+  sourceID: string;
+  thirdPartyIdentifier: null | string;
+  allotmentBlockCode: null | string;
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+  guestList: {
+    [guestID: string]: {
+      guestName: string;
+      guestFirstName: string;
+      guestLastName: string;
+      guestGender: string;
+      guestEmail: string;
+      guestPhone: string;
+      guestCellPhone: string;
+      guestAddress: string;
+      guestAddress2: string;
+      guestCity: string;
+      guestState: string;
+      guestCountry: string;
+      guestZip: string;
+      guestBirthdate: string;
+      guestDocumentType: string;
+      guestDocumentNumber: string;
+      guestDocumentIssueDate: string;
+      guestDocumentIssuingCountry: string;
+      guestDocumentExpirationDate: string;
+      taxID: string;
+      companyTaxID: string;
+      companyName: string;
+      subReservationID: string;
+      startDate: string;
+      endDate: string;
+      assignedRoom: boolean;
+      isAnonymized: boolean;
+      rooms: {
+        roomID: string;
+        roomName: string;
+        roomTypeName: string;
+        roomTypeID: string;
+        roomTypeNameShort: string;
+        rateID: string;
+        ratePlanName: string;
+        roomStatus: string;
+        subReservationID: string;
+      }[];
+      roomID: string;
+      roomName: string;
+      roomTypeName: string;
+      isMainGuest: boolean;
+    };
+  };
 };

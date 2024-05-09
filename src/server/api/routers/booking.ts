@@ -8,6 +8,7 @@ import {
   getGendered_rooms,
   get_available_room_types,
   book_a_room,
+  getReservations,
 } from "utilitiesBackend";
 
 export const bookingRouter = createTRPCRouter({
@@ -19,6 +20,10 @@ export const bookingRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      if (ctx.session.user.isApproved !== true) {
+        return null;
+      }
+
       console.log("Buying subscription");
       const stripeMetada: StripeMetadata = {
         description: input.number_of_days + " DAYS",
@@ -80,13 +85,11 @@ export const bookingRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       console.log("Buying subscription");
-      // const PackageToBeBought = await ctx.db.subscriptionPlans.findFirstOrThrow(
-      //   {
-      //     where: {
-      //       packageName: input.packageName,
-      //     },
-      //   },
-      // );
+
+      if (ctx.session.user.isApproved !== true) {
+        return null;
+      }
+
       const stripeMetada: StripeMetadata = {
         description: input.number_of_days + " DAYS",
         priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
@@ -106,7 +109,6 @@ export const bookingRouter = createTRPCRouter({
       const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
       try {
         const sesh = await stripe.checkout.sessions.create({
-          //  mode: "payment",
           mode: "subscription",
           payment_method_types: ["card", "us_bank_account"],
           line_items: [line_item],
@@ -140,13 +142,8 @@ export const bookingRouter = createTRPCRouter({
         console.log(error);
       }
     }),
-  StripeAPI_TEST_Function: protectedProcedure
-    // .input(
-    //   z.object({
-
-    //   }),
-    // )
-    .mutation(async ({ ctx, input }) => {
+  StripeAPI_TEST_Function: protectedProcedure.mutation(
+    async ({ ctx, input }) => {
       console.log("COMMENCING STRIPE API TEST FUNCTION");
 
       const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
@@ -174,26 +171,19 @@ export const bookingRouter = createTRPCRouter({
       } catch (error) {
         console.log(error);
       }
-    }),
-  cloudbedsTest1: protectedProcedure
-    // .input(
-    //   z.object({
-    //     packageName: z.string().min(1),
-    //     method: z.string().min(1),
-    //     number_of_days: z.number(),
-    //   }),
-    // )
-    .mutation(async ({ ctx, input }) => {
-      console.log("commencingcbtest");
-      console.log("ctx.session");
-      console.log(ctx.session);
-      const guestDetails = await GetGuestDetails(309910, 102139710);
+    },
+  ),
+  cloudbedsTest1: protectedProcedure.mutation(async ({ ctx, input }) => {
+    console.log("commencingcbtest");
+    console.log("ctx.session");
+    console.log(ctx.session);
+    const guestDetails = await GetGuestDetails(309910, 102139710);
 
-      console.log("guestDetails is, as follows");
-      console.log(guestDetails);
+    console.log("guestDetails is, as follows");
+    console.log(guestDetails);
 
-      console.log(guestDetails.data.email);
-    }),
+    console.log(guestDetails.data.email);
+  }),
 
   // in this method we need to add a user to a room, and
   // if the user doesn't exist, add them to cloudbeds table
@@ -215,35 +205,40 @@ export const bookingRouter = createTRPCRouter({
         propertyIDs: z.string(),
         startDate: z.date(),
         endDate: z.date(),
-        // gender: z.string().min(4),
       }),
     )
     .query(async ({ ctx, input }) => {
       console.log("fetching available room types");
-      // const startDate = new Date();
-      // const endDate = addDays(new Date(), 7);
+
       const availableRooms = await get_available_room_types(
         input.propertyIDs,
         input.startDate,
         input.endDate,
       );
       console.log("availableRooms are as follows");
-      // console.log(availableRooms.data[0]);
-      // console.log(availableRooms.data[0]?.propertyRooms);
       return availableRooms;
     }),
+
+  getReservations: protectedProcedure.query(async ({ ctx, input }) => {
+    if (ctx.session.user.isAdmin) {
+      const reservations = await getReservations();
+      return reservations;
+    }
+  }),
+
   Book_a_room: protectedProcedure
     .input(
       z.object({
         propertyID: z.number(),
         startDate: z.date(),
         endDate: z.date(),
-        // gender: z.string().min(4),
-        // type: z.string().min(4),
         roomTypeID: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      if (ctx.session.user.isApproved === false) {
+        return null;
+      }
       const reservationResponse = await book_a_room(
         309910,
         input.startDate,
