@@ -38,10 +38,41 @@ export default function DashboardPage() {
     from: addDays(new Date(), 0),
     to: addDays(new Date(), 7),
   });
-  const reservations = api.booking.getReservations_forAdmin.useQuery();
+  const myreservations = api.booking.getMyReservations.useQuery();
 
+  // const Update_all_reservations =
+  //   api.booking.Update_all_reservations.useMutation({
+  //     onSuccess: () => {
+  //       console.log("OP SUCCESS");
+  //     },
+  //   });
+
+  // function createBunches_of_test_reservations() {
+  //   Update_all_reservations.mutate({
+  //     propertyID: 0,
+  //   });
+  // }
   return (
     <>
+      {" "}
+      {/* <button
+        onClick={() => {
+          console.log(myreservations.data);
+        }}
+        className="m-5 bg-black p-5 text-white"
+      >
+        {" "}
+        LOG MY RESERVATIONS{" "}
+      </button> */}
+      {/* <button
+        onClick={() => {
+          createBunches_of_test_reservations();
+        }}
+        className="m-5 bg-black p-5 text-white"
+      >
+        {" "}
+        UPDATE RESERVATIONS{" "}
+      </button> */}
       {/* <button
         onClick={() => {
           console.log(reservations.data);
@@ -66,7 +97,6 @@ export default function DashboardPage() {
         {" "}
         PRINT 1st RESERVATION user and email{" "}
       </button> */}
-
       {session?.user.isApproved === true && (
         <>
           {" "}
@@ -282,20 +312,19 @@ export default function DashboardPage() {
                       </Card>
                       <Card className="col-span-3">
                         <CardHeader>
-                          <CardTitle>Recent Sales</CardTitle>
-                          {reservations.data &&
-                            reservations.data.success === true &&
-                            reservations.data.data.length > 0 && (
+                          <CardTitle>Stay history</CardTitle>
+                          {myreservations.data &&
+                            myreservations.data.success === true &&
+                            myreservations.data.data.length > 0 && (
                               <CardDescription>
-                                You made {reservations.data.data.length} sales
-                                this month.
+                                Past and upcoming stays
                               </CardDescription>
                             )}
                         </CardHeader>
                         <CardContent>
                           <RecentSales
-                            success={reservations.data?.success!}
-                            data={reservations.data?.data!}
+                            success={myreservations.data?.success!}
+                            data={myreservations.data?.data!}
                           />
                         </CardContent>
                       </Card>

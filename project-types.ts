@@ -1,5 +1,11 @@
 import { type Decimal } from "@prisma/client/runtime/library";
 import { type DateRange } from "react-day-picker";
+import { cloudbeds_reservation } from "@prisma/client";
+
+export type recentReservations = {
+  success: boolean;
+  data: cloudbeds_reservation[];
+};
 
 export type registrationForm = {
   email: string;

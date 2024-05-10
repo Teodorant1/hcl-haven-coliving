@@ -43,3 +43,44 @@ export function isBefore_11_am_for_today(currentDate: Date) {
   console.log(isBefore11AM);
   return isBefore11AM;
 }
+
+export function Calculate_number_of_days_between_two_dates(
+  startDate: Date,
+  endDate: Date,
+) {
+  const differenceInMilliseconds: number =
+    endDate.getTime() - startDate.getTime();
+
+  const differenceInDays: number =
+    differenceInMilliseconds / (1000 * 60 * 60 * 24); // milliseconds to days
+
+  return differenceInDays;
+}
+
+export function getPrettierDate(myDate: Date) {
+  // Get the day and month
+  const month: number = myDate.getMonth(); // 0 (January) to 11 (December)
+  const monthsNames: string[] = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const dayName: number = myDate.getDate();
+  const monthName: string = monthsNames[month]!;
+
+  const newDate = {
+    dayName: dayName,
+    monthName: monthName,
+  };
+  return newDate;
+}

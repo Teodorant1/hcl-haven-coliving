@@ -183,6 +183,7 @@ export async function POST(req: NextRequest) {
           roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
           guestID: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
           TotalPrice: myReservation.data.total,
+          email: guestDetails.data.email,
         },
       });
 

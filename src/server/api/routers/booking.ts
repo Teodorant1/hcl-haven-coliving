@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-for-of */
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import Stripe from "stripe";
@@ -9,8 +10,8 @@ import {
   get_available_room_types,
   book_a_room,
   getReservations,
-  get_singular_reservation,
 } from "utilitiesBackend";
+import { recentReservations } from "project-types";
 
 export const bookingRouter = createTRPCRouter({
   BuySubscription: protectedProcedure
@@ -224,13 +225,61 @@ export const bookingRouter = createTRPCRouter({
     if (ctx.session.user.isAdmin) {
       const reservations = await getReservations();
 
-      const myReservation = await get_singular_reservation("1491069549319");
-      console.log(myReservation);
-      console.log("myReservation");
-
       return reservations;
     }
   }),
+  getMyReservations: protectedProcedure.query(async ({ ctx, input }) => {
+    if (ctx.session.user.isApproved) {
+      const MyReservations = await ctx.db.cloudbeds_reservation.findMany({
+        where: { email: ctx.session.user.email },
+        orderBy: {
+          check_in: "desc",
+        },
+      });
+
+      const MyReservationsPackaged: recentReservations = {
+        success: true,
+        data: MyReservations,
+      };
+
+      return MyReservationsPackaged;
+    }
+  }),
+
+  Update_all_reservations: protectedProcedure
+    .input(
+      z.object({
+        propertyID: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.session.user.isApproved === false) {
+        return null;
+      }
+
+      // const single_res = await get_singular_reservation("1491069549319");
+      // console.log(single_res);
+      // console.log(single_res.data.balance);
+      // console.log(single_res.data.guestEmail);
+      // console.log(single_res.data.dateCreated);
+      // console.log(single_res.data.startDate);
+      // console.log(single_res.data.endDate);
+
+      //  const AllReservations = await ctx.db.cloudbeds_reservation.findMany({});
+
+      //  for (let i = 0; i < AllReservations.length; i++) {
+      //    AllReservations[i]!.TotalPrice = i + 1 * 10;
+      //    AllReservations[i]!.email = ctx.session.user.email;
+      //    AllReservations[i]!.reservation_id = i + "alkfjhsasdf" + i;
+      //    AllReservations[i]!.id = i + "alkfjhsasdf" + i;
+      //    console.log("updating " + i);
+      //    await ctx.db.cloudbeds_reservation.create({
+      //      data: AllReservations[i]!,
+      //    });
+      //  }
+
+      return 0;
+    }),
 
   Book_a_room: protectedProcedure
     .input(
