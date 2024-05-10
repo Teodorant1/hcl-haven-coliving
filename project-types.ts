@@ -296,6 +296,105 @@ export type getReservations_payload = {
   // pageNumber?: number;
   // pageSize?: number;
 };
+
+export type getSingle_reservation_result = {
+  success: boolean;
+  data: {
+    propertyID: number;
+    guestName: string;
+    guestEmail: string;
+    isAnonymized: boolean;
+    // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+    guestList: {
+      [guestID: string]: {
+        guestID: string;
+        guestFirstName: string;
+        guestLastName: string;
+        guestGender: string;
+        guestEmail: string;
+        guestPhone: string;
+        guestCellPhone: string;
+        guestCountry: string;
+        guestAddress: string;
+        guestAddress2: string;
+        guestCity: string;
+        guestZip: string;
+        guestState: string;
+        guestStatus: string;
+        guestBirthdate: string;
+        guestDocumentType: string;
+        guestDocumentNumber: string;
+        guestDocumentIssueDate: string;
+        guestDocumentIssuingCountry: string;
+        guestDocumentExpirationDate: string;
+        assignedRoom: boolean;
+        roomID: string;
+        roomName: string;
+        roomTypeName: string;
+        isMainGuest: boolean;
+        isAnonymized: boolean;
+        taxID: string;
+        companyTaxID: string;
+        companyName: string;
+        // customFields: any[]; // or define a type for custom fields
+        // unassignedRooms: any[]; // or define a type for unassigned rooms
+        rooms: {
+          roomTypeID: string;
+          roomTypeName: string;
+          roomID: string;
+          roomName: string;
+          subReservationID: string;
+        }[];
+      };
+    };
+    reservationID: string;
+    dateCreated: string;
+    dateModified: string;
+    source: string;
+    sourceID: string;
+    thirdPartyIdentifier: string;
+    status: string;
+    total: number;
+    balance: number;
+    balanceDetailed: {
+      suggestedDeposit: string;
+      subTotal: number;
+      additionalItems: number;
+      taxesFees: number;
+      grandTotal: number;
+      paid: number;
+    };
+    assigned: {
+      roomTypeName: string;
+      roomTypeNameShort: string;
+      roomTypeID: string;
+      subReservationID: string;
+      startDate: string;
+      endDate: string;
+      adults: string;
+      children: string;
+      dailyRates: {
+        date: string;
+        rate: number;
+      }[];
+      roomTotal: string;
+      roomName: string;
+      roomID: string;
+    }[];
+    unassigned: unknown[]; // or define a type for unassigned rooms
+    cardsOnFile: {
+      cardID: string;
+      cardNumber: string;
+      cardType: string;
+    }[];
+    customFields: unknown[]; // or define a type for custom fields
+    startDate: string;
+    endDate: string;
+    allotmentBlockCode: null;
+    orderId: string;
+  };
+};
+
 export type getReservations_result = {
   success: boolean;
   data: Reservation[];

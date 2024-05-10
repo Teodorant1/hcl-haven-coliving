@@ -16,12 +16,38 @@ import {
   type getAvailableRoomTypes_Result,
   type propertyRoom,
   type getReservations_result,
+  type getSingle_reservation_result,
 } from "project-types";
 
 //this function will be used to figure out how much someone has paid for their membership
 // and how much time they have available and how much time
 export async function GetStatusOfSubcsription() {
   return 0;
+}
+
+export async function get_singular_reservation(reservationID: string) {
+  const url = "https://api.cloudbeds.com/api/v1.1/getReservation";
+
+  const params = {
+    propertyID: 309910,
+    reservationID: reservationID,
+  };
+
+  const apiKey = process.env.NEXT_PRIVATE_CLOUDBEDS_CLIENT_API_KEY!;
+
+  try {
+    const response = await axios.get(url, {
+      params,
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
+    const result: getSingle_reservation_result = response.data;
+    return result; // Add this line to ensure the function returns a value
+  } catch (error) {
+    console.error("Error:", error);
+    throw error; // Optional: rethrow the error to handle it further up the call stack
+  }
 }
 
 export async function getReservations() {

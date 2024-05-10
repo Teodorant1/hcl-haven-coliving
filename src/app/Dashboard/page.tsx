@@ -43,7 +43,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <button
+      {/* <button
         onClick={() => {
           console.log(reservations.data);
         }}
@@ -66,7 +66,7 @@ export default function DashboardPage() {
       >
         {" "}
         PRINT 1st RESERVATION user and email{" "}
-      </button>
+      </button> */}
 
       {session?.user.isApproved === true && (
         <>
