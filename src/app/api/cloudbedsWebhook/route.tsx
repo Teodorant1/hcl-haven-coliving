@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { db } from "@/server/db";
 import { type Cloudbeds_webhook_APIresponse } from "project-types";
 import { convert_date_string_to_DATE } from "utilities";
-import { GetGuestDetails } from "utilitiesBackend";
+import { get_singular_reservation, GetGuestDetails } from "utilitiesBackend";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -155,15 +155,9 @@ export async function POST(req: NextRequest) {
         CLOUDBEDS_WEBHOOK_RESPONSE.guestId!,
       );
 
-      // await db.cloudbeds_guest.updateMany({
-      //   where: {
-      //     guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId!.toString(),
-      //     propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID!.toString(),
-      //   },
-      //   data: {
-      //     guest_email: guestDetails.data.email,
-      //   },
-      // });
+      const myReservation = await get_singular_reservation(
+        CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+      );
 
       await db.cloudbeds_guest.updateMany({
         where: {
@@ -188,6 +182,7 @@ export async function POST(req: NextRequest) {
         data: {
           roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
           guestID: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+          TotalPrice: myReservation.data.total,
         },
       });
 

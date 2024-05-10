@@ -117,6 +117,7 @@ model cloudbeds_reservation {
     id                 String    @id @default(cuid())
     name               String
     surname            String
+    email              String? 
     reservation_id     String    @unique
     isCheckedIn        Boolean   @default(false)
     check_in           DateTime

@@ -9,6 +9,7 @@ import {
   get_available_room_types,
   book_a_room,
   getReservations,
+  get_singular_reservation,
 } from "utilitiesBackend";
 
 export const bookingRouter = createTRPCRouter({
@@ -219,9 +220,14 @@ export const bookingRouter = createTRPCRouter({
       return availableRooms;
     }),
 
-  getReservations: protectedProcedure.query(async ({ ctx, input }) => {
+  getReservations_forAdmin: protectedProcedure.query(async ({ ctx, input }) => {
     if (ctx.session.user.isAdmin) {
       const reservations = await getReservations();
+
+      const myReservation = await get_singular_reservation("1491069549319");
+      console.log(myReservation);
+      console.log("myReservation");
+
       return reservations;
     }
   }),

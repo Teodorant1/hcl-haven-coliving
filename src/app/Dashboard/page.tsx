@@ -38,8 +38,7 @@ export default function DashboardPage() {
     from: addDays(new Date(), 0),
     to: addDays(new Date(), 7),
   });
-
-  const reservations = api.booking.getReservations.useQuery();
+  const reservations = api.booking.getReservations_forAdmin.useQuery();
 
   return (
     <>
