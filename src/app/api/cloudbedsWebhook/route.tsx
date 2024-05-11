@@ -6,6 +6,10 @@ import { convert_date_string_to_DATE } from "utilities";
 import { get_singular_reservation, GetGuestDetails } from "utilitiesBackend";
 
 export async function POST(req: NextRequest) {
+  console.log("reqis");
+  console.log("req");
+  console.log(req);
+
   const body = await req.json();
   const CLOUDBEDS_WEBHOOK_RESPONSE: Cloudbeds_webhook_APIresponse = body;
   console.log("CLOUDBEDS_WEBHOOK_RESPONSE");
