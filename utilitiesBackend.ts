@@ -441,16 +441,30 @@ export async function book_a_room(
   fullname: string,
 ) {
   const url = "https://api.cloudbeds.com/api/v1.1/postReservation";
-
   const startDate1 = formatDateToYYMMDD(startDate);
   const endDate1 = formatDateToYYMMDD(endDate);
+
+  let guestFirstName = fullname;
+  let guestLastName = " ";
+  const fullname_fragments = fullname.split(" ");
+
+  if (fullname_fragments.length > 1) {
+    // Create a new array without the first element
+    const remaining_name_symbols: string[] = fullname_fragments.slice(1);
+
+    // Concatenate the remaining strings into one string
+    const concatenated_name: string = remaining_name_symbols.join("");
+
+    guestFirstName = fullname_fragments[0]!;
+    guestLastName = concatenated_name;
+  }
 
   const params: Cloudbeds_post_reservation_payload = {
     propertyID: propertyID,
     startDate: startDate1,
     endDate: endDate1,
-    guestFirstName: fullname,
-    guestLastName: " ",
+    guestFirstName: guestFirstName,
+    guestLastName: guestLastName,
     guestCountry: "US",
     guestZip: "21000",
     guestEmail: guestEmail,
