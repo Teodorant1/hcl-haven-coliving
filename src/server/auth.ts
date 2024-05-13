@@ -99,23 +99,23 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        // console.log(credentials);
-        // console.log("LOGGING IN");
+        console.log(credentials);
+        console.log("LOGGING IN");
         try {
           const foundUser: HCL_user = await db.hCL_user.findUniqueOrThrow({
             where: { email: credentials!.email },
           });
 
           if (foundUser) {
-            // console.log("User Exists");
-            // console.log(foundUser);
+            console.log("User Exists");
+            console.log(foundUser);
             const match = await bcrypt.compare(
               credentials!.password,
               foundUser.password,
             );
 
             if (match === true) {
-              // console.log("Good Pass");
+              console.log("Good Pass");
               foundUser.password = " ";
 
               // foundUser["role"] = "Unverified Email";

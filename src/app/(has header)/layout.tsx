@@ -1,18 +1,12 @@
 import "@/styles/globals.css";
 import { Inter } from "next/font/google";
-import AuthProvider from "./auth/Provider";
+// import AuthProvider from "../auth/Provider";
 import { TRPCReactProvider } from "@/trpc/react";
-// import Navbar from "./_components/Navbar";
-
+import Navbar from "../_components/Navbar";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });
-export const metadata = {
-  title: "Tailwindclub.org",
-  description: "Tailwindclub.org web-app",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
 
 export default function RootLayout({
   children,
@@ -22,10 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <AuthProvider>
-          {/* <Navbar /> */}
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-        </AuthProvider>
+        {/* <AuthProvider> */}
+        <Navbar />
+        <TRPCReactProvider>{children}</TRPCReactProvider>
+        {/* </AuthProvider> */}
       </body>
     </html>
   );

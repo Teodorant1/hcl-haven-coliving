@@ -62,7 +62,7 @@ const StripeTest = () => {
   return (
     <div>
       CHECKOUT{" "}
-      <button
+      {/* <button
         className="m-5 bg-black p-5 text-white"
         onClick={async () => {
           await handle_buy_subscription();
@@ -85,7 +85,7 @@ const StripeTest = () => {
         }}
       >
         handle_doCBtest1{" "}
-      </button>
+      </button> */}
       {/* <button
         onClick={async () => {
           console.log(unassigned_rooms.data!);

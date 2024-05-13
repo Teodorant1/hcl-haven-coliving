@@ -13,8 +13,8 @@ const Navbar = async () => {
           alt="The Tailwind Club Logo"
           src={`https://rcprbmdrrmrvjubkxifr.supabase.co/storage/v1/object/public/images/tailwind-club-logo-last.png`}
           className=""
-          height="110"
-          width="110"
+          height="45"
+          width="45"
         />
         <span className="sr-only">The Tailwind Club</span>
       </div>
