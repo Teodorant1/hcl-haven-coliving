@@ -195,12 +195,12 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      await db.subscription.update({
-        where: {
-          userEmail: guestDetails.data.email,
-          data: {},
-        },
-      });
+      // await db.subscription.update({
+      //   where: {
+      //     userEmail: guestDetails.data.email,
+      //     data: {},
+      //   },
+      // });
 
       break;
     case "guest/removed":
