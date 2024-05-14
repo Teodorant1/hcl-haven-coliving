@@ -21,8 +21,14 @@ import {
 
 //this function will be used to figure out how much someone has paid for their membership
 // and how much time they have available and how much time
-export async function GetStatusOfSubcsription() {
-  return 0;
+export async function GetStatusOfSubcsription(email: string) {
+  const personalSubscription = await db.subscription.findUnique({
+    where: {
+      userEmail: email,
+    },
+  });
+
+  return personalSubscription;
 }
 
 export async function get_singular_reservation(reservationID: string) {

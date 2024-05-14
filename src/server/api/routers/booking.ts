@@ -11,7 +11,7 @@ import {
   book_a_room,
   getReservations,
 } from "utilitiesBackend";
-import { recentReservations } from "project-types";
+import { type recentReservations } from "project-types";
 
 export const bookingRouter = createTRPCRouter({
   BuySubscription: protectedProcedure
@@ -50,8 +50,27 @@ export const bookingRouter = createTRPCRouter({
           cancel_url: process.env.NEXT_PUBLIC_VERCEL_URL! + "/FAIL",
           metadata: stripeMetada,
         });
-        await ctx.db.subscription.create({
-          data: {
+        await ctx.db.subscription.upsert({
+          where: { userEmail: ctx.session.user.email },
+          update: {
+            userEmail: ctx.session.user.email,
+            user_id: " ",
+            subscriptionStatus: false,
+            metadata: " ",
+            price_id: line_item.price,
+            // number of days
+            NumberOfBoughtDays: input.number_of_days,
+            cancel_at_period_end: false,
+            created_at: new Date(),
+            currentPeriod_start: new Date(),
+            currentPeriod_end: new Date(),
+            SessionID: sesh.id,
+            priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
+            packageName: input.number_of_days + " DAYS",
+            description: input.number_of_days + " DAYS",
+            price: input.number_of_days * 40,
+          },
+          create: {
             userEmail: ctx.session.user.email,
             user_id: " ",
             subscriptionStatus: false,
@@ -118,8 +137,27 @@ export const bookingRouter = createTRPCRouter({
           cancel_url: process.env.NEXT_PUBLIC_VERCEL_URL! + "/FAIL",
           metadata: stripeMetada,
         });
-        await ctx.db.subscription.create({
-          data: {
+        await ctx.db.subscription.upsert({
+          where: { userEmail: ctx.session.user.email },
+          update: {
+            userEmail: ctx.session.user.email,
+            user_id: " ",
+            subscriptionStatus: false,
+            metadata: " ",
+            price_id: line_item.price,
+            // number of days
+            NumberOfBoughtDays: input.number_of_days,
+            cancel_at_period_end: false,
+            created_at: new Date(),
+            currentPeriod_start: new Date(),
+            currentPeriod_end: new Date(),
+            SessionID: sesh.id,
+            priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
+            packageName: input.number_of_days + " DAYS",
+            description: input.number_of_days + " DAYS",
+            price: input.number_of_days * 40,
+          },
+          create: {
             userEmail: ctx.session.user.email,
             user_id: " ",
             subscriptionStatus: false,
