@@ -81,6 +81,10 @@ const webhookHandler = async (req: NextRequest) => {
         const currentPeriod_endDate = new Date(
           subscription_in_stripe_db.current_period_end,
         );
+        console.log("print end and start date for stripe");
+        console.log(currentPeriod_startDate);
+        console.log(currentPeriod_endDate);
+
         // const ended_atDate = new Date(subscription_in_stripe_db.ended_at!);
         // const cancel_atDate = new Date(subscription_in_stripe_db.created);
         // const cancelled_atDate = new Date(subscription_in_stripe_db.created);
@@ -94,6 +98,7 @@ const webhookHandler = async (req: NextRequest) => {
             // might delete this in future version,
             //since metadata seems to be giving errors here
             // metadata: Stripe_Metadata,
+            // isActive: true,
             user_id: customerID as string,
             customerID: customerID as string,
             subscriptionID: subscriptionID as string,

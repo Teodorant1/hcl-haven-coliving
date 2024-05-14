@@ -192,6 +192,7 @@ model subscription  {
     user_id              String   //pretty much everything bellow this we get from Stripe API
     subscriptionStatus   Boolean
     isCheckedIn          Boolean @default(false)
+    //accidentally added because I forgot about subscriptionStatus, need to delete before going live into production
     isActive             Boolean @default(false)
     metadata             String // needs to be json
     price_id             String
