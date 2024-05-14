@@ -10,6 +10,7 @@ import {
   get_available_room_types,
   book_a_room,
   getReservations,
+  GetStatusOfSubcsription,
 } from "utilitiesBackend";
 import { type recentReservations } from "project-types";
 
@@ -224,7 +225,13 @@ export const bookingRouter = createTRPCRouter({
 
     console.log(guestDetails.data.email);
   }),
-
+  GetSubscription: protectedProcedure.query(async ({ ctx, input }) => {
+    const subscription = await GetStatusOfSubcsription(ctx.session.user.email);
+    // const subscription = await GetStatusOfSubcsription(
+    //   "ctx.session.user.email",
+    // );
+    return subscription;
+  }),
   // in this method we need to add a user to a room, and
   // if the user doesn't exist, add them to cloudbeds table
   // ( ours and cloudbeds db)

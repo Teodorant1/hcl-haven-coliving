@@ -12,9 +12,9 @@ export function RecentSales(reservations: recentReservations) {
       {reservations.data && reservations.data.length > 0 && (
         <>
           {reservations.data.map((reservation, index) => (
-            <>
+            <div key={reservation.id}>
               {index < 10 && (
-                <div key={reservation.id} className="flex items-center">
+                <div className="flex items-center">
                   {/* <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border">
                   <AvatarImage src="/avatars/02.png" alt="Avatar" />
                   <AvatarFallback>JL</AvatarFallback>
@@ -46,7 +46,7 @@ export function RecentSales(reservations: recentReservations) {
                   </div>
                 </div>
               )}{" "}
-            </>
+            </div>
           ))}
         </>
       )}

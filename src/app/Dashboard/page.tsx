@@ -39,6 +39,7 @@ export default function DashboardPage() {
     to: addDays(new Date(), 7),
   });
   const myreservations = api.booking.getMyReservations.useQuery();
+  const subscription = api.booking.GetSubscription.useQuery();
 
   // const Update_all_reservations =
   //   api.booking.Update_all_reservations.useMutation({
@@ -55,6 +56,15 @@ export default function DashboardPage() {
   return (
     <>
       {" "}
+      <button
+        onClick={() => {
+          console.log(subscription.data);
+        }}
+        className="m-5 bg-black p-5 text-white"
+      >
+        {" "}
+        LOG MY SUBSCRIPTION{" "}
+      </button>{" "}
       {/* <button
         onClick={() => {
           console.log(myreservations.data);
