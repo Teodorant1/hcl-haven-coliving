@@ -82,8 +82,8 @@ const webhookHandler = async (req: NextRequest) => {
           subscription_in_stripe_db.current_period_end,
         );
         console.log("print end and start date for stripe");
-        console.log(currentPeriod_startDate);
-        console.log(currentPeriod_endDate);
+        console.log(currentPeriod_startDate.toDateString());
+        console.log(currentPeriod_endDate.toDateString());
 
         // const ended_atDate = new Date(subscription_in_stripe_db.ended_at!);
         // const cancel_atDate = new Date(subscription_in_stripe_db.created);
@@ -103,8 +103,9 @@ const webhookHandler = async (req: NextRequest) => {
             customerID: customerID as string,
             subscriptionID: subscriptionID as string,
             created_at: createdAtDate,
-            currentPeriod_end: currentPeriod_endDate,
-            currentPeriod_start: currentPeriod_startDate,
+            //uncomment the code bellow when we have confirmed that Stripe devs have stopped huffing their own kool aid
+            // currentPeriod_end: currentPeriod_endDate,
+            // currentPeriod_start: currentPeriod_startDate,
           },
         });
 
