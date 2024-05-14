@@ -120,7 +120,7 @@ export function InnerApplication_form() {
       .from("images")
       .upload("public/" + employeeid + selectedFile!.name, selectedFile!, {
         cacheControl: "3600",
-        upsert: false,
+        upsert: true,
       });
 
     applytoPilot.mutate({

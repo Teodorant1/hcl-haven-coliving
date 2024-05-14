@@ -1,4 +1,10 @@
+/* eslint-disable @typescript-eslint/prefer-optional-chain */
 import moment from "moment-timezone";
+import { type subscription } from "@prisma/client";
+
+export function Confirm_if_IsCheckedIn(subscription: subscription) {
+  return subscription && subscription.isCheckedIn;
+}
 
 export function convert_date_string_to_DATE(dateString: string) {
   const dateParts = dateString.split("-"); // Split the string into an array of parts

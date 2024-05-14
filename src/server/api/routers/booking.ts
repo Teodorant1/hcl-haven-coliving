@@ -51,6 +51,14 @@ export const bookingRouter = createTRPCRouter({
           cancel_url: process.env.NEXT_PUBLIC_VERCEL_URL! + "/FAIL",
           metadata: stripeMetada,
         });
+
+        // Create a Date object for the current day
+        const currentDate = new Date();
+
+        // Create a Date object for 30 days ahead
+        const futureDate = new Date();
+        futureDate.setDate(futureDate.getDate() + 30);
+
         await ctx.db.subscription.upsert({
           where: { userEmail: ctx.session.user.email },
           update: {
@@ -62,9 +70,9 @@ export const bookingRouter = createTRPCRouter({
             // number of days
             NumberOfBoughtDays: input.number_of_days,
             cancel_at_period_end: false,
-            created_at: new Date(),
-            currentPeriod_start: new Date(),
-            currentPeriod_end: new Date(),
+            created_at: currentDate,
+            currentPeriod_start: currentDate,
+            currentPeriod_end: futureDate,
             SessionID: sesh.id,
             priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
             packageName: input.number_of_days + " DAYS",
@@ -80,9 +88,9 @@ export const bookingRouter = createTRPCRouter({
             // number of days
             NumberOfBoughtDays: input.number_of_days,
             cancel_at_period_end: false,
-            created_at: new Date(),
-            currentPeriod_start: new Date(),
-            currentPeriod_end: new Date(),
+            created_at: currentDate,
+            currentPeriod_start: currentDate,
+            currentPeriod_end: futureDate,
             SessionID: sesh.id,
             priceID: "price_1P3OGbJsSW6jGUhshqmG2tYP",
             packageName: input.number_of_days + " DAYS",

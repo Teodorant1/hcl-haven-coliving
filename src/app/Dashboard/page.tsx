@@ -25,6 +25,7 @@ import { CalendarDateRangePicker } from "../_components/date-range-picker";
 import { type DateRange } from "react-day-picker";
 import React from "react";
 import { api } from "@/trpc/react";
+import { Confirm_if_IsCheckedIn } from "utilities";
 
 export default function DashboardPage() {
   const { status, data: session } = useSession();
@@ -207,12 +208,13 @@ export default function DashboardPage() {
                   </TabsList>
                   <TabsContent value="overview" className="space-y-4">
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                      <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                          <CardTitle className="text-sm font-medium">
-                            Nights included{" "}
-                          </CardTitle>
-                          {/* <svg
+                      {subscription.data && (
+                        <Card>
+                          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                              Nights included{" "}
+                            </CardTitle>
+                            {/* <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="none"
@@ -224,14 +226,20 @@ export default function DashboardPage() {
                           >
                             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                           </svg> */}
-                        </CardHeader>
-                        <CardContent>
-                          <div className="text-2xl font-bold">$45 nights</div>
-                          <p className="text-xs text-muted-foreground">
-                            from DATE1 to DATE2
-                          </p>
-                        </CardContent>
-                      </Card>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="text-2xl font-bold">
+                              {subscription.data.NumberOfBoughtDays} nights
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              from{" "}
+                              {subscription.data.currentPeriod_start.toDateString()}{" "}
+                              to{" "}
+                              {subscription.data.currentPeriod_end.toDateString()}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      )}{" "}
                       <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <CardTitle className="text-sm font-medium">
