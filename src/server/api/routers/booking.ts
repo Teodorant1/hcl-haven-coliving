@@ -67,7 +67,7 @@ export const bookingRouter = createTRPCRouter({
           update: {
             userEmail: ctx.session.user.email,
             user_id: " ",
-            subscriptionStatus: false,
+            // subscriptionStatus: false,
             metadata: " ",
             price_id: line_item.price,
             // number of days
