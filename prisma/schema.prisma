@@ -192,6 +192,7 @@ model subscription  {
     user_id              String   //pretty much everything bellow this we get from Stripe API
     subscriptionStatus   Boolean
     isCheckedIn          Boolean @default(false)
+    isActive             Boolean @default(false)
     metadata             String // needs to be json
     price_id             String
     //number of days you can stay in the hostel
