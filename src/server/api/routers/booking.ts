@@ -59,6 +59,9 @@ export const bookingRouter = createTRPCRouter({
         const futureDate = new Date();
         futureDate.setDate(futureDate.getDate() + 30);
 
+        console.log(currentDate);
+        console.log(futureDate);
+
         await ctx.db.subscription.upsert({
           where: { userEmail: ctx.session.user.email },
           update: {
