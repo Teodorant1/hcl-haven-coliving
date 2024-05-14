@@ -102,8 +102,8 @@ const webhookHandler = async (req: NextRequest) => {
             user_id: customerID as string,
             customerID: customerID as string,
             subscriptionID: subscriptionID as string,
-            created_at: createdAtDate,
             //uncomment the code bellow when we have confirmed that Stripe devs have stopped huffing their own kool aid
+            //  created_at: createdAtDate,
             // currentPeriod_end: currentPeriod_endDate,
             // currentPeriod_start: currentPeriod_startDate,
           },
