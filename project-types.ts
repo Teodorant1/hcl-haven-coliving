@@ -1,6 +1,16 @@
 import { type Decimal } from "@prisma/client/runtime/library";
 import { type DateRange } from "react-day-picker";
-import { type cloudbeds_reservation } from "@prisma/client";
+import { type cloudbeds_reservation, type spent_day } from "@prisma/client";
+
+export type recharts_month = {
+  name: string;
+  total: number;
+};
+
+export type recharts_yearly_breakdown = {
+  year: number;
+  month_hashmap: Map<string, spent_day[]>;
+};
 
 export type recentReservations = {
   success: boolean;

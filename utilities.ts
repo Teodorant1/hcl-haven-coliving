@@ -65,7 +65,6 @@ export function Calculate_number_of_days_between_two_dates(
 
 export function getPrettierDate(myDate: Date) {
   // Get the day and month
-  const month: number = myDate.getMonth(); // 0 (January) to 11 (December)
   const monthsNames: string[] = [
     "January",
     "February",
@@ -80,6 +79,7 @@ export function getPrettierDate(myDate: Date) {
     "November",
     "December",
   ];
+  const month: number = myDate.getMonth(); // 0 (January) to 11 (December)
 
   const dayName: number = myDate.getDate();
   const monthName: string = monthsNames[month]!;

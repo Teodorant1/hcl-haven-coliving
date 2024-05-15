@@ -222,11 +222,6 @@ model subscription  {
       id                  String      @id @default(cuid())
       user_email          String
       day_of_consumption  DateTime   @default(now())
-    //   dateBought          DateTime
-    //   CurrentCycleStart   DateTime
-    //   CurrentCycleEnd     DateTime
-    //   numberOfDaysBought  Int
-    //   DaysUsed            Int
   }
 
 // model SubscriptionPlans {

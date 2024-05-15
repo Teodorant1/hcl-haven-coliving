@@ -18,6 +18,7 @@ import {
   type getReservations_result,
   type getSingle_reservation_result,
 } from "project-types";
+import { spent_day } from "@prisma/client";
 
 export async function Get_Validity_Of_reservation(reservationID: string) {
   const reservation = await get_singular_reservation(reservationID);
@@ -246,6 +247,46 @@ export async function Stripe_PeriodBookkeeping() {
   return "monthy python";
 }
 
+export async function analyze_usage(user_email: string, year: number) {
+  const spent_days = await db.spent_day.findMany({
+    where: { user_email: user_email },
+  });
+  const monthsNames: string[] = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const OverView_data: {
+    name: string;
+    total: number;
+  }[] = [];
+
+  const spent_days_yearly_collection: spent_day[] = [];
+
+  const hashmap = new Map<number, string>();
+
+  const hashObj = {
+    paloi: "sdfkjn",
+    hashmap1: hashmap,
+  };
+
+  for (let i = 0; i < spent_days.length; i++) {
+    const year = spent_days[i]?.day_of_consumption.getFullYear();
+    const dayName = spent_days[i]?.day_of_consumption.getDate();
+    const month = spent_days[i]?.day_of_consumption.getMonth(); // 0 (January) to 11 (December)
+  }
+  return spent_days;
+}
+
 export async function handle_room_usage_metrics() {
   const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
   await resend.emails.send({
@@ -274,6 +315,12 @@ export async function handle_room_usage_metrics() {
       await db.subscription.update({
         where: { userEmail: reservations[i]?.userEmail },
         data: { daysUsed: reservations[i]!.daysUsed + 1 },
+      });
+
+      await db.spent_day.create({
+        data: {
+          user_email: reservations[i]!.userEmail,
+        },
       });
     }
   }
