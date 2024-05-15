@@ -218,15 +218,16 @@ model subscription  {
 } 
 
 // we need to update this via cron job
-//  model Usage {
-//      id                  String      @id @default(cuid())
-//      emailID             String
-//      dateBought          DateTime
-//      CurrentCycleStart   DateTime
-//      CurrentCycleEnd     DateTime
-//      numberOfDaysBought  Int
-//      DaysUsed            Int
-//  }
+  model spent_day {
+      id                  String      @id @default(cuid())
+      user_email          String
+      day_of_consumption  DateTime   @default(now())
+    //   dateBought          DateTime
+    //   CurrentCycleStart   DateTime
+    //   CurrentCycleEnd     DateTime
+    //   numberOfDaysBought  Int
+    //   DaysUsed            Int
+  }
 
 // model SubscriptionPlans {
 //     id                  String      @id @default(cuid())
