@@ -207,9 +207,8 @@ model subscription  {
     cancelled_at         DateTime?
     trial_start          DateTime?
     trial_end            DateTime?
-
     lastTimeUpdated      DateTime @default(now())
-
+    reservationID        String? 
     priceID             String
     packageName         String
     description         String

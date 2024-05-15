@@ -19,6 +19,14 @@ import {
   type getSingle_reservation_result,
 } from "project-types";
 
+export async function Get_Validity_Of_reservation(reservationID: string) {
+  const reservation = await get_singular_reservation(reservationID);
+  if (reservation.success === true) {
+    return true;
+  }
+  return false;
+}
+
 //this function will be used to figure out how much someone has paid for their membership
 // and how much time they have available and how much time
 export async function GetStatusOfSubcsription(email: string) {
@@ -155,15 +163,19 @@ export async function getImprovSession(email: string): Promise<{
 
 export async function Stripe_PeriodBookkeeping() {
   const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
-
   //get all subscriptions
   const subscriptions = await db.subscription.findMany({
     // where: {
     //   subscriptionStatus: false,
     // },
   });
-
   const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
+  await resend.emails.send({
+    from: "Acme <onboarding@e.tailwindclub.org>",
+    to: "dusanbojanic1@gmail.com",
+    subject: "Commencing Stripe_PeriodBookkeeping CRON JOB ",
+    html: "<p>Commencing Stripe_PeriodBookkeeping CRON JOB</p>",
+  });
 
   //for each sub
   for (let i = 0; i < subscriptions.length; i++) {
@@ -235,7 +247,15 @@ export async function Stripe_PeriodBookkeeping() {
 }
 
 export async function handle_room_usage_metrics() {
-  const reservations = await db.cloudbeds_reservation.findMany({
+  const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
+  await resend.emails.send({
+    from: "Acme <onboarding@e.tailwindclub.org>",
+    to: "dusanbojanic1@gmail.com",
+    subject: "Commencing handle_room_usage_metrics CRON JOB ",
+    html: "<p>Commencing handle_room_usage_metrics CRON JOB</p>",
+  });
+
+  const reservations = await db.subscription.findMany({
     where: {
       isCheckedIn: true,
     },
@@ -251,6 +271,10 @@ export async function handle_room_usage_metrics() {
     ) {
       //  console.log("these happened on different days");
       // add 1 day of usage
+      await db.subscription.update({
+        where: { userEmail: reservations[i]?.userEmail },
+        data: { daysUsed: reservations[i]!.daysUsed + 1 },
+      });
     }
   }
 }

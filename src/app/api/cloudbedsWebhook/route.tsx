@@ -3,7 +3,11 @@ import { type NextRequest, NextResponse } from "next/server";
 import { db } from "@/server/db";
 import { type Cloudbeds_webhook_APIresponse } from "project-types";
 import { convert_date_string_to_DATE } from "utilities";
-import { get_singular_reservation, GetGuestDetails } from "utilitiesBackend";
+import {
+  get_singular_reservation,
+  GetGuestDetails,
+  Get_Validity_Of_reservation,
+} from "utilitiesBackend";
 
 export async function POST(req: NextRequest) {
   console.log("reqis");
@@ -27,6 +31,14 @@ export async function POST(req: NextRequest) {
       const end_date = convert_date_string_to_DATE(
         CLOUDBEDS_WEBHOOK_RESPONSE.endDate!,
       );
+
+      const ReservationValidity = await Get_Validity_Of_reservation(
+        CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
+      );
+
+      if (ReservationValidity === false) {
+        break;
+      }
 
       await db.cloudbeds_reservation.create({
         data: {
