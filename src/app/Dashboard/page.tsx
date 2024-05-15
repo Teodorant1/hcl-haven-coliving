@@ -240,12 +240,13 @@ export default function DashboardPage() {
                           </CardContent>
                         </Card>
                       )}{" "}
-                      <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                          <CardTitle className="text-sm font-medium">
-                            Subscriptions
-                          </CardTitle>
-                          {/* <svg
+                      {subscription.data && (
+                        <Card>
+                          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                              Nights Used (This Period)
+                            </CardTitle>
+                            {/* <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="none"
@@ -259,20 +260,27 @@ export default function DashboardPage() {
                             <circle cx="9" cy="7" r="4" />
                             <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
                           </svg> */}
-                        </CardHeader>
-                        <CardContent>
-                          <div className="text-2xl font-bold">+2350</div>
-                          <p className="text-xs text-muted-foreground">
-                            +180.1% from last month
-                          </p>
-                        </CardContent>
-                      </Card>
-                      <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                          <CardTitle className="text-sm font-medium">
-                            Sales
-                          </CardTitle>
-                          {/* <svg
+                          </CardHeader>
+                          <CardContent>
+                            <div className="text-2xl font-bold">
+                              {subscription.data.daysUsed}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              {(subscription.data.daysUsed /
+                                subscription.data.NumberOfBoughtDays) *
+                                100}
+                              {"% of plan "}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      )}
+                      {subscription.data && (
+                        <Card>
+                          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                              Plan Cost
+                            </CardTitle>
+                            {/* <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="none"
@@ -285,20 +293,30 @@ export default function DashboardPage() {
                             <rect width="20" height="14" x="2" y="5" rx="2" />
                             <path d="M2 10h20" />
                           </svg> */}
-                        </CardHeader>
-                        <CardContent>
-                          <div className="text-2xl font-bold">+12,234</div>
-                          <p className="text-xs text-muted-foreground">
-                            +19% from last month
-                          </p>
-                        </CardContent>
-                      </Card>
-                      <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                          <CardTitle className="text-sm font-medium">
-                            Active Now
-                          </CardTitle>
-                          {/* <svg
+                          </CardHeader>
+                          <CardContent>
+                            <div className="text-2xl font-bold">
+                              {"$" + subscription.data.price + "/month"}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              {subscription.data.price < 1000 && (
+                                <>
+                                  {"$55 / night over " +
+                                    subscription.data.NumberOfBoughtDays +
+                                    " nights "}
+                                </>
+                              )}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      )}
+                      {subscription.data && (
+                        <Card>
+                          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                              Current Status{" "}
+                            </CardTitle>
+                            {/* <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="none"
@@ -310,14 +328,25 @@ export default function DashboardPage() {
                           >
                             <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                           </svg> */}
-                        </CardHeader>
-                        <CardContent>
-                          <div className="text-2xl font-bold">+573</div>
-                          <p className="text-xs text-muted-foreground">
-                            +201 since last hour
-                          </p>
-                        </CardContent>
-                      </Card>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="text-2xl font-bold">
+                              {" "}
+                              {subscription.data.isCheckedIn === false && (
+                                <>Not Checked In</>
+                              )}{" "}
+                              {subscription.data.isCheckedIn === true && (
+                                <>Checked In</>
+                              )}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              {subscription.data.isCheckedIn === false && (
+                                <>Schedule New Stay</>
+                              )}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      )}
                     </div>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                       <Card className="col-span-4">
