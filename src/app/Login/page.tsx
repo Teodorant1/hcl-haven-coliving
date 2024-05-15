@@ -22,13 +22,13 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/");
+      router.push("/Dashboard");
     }
   }, []);
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/");
+      router.push("/Dashboard");
     }
   }, [session]);
 
@@ -52,7 +52,7 @@ export default function LoginPage() {
       await signIn("credentials", {
         ...data,
         redirect: true,
-        callbackUrl: "/",
+        callbackUrl: "/Dashboard",
       }).then(() => {
         // router.push("/");
         setloginSucceeded(true);
@@ -139,7 +139,7 @@ export default function LoginPage() {
             <Button
               onClick={async () => {
                 // router.push("/api/auth/signin");
-                await signIn("google");
+                await signIn("google", { callbackUrl: "/Dashboard" });
               }}
               variant="outline"
               type="button"

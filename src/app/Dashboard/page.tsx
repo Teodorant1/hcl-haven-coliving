@@ -24,10 +24,13 @@ import { useSession } from "next-auth/react";
 import { CalendarDateRangePicker } from "../_components/date-range-picker";
 import { type DateRange } from "react-day-picker";
 import React from "react";
+import { useEffect } from "react";
+
 import { api } from "@/trpc/react";
-import { Confirm_if_IsCheckedIn } from "utilities";
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
+  const router = useRouter();
   const { status, data: session } = useSession();
   const [stage, setstage] = useState<string | undefined>("1");
   // const [currentDate, setcurrentDate] = useState<Date | undefined>(new Date());
@@ -41,6 +44,18 @@ export default function DashboardPage() {
   });
   const myreservations = api.booking.getMyReservations.useQuery();
   const subscription = api.booking.GetSubscription.useQuery();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [session]);
 
   // const Update_all_reservations =
   //   api.booking.Update_all_reservations.useMutation({
