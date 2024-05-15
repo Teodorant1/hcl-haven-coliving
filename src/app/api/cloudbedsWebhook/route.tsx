@@ -210,6 +210,7 @@ export async function POST(req: NextRequest) {
       await db.subscription.update({
         where: {
           userEmail: guestDetails.data.email,
+          reservationID: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
         },
         data: { isCheckedIn: true },
       });
