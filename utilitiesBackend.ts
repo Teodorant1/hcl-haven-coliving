@@ -17,6 +17,7 @@ import {
   type propertyRoom,
   type getReservations_result,
   type getSingle_reservation_result,
+  recharts_yearly_breakdown,
 } from "project-types";
 import { spent_day } from "@prisma/client";
 
@@ -270,13 +271,11 @@ export async function analyze_usage(user_email: string, year: number) {
     total: number;
   }[] = [];
 
-  const spent_days_yearly_collection: spent_day[] = [];
+  const hashmap_of_spent_days = new Map<string, spent_day[]>();
 
-  const hashmap = new Map<number, string>();
-
-  const hashObj = {
-    paloi: "sdfkjn",
-    hashmap1: hashmap,
+  const spent_days_yearly_collection: recharts_yearly_breakdown = {
+    year: year,
+    month_hashmap: hashmap_of_spent_days,
   };
 
   for (let i = 0; i < spent_days.length; i++) {
