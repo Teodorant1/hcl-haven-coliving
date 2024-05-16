@@ -2,6 +2,18 @@
 import moment from "moment-timezone";
 import { type subscription } from "@prisma/client";
 
+export function Date_isBetween_other_dates(
+  Date_toCheck: Date,
+  firstDate: Date,
+  secondDate: Date,
+) {
+  if (Date_toCheck > firstDate && Date_toCheck < secondDate) {
+    return true;
+  }
+
+  return false;
+}
+
 export function Confirm_if_IsCheckedIn(subscription: subscription) {
   return subscription && subscription.isCheckedIn;
 }

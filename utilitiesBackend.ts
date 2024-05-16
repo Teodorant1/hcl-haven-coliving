@@ -17,9 +17,9 @@ import {
   type propertyRoom,
   type getReservations_result,
   type getSingle_reservation_result,
-  recharts_yearly_breakdown,
+  type recharts_yearly_breakdown,
 } from "project-types";
-import { spent_day } from "@prisma/client";
+import { type spent_day } from "@prisma/client";
 
 export async function Get_Validity_Of_reservation(reservationID: string) {
   const reservation = await get_singular_reservation(reservationID);
@@ -168,9 +168,9 @@ export async function Stripe_PeriodBookkeeping() {
   //get all subscriptions
 
   const subscriptions = await db.subscription.findMany({
-    // where: {
-    //   subscriptionStatus: false,
-    // },
+    where: {
+      subscriptionStatus: true,
+    },
   });
 
   const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);

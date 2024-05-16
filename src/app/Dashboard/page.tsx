@@ -25,9 +25,9 @@ import { CalendarDateRangePicker } from "../_components/date-range-picker";
 import { type DateRange } from "react-day-picker";
 import React from "react";
 import { useEffect } from "react";
-
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import { Date_isBetween_other_dates } from "utilities";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -38,6 +38,7 @@ export default function DashboardPage() {
   const [CBEDS_response, setCBEDS_response] = useState<
     Cloudbeds_post_reservation_RESPONSE | undefined
   >();
+  const [currentDate, setcurrentDate] = React.useState<Date>(new Date());
   const [dateRange, setdateRange] = React.useState<DateRange | undefined>({
     from: addDays(new Date(), 0),
     to: addDays(new Date(), 7),
@@ -181,6 +182,16 @@ export default function DashboardPage() {
                 </div>
               </div> */}
               <div className="flex-1 space-y-4 p-8 pt-6">
+                {Date_isBetween_other_dates(
+                  currentDate,
+                  currentDate,
+                  currentDate,
+                ) && <>false</>}{" "}
+                {Date_isBetween_other_dates(
+                  currentDate,
+                  currentDate,
+                  currentDate,
+                ) && <>true</>}
                 <div className="flex items-center justify-between space-y-2">
                   <h2 className="text-3xl font-bold tracking-tight">
                     Dashboard

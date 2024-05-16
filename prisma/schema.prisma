@@ -133,6 +133,7 @@ model cloudbeds_reservation {
     number_of_guests   Int?
     roomNumber         String?
 
+
     queueTaskID        Int?
     guestID            String?
     propertyID         Int?
@@ -213,6 +214,9 @@ model subscription  {
     packageName         String
     description         String
     price               Int
+
+    check_in           DateTime?
+    check_out          DateTime?
 
     daysUsed             Int       @default(0)
 } 
