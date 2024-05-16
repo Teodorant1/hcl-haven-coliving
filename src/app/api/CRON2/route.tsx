@@ -4,7 +4,7 @@ import { handle_room_usage_metrics } from "utilitiesBackend";
 
 export async function GET(req: NextRequest) {
   console.log("starting cron2");
-
+  console.log("starting cron2");
   await handle_room_usage_metrics();
 
   return NextResponse.json({ received: true, status: 200 });
