@@ -166,83 +166,93 @@ export async function getImprovSession(email: string): Promise<{
 export async function Stripe_PeriodBookkeeping() {
   const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
   //get all subscriptions
+
   const subscriptions = await db.subscription.findMany({
     // where: {
     //   subscriptionStatus: false,
     // },
   });
+
   const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
-  await resend.emails.send({
-    from: "Acme <onboarding@e.tailwindclub.org>",
-    to: "dusanbojanic1@gmail.com",
-    subject: "Commencing Stripe_PeriodBookkeeping CRON JOB ",
-    html: "<p>Commencing Stripe_PeriodBookkeeping CRON JOB</p>",
-  });
+
+  // await resend.emails.send({
+  //   from: "Acme <onboarding@e.tailwindclub.org>",
+  //   to: "@gmail.com",
+  //   subject: "Commencing Stripe_PeriodBookkeeping CRON JOB ",
+  //   html: "<p>Commencing Stripe_PeriodBookkeeping CRON JOB</p>",
+  // });
 
   //for each sub
   for (let i = 0; i < subscriptions.length; i++) {
-    const subID = subscriptions[i]?.subscriptionID;
-    const subscription_in_stripe_db = await stripe.subscriptions.retrieve(
-      subID!,
-    );
+    // if the user actually has a valid subscription
+    if (subscriptions[i]?.subscriptionID) {
+      const subID = subscriptions[i]?.subscriptionID;
+      const subscription_in_stripe_db = await stripe.subscriptions.retrieve(
+        subID!,
+      );
 
-    const latestInvoiceID = subscription_in_stripe_db.latest_invoice;
+      const latestInvoiceID = subscription_in_stripe_db.latest_invoice;
 
-    const invoice_in_stripe_db = await stripe.invoices.retrieve(
-      latestInvoiceID as string,
-    );
+      const invoice_in_stripe_db = await stripe.invoices.retrieve(
+        latestInvoiceID as string,
+      );
 
-    const amountRemaining: number = invoice_in_stripe_db.amount_remaining;
-    const amountPaid: number = invoice_in_stripe_db.amount_paid;
-    const amountDue: number = invoice_in_stripe_db.amount_due;
-    const isPaid: boolean = invoice_in_stripe_db.paid;
+      const amountRemaining: number = invoice_in_stripe_db.amount_remaining;
+      const amountPaid: number = invoice_in_stripe_db.amount_paid;
+      const amountDue: number = invoice_in_stripe_db.amount_due;
+      const isPaid: boolean = invoice_in_stripe_db.paid;
 
-    const currentPeriod_startDate = new Date(
-      subscription_in_stripe_db.current_period_start,
-    );
-    const currentPeriod_endDate = new Date(
-      subscription_in_stripe_db.current_period_end,
-    );
+      const currentPeriod_startDate = new Date(
+        subscription_in_stripe_db.current_period_start,
+      );
+      const currentPeriod_endDate = new Date(
+        subscription_in_stripe_db.current_period_end,
+      );
 
-    if (amountRemaining === 0 && amountDue === amountPaid && isPaid === true) {
-      await db.subscription.updateMany({
-        where: { subscriptionID: subID },
-        data: {
-          subscriptionStatus: true,
-          currentPeriod_end: currentPeriod_endDate,
-          currentPeriod_start: currentPeriod_startDate,
-        },
-      });
-    } else {
-      await db.subscription.updateMany({
-        where: { subscriptionID: subID },
-        data: {
-          subscriptionStatus: false,
-          // currentPeriod_end: currentPeriod_endDate,
-          // currentPeriod_start: currentPeriod_startDate,
-        },
-      });
+      if (
+        amountRemaining === 0 &&
+        amountDue === amountPaid &&
+        isPaid === true
+      ) {
+        await db.subscription.updateMany({
+          where: { subscriptionID: subID },
+          data: {
+            subscriptionStatus: true,
+            currentPeriod_end: currentPeriod_endDate,
+            currentPeriod_start: currentPeriod_startDate,
+          },
+        });
+      } else {
+        await db.subscription.updateMany({
+          where: { subscriptionID: subID },
+          data: {
+            subscriptionStatus: false,
+            // currentPeriod_end: currentPeriod_endDate,
+            // currentPeriod_start: currentPeriod_startDate,
+          },
+        });
 
-      await resend.emails.send({
-        from: "Acme <onboarding@e.tailwindclub.org>",
-        to: process.env.NEXT_PRIVATE_ADMIN_EMAIL!,
-        subject: "WARNING , something has gone wrong with a subscription",
-        html:
-          "<p>Something has gone wrong with the subscription with id: " +
-          subscriptions[i]!.id +
-          " and email: " +
-          subscriptions[i]!.userEmail +
-          " , you should investigate this matter</p>",
-      });
+        await resend.emails.send({
+          from: "Acme <onboarding@e.tailwindclub.org>",
+          to: process.env.NEXT_PRIVATE_ADMIN_EMAIL!,
+          subject: "WARNING , something has gone wrong with a subscription",
+          html:
+            "<p>Something has gone wrong with the subscription with id: " +
+            subscriptions[i]!.id +
+            " and email: " +
+            subscriptions[i]!.userEmail +
+            " , you should investigate this matter</p>",
+        });
+      }
+
+      // with STRIPE npm package check if last payment happened LESS THAN 30 days ago
+      //maybe add some checks for weird daylight savings stuff
+      //then check the status of the latest invoice
+      //if invoice is valid, update the  subscription in db
+      // const date = subscriptions[i]?.currentPeriod_start;
+
+      await sleep(60); // Pause for 1000 milliseconds (1 seconds)
     }
-
-    // with STRIPE npm package check if last payment happened LESS THAN 30 days ago
-    //maybe add some checks for weird daylight savings stuff
-    //then check the status of the latest invoice
-    //if invoice is valid, update the  subscription in db
-    // const date = subscriptions[i]?.currentPeriod_start;
-
-    await sleep(60); // Pause for 1000 milliseconds (1 seconds)
   }
 
   return "monthy python";
@@ -287,13 +297,13 @@ export async function analyze_usage(user_email: string, year: number) {
 }
 
 export async function handle_room_usage_metrics() {
-  const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
-  await resend.emails.send({
-    from: "Acme <onboarding@e.tailwindclub.org>",
-    to: "dusanbojanic1@gmail.com",
-    subject: "Commencing handle_room_usage_metrics CRON JOB ",
-    html: "<p>Commencing handle_room_usage_metrics CRON JOB</p>",
-  });
+  // const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
+  // await resend.emails.send({
+  //   from: "Acme <onboarding@e.tailwindclub.org>",
+  //   to: "dusanbojanic1@gmail.com",
+  //   subject: "Commencing handle_room_usage_metrics CRON JOB ",
+  //   html: "<p>Commencing handle_room_usage_metrics CRON JOB</p>",
+  // });
 
   const reservations = await db.subscription.findMany({
     where: {
