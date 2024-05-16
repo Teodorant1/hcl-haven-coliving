@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { Stripe_PeriodBookkeeping } from "utilitiesBackend";
 
-export async function GET() {
+export async function POST(req: NextRequest) {
   console.log("starting cron1");
   console.log("starting cron1");
   await Stripe_PeriodBookkeeping();
