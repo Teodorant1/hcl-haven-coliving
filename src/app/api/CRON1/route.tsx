@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { type NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { Stripe_PeriodBookkeeping } from "utilitiesBackend";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   console.log("starting cron1");
   await Stripe_PeriodBookkeeping();
 
