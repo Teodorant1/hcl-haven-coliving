@@ -14,3 +14,7 @@ export default async function handler() {
     });
   }
 }
+
+// "schedule": "0 5 * * *"
+
+// "schedule": "0 6 * * *"
