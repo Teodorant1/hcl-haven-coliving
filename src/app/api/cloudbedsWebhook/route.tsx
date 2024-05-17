@@ -175,6 +175,9 @@ export async function POST(req: NextRequest) {
         CLOUDBEDS_WEBHOOK_RESPONSE.guestId!,
       );
 
+      console.log("guest/assigned  guestDetails");
+      console.log(guestDetails);
+
       const myReservation = await get_singular_reservation(
         CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
       );

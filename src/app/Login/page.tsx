@@ -52,7 +52,7 @@ export default function LoginPage() {
       await signIn("credentials", {
         ...data,
         redirect: true,
-        callbackUrl: "/Dashboard",
+        callbackUrl: "/",
       }).then(() => {
         // router.push("/");
         setloginSucceeded(true);
@@ -139,7 +139,7 @@ export default function LoginPage() {
             <Button
               onClick={async () => {
                 // router.push("/api/auth/signin");
-                await signIn("google", { callbackUrl: "/Dashboard" });
+                await signIn("google", { callbackUrl: "/" });
               }}
               variant="outline"
               type="button"

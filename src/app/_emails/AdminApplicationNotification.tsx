@@ -104,7 +104,7 @@ export const ApplicationNotificationUserEmail = ({
             <Section className="mb-[32px] mt-[32px] text-center">
               <Button
                 className="rounded bg-[#000000] px-5 py-3 text-center text-[12px] font-semibold text-white no-underline"
-                href={baseUrl + inviteLink}
+                href={"tailwindclub.org/Admin/ApplicationApprover"}
               >
                 Check out recent applications
               </Button>
@@ -112,10 +112,10 @@ export const ApplicationNotificationUserEmail = ({
             <Text className="text-[14px] leading-[24px] text-black">
               or copy and paste this URL into your browser:{" "}
               <Link
-                href={baseUrl + inviteLink}
+                href={"tailwindclub.org/Admin/ApplicationApprover"}
                 className="text-blue-600 no-underline"
               >
-                {baseUrl + inviteLink}
+                {"https://www.tailwindclub.org/Admin/ApplicationApprover"}
               </Link>
             </Text>
             <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
