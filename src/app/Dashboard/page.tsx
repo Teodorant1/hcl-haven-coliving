@@ -73,7 +73,7 @@ export default function DashboardPage() {
   return (
     <>
       {" "}
-      <button
+      {/* <button
         onClick={() => {
           console.log(subscription.data);
         }}
@@ -81,7 +81,7 @@ export default function DashboardPage() {
       >
         {" "}
         LOG MY SUBSCRIPTION{" "}
-      </button>{" "}
+      </button>{" "} */}
       {/* <button
         onClick={() => {
           console.log(myreservations.data);
@@ -182,16 +182,26 @@ export default function DashboardPage() {
                 </div>
               </div> */}
               <div className="flex-1 space-y-4 p-8 pt-6">
-                {Date_isBetween_other_dates(
-                  currentDate,
-                  currentDate,
-                  currentDate,
-                ) && <>false</>}{" "}
-                {Date_isBetween_other_dates(
-                  currentDate,
-                  currentDate,
-                  currentDate,
-                ) && <>true</>}
+                {/* {subscription.data &&
+                  subscription.data.check_in === null &&
+                  subscription.data.check_out === null && (
+                    <button className="m-5 bg-black p-5 text-white ">
+                      {Date_isBetween_other_dates(
+                        currentDate,
+                        subscription.data.check_in!,
+                        subscription.data.check_out!,
+                      ) === null && <>is null</>}{" "}
+                      false
+                    </button>
+                  )}{" "}
+                {subscription.data?.check_in && subscription.data.check_out && (
+                  // Date_isBetween_other_dates(
+                  //   currentDate,
+                  //   subscription.data!.check_in,
+                  //   subscription.data!.check_out,
+                  // ) &&
+                  <button className="m-5 bg-black p-5 text-white ">true</button>
+                )} */}
                 <div className="flex items-center justify-between space-y-2">
                   <h2 className="text-3xl font-bold tracking-tight">
                     Dashboard

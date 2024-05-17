@@ -207,13 +207,19 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      // const reservation = await db.cloudbeds_reservation.findUnique
+      const reservation = await db.cloudbeds_reservation.findUnique({
+        where: { reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId },
+      });
 
       await db.subscription.update({
         where: {
           userEmail: guestDetails.data.email,
         },
-        data: { reservationID: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId },
+        data: {
+          reservationID: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+          check_in: reservation?.check_in,
+          check_out: reservation?.check_out,
+        },
       });
       // await db.subscription.update({
       //   where: {

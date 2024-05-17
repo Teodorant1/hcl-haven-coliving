@@ -2,11 +2,18 @@
 import moment from "moment-timezone";
 import { type subscription } from "@prisma/client";
 
+// therefore we can use this to tell the page whether to render the check in,
+// check out button and book a stay button
+// we should also check the value of isCheckedIn
 export function Date_isBetween_other_dates(
   Date_toCheck: Date,
   firstDate: Date,
   secondDate: Date,
 ) {
+  if (firstDate === null && secondDate === null) {
+    return null;
+  }
+
   if (Date_toCheck > firstDate && Date_toCheck < secondDate) {
     return true;
   }
