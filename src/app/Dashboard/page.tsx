@@ -183,7 +183,7 @@ export default function DashboardPage() {
               </div> */}
               <div className="flex-1 space-y-4 p-8 pt-6">
                 {/* {subscription.data &&
-                  subscription.data.check_in === null &&
+                  subscription.data.check_in   === null &&
                   subscription.data.check_out === null && (
                     <button className="m-5 bg-black p-5 text-white ">
                       {Date_isBetween_other_dates(
@@ -202,33 +202,39 @@ export default function DashboardPage() {
                   // ) &&
                   <button className="m-5 bg-black p-5 text-white ">true</button>
                 )} */}
+
                 <div className="flex items-center justify-between space-y-2">
                   <h2 className="text-3xl font-bold tracking-tight">
                     Dashboard
-                  </h2>
-                  <div className="flex items-center space-x-2">
-                    <CalendarDateRangePicker
-                      date={dateRange}
-                      setDate={setdateRange}
-                      setStage={setstage}
-                      // CBEDS_response={CBEDS_response}
-                      // setCBEDS_response={setCBEDS_response}
-                    />
-                    {/* <Single_day_calendar
+                  </h2>{" "}
+                  {subscription.data &&
+                    !subscription.data.check_in &&
+                    !subscription.data.check_out && (
+                      <div className="flex items-center space-x-2">
+                        <CalendarDateRangePicker
+                          date={dateRange}
+                          setDate={setdateRange}
+                          setStage={setstage}
+                          // CBEDS_response={CBEDS_response}
+                          // setCBEDS_response={setCBEDS_response}
+                        />
+                        {/* <Single_day_calendar
                       date={date}
                       setDate={setDate}
                       setStage={setstage}
                       currentDate={currentDate}
                     /> */}
-                    <Button
-                      onClick={() => {
-                        setstage("2");
-                      }}
-                    >
-                      Book Stay
-                    </Button>{" "}
-                  </div>
+                        <Button
+                          onClick={() => {
+                            setstage("2");
+                          }}
+                        >
+                          Book Stay
+                        </Button>{" "}
+                      </div>
+                    )}
                 </div>
+
                 <Tabs defaultValue="overview" className="space-y-4">
                   <TabsList>
                     <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -346,13 +352,14 @@ export default function DashboardPage() {
                           </CardContent>
                         </Card>
                       )}
-                      {subscription.data && (
-                        <Card>
-                          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">
-                              Current Status{" "}
-                            </CardTitle>
-                            {/* <svg
+                      {subscription.data?.check_in &&
+                        subscription.data.check_out && (
+                          <Card>
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                              <CardTitle className="text-sm font-medium">
+                                Current Status{" "}
+                              </CardTitle>
+                              {/* <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="none"
@@ -364,25 +371,25 @@ export default function DashboardPage() {
                           >
                             <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                           </svg> */}
-                          </CardHeader>
-                          <CardContent>
-                            <div className="text-2xl font-bold">
-                              {" "}
-                              {subscription.data.isCheckedIn === false && (
-                                <>Not Checked In</>
-                              )}{" "}
-                              {subscription.data.isCheckedIn === true && (
-                                <>Checked In</>
-                              )}
-                            </div>
-                            <p className="text-xs text-muted-foreground">
-                              {subscription.data.isCheckedIn === false && (
-                                <>Schedule New Stay</>
-                              )}
-                            </p>
-                          </CardContent>
-                        </Card>
-                      )}
+                            </CardHeader>
+                            <CardContent>
+                              <div className="text-2xl font-bold">
+                                {" "}
+                                {subscription.data.isCheckedIn === false && (
+                                  <>Not Checked In</>
+                                )}{" "}
+                                {subscription.data.isCheckedIn === true && (
+                                  <>Checked In</>
+                                )}
+                              </div>
+                              <p className="text-xs text-muted-foreground">
+                                {subscription.data.isCheckedIn === false && (
+                                  <>Schedule New Stay</>
+                                )}
+                              </p>
+                            </CardContent>
+                          </Card>
+                        )}
                     </div>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                       <Card className="col-span-4">

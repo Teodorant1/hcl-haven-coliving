@@ -106,7 +106,7 @@ export const authRouter = createTRPCRouter({
         react: ApplicationNotificationUserEmail({
           invitedByUsername: ctx.session.user.email,
           invitedByEmail: ctx.session.user.email,
-          inviteLink: "/ApplicationApprover",
+          inviteLink: "Admin/ApplicationApprover",
         }),
       });
       // await resend.emails.send({

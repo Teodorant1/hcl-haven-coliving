@@ -282,6 +282,7 @@ export async function analyze_usage(user_email: string, year: number) {
   }[] = [];
 
   const hashmap_of_spent_days = new Map<string, spent_day[]>();
+  const hashmap_of_spent_days_numeric_months = new Map<number, spent_day[]>();
 
   const spent_days_yearly_collection: recharts_yearly_breakdown = {
     year: year,
