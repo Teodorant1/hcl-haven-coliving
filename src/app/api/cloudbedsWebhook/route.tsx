@@ -10,13 +10,7 @@ import {
 } from "utilitiesBackend";
 
 export async function POST(req: NextRequest) {
-  console.log("reqis");
-  console.log(req);
-  console.log(req.headers);
 
-  req.headers.forEach((header) => {
-    console.log(header);
-  });
 
   const body = await req.json();
   const CLOUDBEDS_WEBHOOK_RESPONSE: Cloudbeds_webhook_APIresponse = body;
