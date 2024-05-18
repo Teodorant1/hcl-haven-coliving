@@ -10,8 +10,6 @@ import {
 } from "utilitiesBackend";
 
 export async function POST(req: NextRequest) {
-
-
   const body = await req.json();
   const CLOUDBEDS_WEBHOOK_RESPONSE: Cloudbeds_webhook_APIresponse = body;
   console.log("CLOUDBEDS_WEBHOOK_RESPONSE");
@@ -190,6 +188,13 @@ export async function POST(req: NextRequest) {
         },
       });
 
+      // const currentRes = await db.cloudbeds_reservation.findFirst({
+      //   where: {},
+      // });
+
+      const reservations = await db.cloudbeds_reservation.findMany();
+      console.log(reservations);
+
       await db.cloudbeds_reservation.updateMany({
         where: {
           propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
@@ -203,6 +208,9 @@ export async function POST(req: NextRequest) {
           email: guestDetails.data.email,
         },
       });
+
+      const reservations1 = await db.cloudbeds_reservation.findMany();
+      console.log(reservations1);
 
       const reservation = await db.cloudbeds_reservation.findUnique({
         where: { reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId },
@@ -225,7 +233,8 @@ export async function POST(req: NextRequest) {
       //   },
       //   data: { isCheckedIn: true },
       // });
-
+      const reservations2 = await db.cloudbeds_reservation.findMany();
+      console.log(reservations2);
       break;
     case "guest/removed":
       await db.cloudbeds_guest.deleteMany({

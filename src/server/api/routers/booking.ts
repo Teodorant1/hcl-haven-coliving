@@ -321,18 +321,18 @@ export const bookingRouter = createTRPCRouter({
       // console.log(single_res.data.startDate);
       // console.log(single_res.data.endDate);
 
-      //  const AllReservations = await ctx.db.cloudbeds_reservation.findMany({});
+      const AllReservations = await ctx.db.cloudbeds_reservation.findMany({});
 
-      //  for (let i = 0; i < AllReservations.length; i++) {
-      //    AllReservations[i]!.TotalPrice = i + 1 * 10;
-      //    AllReservations[i]!.email = ctx.session.user.email;
-      //    AllReservations[i]!.reservation_id = i + "alkfjhsasdf" + i;
-      //    AllReservations[i]!.id = i + "alkfjhsasdf" + i;
-      //    console.log("updating " + i);
-      //    await ctx.db.cloudbeds_reservation.create({
-      //      data: AllReservations[i]!,
-      //    });
-      //  }
+      for (let i = 0; i < AllReservations.length; i++) {
+        AllReservations[i]!.TotalPrice = i + 1 * 10;
+        AllReservations[i]!.email = ctx.session.user.email;
+        AllReservations[i]!.reservation_id = i + "alkfjhsasdf" + i;
+        AllReservations[i]!.id = i + "alkfjhsasdf" + i;
+        console.log("updating " + i);
+        await ctx.db.cloudbeds_reservation.create({
+          data: AllReservations[i]!,
+        });
+      }
 
       return 0;
     }),
