@@ -207,32 +207,32 @@ export default function DashboardPage() {
                   <h2 className="text-3xl font-bold tracking-tight">
                     Dashboard
                   </h2>{" "}
-                  {subscription.data &&
+                  {/* {subscription.data &&
                     !subscription.data.check_in &&
-                    !subscription.data.check_out && (
-                      <div className="flex items-center space-x-2">
-                        <CalendarDateRangePicker
-                          date={dateRange}
-                          setDate={setdateRange}
-                          setStage={setstage}
-                          // CBEDS_response={CBEDS_response}
-                          // setCBEDS_response={setCBEDS_response}
-                        />
-                        {/* <Single_day_calendar
+                    !subscription.data.check_out && ( */}
+                  <div className="flex items-center space-x-2">
+                    <CalendarDateRangePicker
+                      date={dateRange}
+                      setDate={setdateRange}
+                      setStage={setstage}
+                      // CBEDS_response={CBEDS_response}
+                      // setCBEDS_response={setCBEDS_response}
+                    />
+                    {/* <Single_day_calendar
                       date={date}
                       setDate={setDate}
                       setStage={setstage}
                       currentDate={currentDate}
                     /> */}
-                        <Button
-                          onClick={() => {
-                            setstage("2");
-                          }}
-                        >
-                          Book Stay
-                        </Button>{" "}
-                      </div>
-                    )}
+                    <Button
+                      onClick={() => {
+                        setstage("2");
+                      }}
+                    >
+                      Book Stay
+                    </Button>{" "}
+                  </div>
+                  {/* )} */}
                 </div>
 
                 <Tabs defaultValue="overview" className="space-y-4">
