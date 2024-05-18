@@ -193,6 +193,7 @@ export async function POST(req: NextRequest) {
       // });
 
       const reservations = await db.cloudbeds_reservation.findMany();
+      console.log("reservations");
       console.log(reservations);
 
       await db.cloudbeds_reservation.updateMany({
@@ -210,6 +211,7 @@ export async function POST(req: NextRequest) {
       });
 
       const reservations1 = await db.cloudbeds_reservation.findMany();
+      console.log("reservations1");
       console.log(reservations1);
 
       const reservation = await db.cloudbeds_reservation.findUnique({
@@ -234,6 +236,7 @@ export async function POST(req: NextRequest) {
       //   data: { isCheckedIn: true },
       // });
       const reservations2 = await db.cloudbeds_reservation.findMany();
+      console.log("reservations2");
       console.log(reservations2);
       break;
     case "guest/removed":
