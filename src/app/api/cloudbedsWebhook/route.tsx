@@ -8,6 +8,7 @@ import {
   GetGuestDetails,
   Get_Validity_Of_reservation,
 } from "utilitiesBackend";
+import { sleep } from "utilitiesBackend";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -57,6 +58,8 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "reservation/status_changed":
+      await sleep(1000);
+
       await db.cloudbeds_reservation.updateMany({
         where: {
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
@@ -71,6 +74,8 @@ export async function POST(req: NextRequest) {
       break;
 
     case "reservation/dates_changed":
+      await sleep(1000);
+
       const start_date1 = convert_date_string_to_DATE(
         CLOUDBEDS_WEBHOOK_RESPONSE.startDate!,
       );
@@ -93,6 +98,8 @@ export async function POST(req: NextRequest) {
       break;
 
     case "reservation/accommodation_status_changed":
+      await sleep(1000);
+
       await db.cloudbeds_reservation.updateMany({
         where: {
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
@@ -106,6 +113,8 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "reservation/accommodation_type_changed":
+      await sleep(1000);
+
       await db.cloudbeds_reservation.updateMany({
         where: {
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
@@ -118,6 +127,8 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "reservation/accommodation_changed":
+      await sleep(1000);
+
       await db.cloudbeds_reservation.updateMany({
         where: {
           reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
@@ -161,6 +172,8 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "guest/assigned":
+      await sleep(1000);
+
       //update user email when they're assigned through cloudbedsAPI
       const guestDetails = await GetGuestDetails(
         CLOUDBEDS_WEBHOOK_RESPONSE.propertyID!,
@@ -267,6 +280,8 @@ export async function POST(req: NextRequest) {
       // });
       break;
     case "guest/accommodation_changed":
+      await sleep(1000);
+
       await db.cloudbeds_guest.updateMany({
         where: {
           guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
