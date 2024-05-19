@@ -4,7 +4,13 @@ import { db } from "@/server/db";
 import bcrypt from "bcrypt";
 import Stripe from "stripe";
 import { Resend } from "resend";
-import { isSameDay, isSameMonth, isSameYear } from "date-fns";
+import {
+  differenceInDays,
+  isSameDay,
+  isSameMonth,
+  isSameYear,
+  parseISO,
+} from "date-fns";
 import axios, { type AxiosRequestConfig } from "axios";
 import {
   type CB_get_user_response,
@@ -639,7 +645,61 @@ export async function book_a_room(
     const response = await axios.request(config);
     const result: Cloudbeds_post_reservation_RESPONSE = response.data;
     console.log(result);
-    console.log(JSON.stringify(response.data));
+    // console.log(JSON.stringify(response.data));
+
+    // {
+    //   success: true,
+    //   reservationID: '3899561961630',
+    //   status: 'confirmed',
+    //   guestID: 104715038,
+    //   guestFirstName: 'sandu',
+    //   guestLastName: 'anicboj',
+    //   guestGender: 'N/A',
+    //   guestEmail: 'sanduanicboj@gmail.com',
+    //   startDate: '2024-06-09',
+    //   endDate: '2024-06-10',
+    //   dateCreated: '2024-05-18 19:03:52',
+    //   grandTotal: 93.89,
+    //   unassigned: [
+    //     {
+    //       subReservationID: '3899561961630',
+    //       roomTypeName: 'Male Dormitory - Full Size Bed',
+    //       roomTypeID: 598927,
+    //       adults: 1,
+    //       children: 0,
+    //       dailyRates: [Array],
+    //       roomTotal: 82
+    //     }
+    //   ]
+    // }
+
+    // const check_in = parseISO(result.startDate);
+    // const check_out = parseISO(result.endDate);
+
+    // const daysDifference = differenceInDays(check_out, check_in);
+
+    // await db.cloudbeds_reservation.create({
+    //   data: {
+    //     name: result.guestFirstName,
+    //     surname: result.guestLastName,
+    //     reservation_id: result.reservationID,
+    //     check_in: check_in,
+    //     check_out: check_out,
+    //     propertyID: 309910,
+    //     propertyID_str: "309910",
+    //     //   isCheckedIn: false,
+    //     numberOfNights: daysDifference,
+    //     TotalPrice: 0,
+    //     status: "false",
+    //     source: " ",
+    //     roomType: " ",
+    //     URL: " ",
+    //     number_of_guests: 1,
+    //     roomNumber: " ",
+    //     timestamp: 1.1,
+    //   },
+    // });
+
     return result;
   } catch (error) {
     console.log(error);

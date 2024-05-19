@@ -361,4 +361,23 @@ export const bookingRouter = createTRPCRouter({
 
       return reservationResponse;
     }),
+
+  // test_Mutexes_in_supabase: protectedProcedure.mutation(
+  //   async ({ ctx, input }) => {
+  //     for (let i = 0; i < 100; i++) {
+  //       const lesubscription = await ctx.db.subscription.findUnique({
+  //         where: { userEmail: ctx.session.user.email },
+  //       });
+
+  //       await ctx.db.subscription.update({
+  //         where: {
+  //           userEmail: ctx.session.user.email,
+  //         },
+  //         data: { daysUsed: lesubscription!.daysUsed + 1 },
+  //       });
+  //     }
+
+  //     return 0;
+  //   },
+  // ),
 });

@@ -58,23 +58,38 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "reservation/status_changed":
-      await sleep(1000);
+      while (1 > 0) {
+        await sleep(1000);
 
-      await db.cloudbeds_reservation.updateMany({
-        where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
-        },
-        data: {
-          status: CLOUDBEDS_WEBHOOK_RESPONSE.status,
-        },
-      });
+        const reservation_to_update = await db.cloudbeds_reservation.findUnique(
+          {
+            where: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+            },
+          },
+        );
 
+        if (reservation_to_update) {
+          await db.cloudbeds_reservation.updateMany({
+            where: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationID!,
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyID_str,
+            },
+            data: {
+              status: CLOUDBEDS_WEBHOOK_RESPONSE.status,
+            },
+          });
+
+          break;
+        }
+      }
       break;
 
     case "reservation/dates_changed":
-      await sleep(1000);
+      await sleep(1100);
 
       const start_date1 = convert_date_string_to_DATE(
         CLOUDBEDS_WEBHOOK_RESPONSE.startDate!,
@@ -83,63 +98,137 @@ export async function POST(req: NextRequest) {
         CLOUDBEDS_WEBHOOK_RESPONSE.endDate!,
       );
 
-      await db.cloudbeds_reservation.updateMany({
-        where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
-        },
-        data: {
-          check_in: start_date1,
-          check_out: end_date1,
-        },
-      });
+      while (1 > 0) {
+        await sleep(1000);
 
+        const reservation_to_update = await db.cloudbeds_reservation.findUnique(
+          {
+            where: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+            },
+          },
+        );
+
+        if (reservation_to_update) {
+          await db.cloudbeds_reservation.updateMany({
+            where: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+            },
+            data: {
+              check_in: start_date1,
+              check_out: end_date1,
+            },
+          });
+
+          break;
+        }
+      }
       break;
 
     case "reservation/accommodation_status_changed":
-      await sleep(1000);
+      await sleep(1100);
 
-      await db.cloudbeds_reservation.updateMany({
-        where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
-        },
-        data: {
-          status: CLOUDBEDS_WEBHOOK_RESPONSE.status,
-          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId,
-        },
-      });
+      while (1 > 0) {
+        await sleep(1000);
+
+        const reservation_to_update = await db.cloudbeds_reservation.findUnique(
+          {
+            where: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+            },
+          },
+        );
+
+        if (reservation_to_update) {
+          await db.cloudbeds_reservation.updateMany({
+            where: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+            },
+            data: {
+              status: CLOUDBEDS_WEBHOOK_RESPONSE.status,
+              roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId,
+            },
+          });
+
+          break;
+        }
+      }
       break;
+
     case "reservation/accommodation_type_changed":
-      await sleep(1000);
+      await sleep(1100);
 
-      await db.cloudbeds_reservation.updateMany({
-        where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
-        },
-        data: {
-          roomType: CLOUDBEDS_WEBHOOK_RESPONSE.roomTypeId!.toString(),
-        },
-      });
+      while (1 > 0) {
+        await sleep(1000);
+
+        const reservation_to_update = await db.cloudbeds_reservation.findUnique(
+          {
+            where: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+            },
+          },
+        );
+
+        if (reservation_to_update) {
+          await db.cloudbeds_reservation.updateMany({
+            where: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+            },
+            data: {
+              roomType: CLOUDBEDS_WEBHOOK_RESPONSE.roomTypeId!.toString(),
+            },
+          });
+
+          break;
+        }
+      }
       break;
+
     case "reservation/accommodation_changed":
-      await sleep(1000);
+      await sleep(1100);
 
-      await db.cloudbeds_reservation.updateMany({
-        where: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
-        },
-        data: {
-          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId!,
-        },
-      });
+      while (1 > 0) {
+        await sleep(1000);
+
+        const reservation_to_update = await db.cloudbeds_reservation.findUnique(
+          {
+            where: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+            },
+          },
+        );
+
+        if (reservation_to_update) {
+          await db.cloudbeds_reservation.updateMany({
+            where: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+            },
+            data: {
+              roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId!,
+            },
+          });
+
+          break;
+        }
+      }
       break;
+
     case "reservation/deleted":
       await db.cloudbeds_reservation.delete({
         where: {
@@ -172,7 +261,7 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "guest/assigned":
-      await sleep(1000);
+      await sleep(1100);
 
       //update user email when they're assigned through cloudbedsAPI
       const guestDetails = await GetGuestDetails(
@@ -187,70 +276,106 @@ export async function POST(req: NextRequest) {
         CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
       );
 
-      await db.cloudbeds_guest.updateMany({
-        where: {
-          guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
-          guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId?.toString(),
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
-        },
-        data: {
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
-          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
-          guest_email: guestDetails.data.email,
-        },
-      });
+      while (1 > 0) {
+        await sleep(1000);
+
+        const guest_to_update = await db.cloudbeds_guest.findFirst({
+          where: {
+            guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+            guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
+            propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId?.toString(),
+            propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
+          },
+        });
+
+        if (guest_to_update) {
+          await db.cloudbeds_guest.updateMany({
+            where: {
+              guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+              guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId?.toString(),
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
+            },
+            data: {
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+              roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
+              guest_email: guestDetails.data.email,
+            },
+          });
+
+          break;
+        }
+      }
 
       // const currentRes = await db.cloudbeds_reservation.findFirst({
       //   where: {},
       // });
 
-      const reservations = await db.cloudbeds_reservation.findMany();
-      console.log("reservations");
-      console.log(reservations);
+      while (1 > 0) {
+        await sleep(1000);
 
-      await db.cloudbeds_reservation.updateMany({
-        where: {
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
-        },
-        data: {
-          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
-          guestID: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
-          TotalPrice: myReservation.data.total,
-          email: guestDetails.data.email,
-        },
-      });
+        const reservation_to_update = await db.cloudbeds_reservation.findUnique(
+          {
+            where: {
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+            },
+          },
+        );
 
-      const reservations1 = await db.cloudbeds_reservation.findMany();
-      console.log("reservations1");
-      console.log(reservations1);
+        if (reservation_to_update) {
+          const reservations = await db.cloudbeds_reservation.findMany();
+          console.log("reservations");
+          console.log(reservations);
 
-      const reservation = await db.cloudbeds_reservation.findUnique({
-        where: { reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId },
-      });
+          await db.cloudbeds_reservation.updateMany({
+            where: {
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId,
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+            },
+            data: {
+              roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomID,
+              guestID: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+              TotalPrice: myReservation.data.total,
+              email: guestDetails.data.email,
+            },
+          });
 
-      await db.subscription.update({
-        where: {
-          userEmail: guestDetails.data.email,
-        },
-        data: {
-          reservationID: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
-          check_in: reservation?.check_in,
-          check_out: reservation?.check_out,
-        },
-      });
-      // await db.subscription.update({
-      //   where: {
-      //     userEmail: guestDetails.data.email,
-      //     reservationID: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
-      //   },
-      //   data: { isCheckedIn: true },
-      // });
-      const reservations2 = await db.cloudbeds_reservation.findMany();
-      console.log("reservations2");
-      console.log(reservations2);
+          const reservations1 = await db.cloudbeds_reservation.findMany();
+          console.log("reservations1");
+          console.log(reservations1);
+
+          const reservation = await db.cloudbeds_reservation.findUnique({
+            where: { reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId },
+          });
+
+          await db.subscription.update({
+            where: {
+              userEmail: guestDetails.data.email,
+            },
+            data: {
+              reservationID: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+              check_in: reservation?.check_in,
+              check_out: reservation?.check_out,
+            },
+          });
+          // await db.subscription.update({
+          //   where: {
+          //     userEmail: guestDetails.data.email,
+          //     reservationID: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+          //   },
+          //   data: { isCheckedIn: true },
+          // });
+          const reservations2 = await db.cloudbeds_reservation.findMany();
+          console.log("reservations2");
+          console.log(reservations2);
+
+          break;
+        }
+      }
+
       break;
     case "guest/removed":
       await db.cloudbeds_guest.deleteMany({
@@ -280,34 +405,43 @@ export async function POST(req: NextRequest) {
       // });
       break;
     case "guest/accommodation_changed":
-      await sleep(1000);
+      await sleep(1100);
 
-      await db.cloudbeds_guest.updateMany({
-        where: {
-          guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
-          guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
-          reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
-        },
-        data: {
-          propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId?.toString(),
-          propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
-          roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId,
-        },
-      });
-      break;
+      while (1 > 0) {
+        await sleep(1000);
+
+        const guest_to_update = await db.cloudbeds_guest.findFirst({
+          where: {
+            guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+            guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
+            propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId?.toString(),
+            propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str!,
+          },
+        });
+
+        if (guest_to_update) {
+          await db.cloudbeds_guest.updateMany({
+            where: {
+              guest_id: CLOUDBEDS_WEBHOOK_RESPONSE.guestId?.toString(),
+              guest_id_str: CLOUDBEDS_WEBHOOK_RESPONSE.guestId_str?.toString(),
+              reservation_id: CLOUDBEDS_WEBHOOK_RESPONSE.reservationId,
+            },
+            data: {
+              propertyID: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId?.toString(),
+              propertyID_str: CLOUDBEDS_WEBHOOK_RESPONSE.propertyId_str,
+              roomID: CLOUDBEDS_WEBHOOK_RESPONSE.roomId,
+            },
+          });
+
+          break;
+        }
+      }
+
     case "guest/appstate_changed":
       //not quite sure what do with this one either
       break;
     case "guest/rate_status_changed":
       //not quite sure what do with this one either
-      break;
-    case "guest/created":
-      break;
-    case "guest/created":
-      break;
-    case "guest/created":
-      break;
-    case "guest/created":
       break;
   }
 

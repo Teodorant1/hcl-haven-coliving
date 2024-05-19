@@ -234,8 +234,8 @@ export type Cloudbeds_post_reservation_RESPONSE = {
   guestLastName: string;
   guestGender: string;
   guestEmail: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   dateCreated: Date;
   grandTotal: number;
   unassigned: {
