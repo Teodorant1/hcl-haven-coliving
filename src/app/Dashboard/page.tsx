@@ -11,7 +11,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // import { MainNav } from "../_components/main-nav";
 import { Overview } from "../_components/overview";
-import { RecentSales } from "../_components/recent-sales";
+import { StaysOverview } from "../_components/StaysOverview";
 // import { Search } from "../_components/search";
 // import TeamSwitcher from "../_components/team-switcher";
 // import { UserNav } from "../_components/user-nav";
@@ -402,17 +402,13 @@ export default function DashboardPage() {
                       </Card>
                       <Card className="col-span-3">
                         <CardHeader>
-                          <CardTitle>Stay history</CardTitle>
-                          {myreservations.data &&
-                            myreservations.data.success === true &&
-                            myreservations.data.data.length > 0 && (
-                              <CardDescription>
-                                Past and upcoming stays
-                              </CardDescription>
-                            )}
+                          <CardTitle>Stay overview</CardTitle>
+                          <CardDescription>
+                            Past and upcoming stays
+                          </CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <RecentSales
+                          <StaysOverview
                             success={myreservations.data?.success!}
                             data={myreservations.data?.data!}
                           />
