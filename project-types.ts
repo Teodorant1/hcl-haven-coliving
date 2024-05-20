@@ -15,7 +15,7 @@ export type recharts_yearly_breakdown = {
 export type recentReservations = {
   success: boolean;
   data: cloudbeds_reservation[];
-  number_of_rows: number;
+  number_of_rows?: number;
 };
 
 export type registrationForm = {

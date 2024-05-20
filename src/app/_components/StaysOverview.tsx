@@ -15,7 +15,7 @@ export function StaysOverview(reservations: recentReservations) {
           <>
             {reservations.data.map((reservation, index) => (
               <div key={reservation.id}>
-                {index < reservations.number_of_rows && (
+                {index < reservations.number_of_rows! && (
                   <div className="flex items-center">
                     {/* <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border">
                   <AvatarImage src="/avatars/02.png" alt="Avatar" />
