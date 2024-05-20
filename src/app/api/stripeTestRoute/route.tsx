@@ -85,8 +85,8 @@ const webhookHandler = async (req: NextRequest) => {
           subscription_in_stripe_db.current_period_end,
         );
         console.log("print end and start date for stripe");
-        console.log(currentPeriod_startDate.toDateString());
-        console.log(currentPeriod_endDate.toDateString());
+        console.log(currentPeriod_startDate);
+        console.log(currentPeriod_endDate);
 
         // const ended_atDate = new Date(subscription_in_stripe_db.ended_at!);
         // const cancel_atDate = new Date(subscription_in_stripe_db.created);
