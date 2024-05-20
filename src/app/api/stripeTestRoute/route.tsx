@@ -79,10 +79,10 @@ const webhookHandler = async (req: NextRequest) => {
         const createdAtDate = new Date(subscription_in_stripe_db.created);
 
         const currentPeriod_startDate = new Date(
-          subscription_in_stripe_db.current_period_start,
+          subscription_in_stripe_db.current_period_start * 1000,
         );
         const currentPeriod_endDate = new Date(
-          subscription_in_stripe_db.current_period_end,
+          subscription_in_stripe_db.current_period_end * 1000,
         );
         console.log("print end and start date for stripe");
         console.log(currentPeriod_startDate);
