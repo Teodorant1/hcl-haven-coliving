@@ -340,7 +340,11 @@ export default function DashboardPage() {
                         </Card>
                       }
                       {
-                        <Card>
+                        <Card
+                          onClick={() => {
+                            router.push("/Membership");
+                          }}
+                        >
                           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">
                               Plan Cost
@@ -444,6 +448,7 @@ export default function DashboardPage() {
                           <StaysOverview
                             success={myreservations.data?.success!}
                             data={myreservations.data?.data!}
+                            number_of_rows={10}
                           />
                         </CardContent>
                       </Card>

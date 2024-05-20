@@ -28,7 +28,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/Dashboard");
+      router.push("/");
     }
   }, [session]);
 
@@ -52,7 +52,7 @@ export default function LoginPage() {
       await signIn("credentials", {
         ...data,
         redirect: true,
-        callbackUrl: "/Dashboard",
+        callbackUrl: "/",
       }).then(() => {
         // router.push("/");
         setloginSucceeded(true);
