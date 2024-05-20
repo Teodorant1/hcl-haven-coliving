@@ -65,6 +65,7 @@ export const bookingRouter = createTRPCRouter({
         await ctx.db.subscription.upsert({
           where: { userEmail: ctx.session.user.email },
           update: {
+            subscriptionStatus: false,
             userEmail: ctx.session.user.email,
             user_id: " ",
             // subscriptionStatus: false,
