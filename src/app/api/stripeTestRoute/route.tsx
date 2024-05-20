@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { db } from "@/server/db";
 import { type NextRequest, NextResponse } from "next/server";
-import { type StripeMetadata } from "project-types";
+// import { type StripeMetadata } from "project-types";
 
 // const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!, {
 //   // https://github.com/stripe/stripe-node#configuration
@@ -56,15 +56,15 @@ const webhookHandler = async (req: NextRequest) => {
       case "checkout.session.completed":
         // const eventString = event.object.toString();
         console.log(event);
-        const eventID: string = event.id;
-        const Stripe_Metadata: StripeMetadata = event.data.object
-          .metadata! as unknown as StripeMetadata;
-        console.log(Stripe_Metadata.description);
-        console.log(Stripe_Metadata.email);
-        console.log(Stripe_Metadata.method);
-        console.log(Stripe_Metadata.packageName);
-        console.log(Stripe_Metadata.price);
-        console.log(Stripe_Metadata.priceID);
+        // const eventID: string = event.id;
+        // const Stripe_Metadata: StripeMetadata = event.data.object
+        //   .metadata! as unknown as StripeMetadata;
+        // console.log(Stripe_Metadata.description);
+        // console.log(Stripe_Metadata.email);
+        // console.log(Stripe_Metadata.method);
+        // console.log(Stripe_Metadata.packageName);
+        // console.log(Stripe_Metadata.price);
+        // console.log(Stripe_Metadata.priceID);
 
         const customerID = subscription.customer;
         const subscriptionID = event.data.object.subscription;
