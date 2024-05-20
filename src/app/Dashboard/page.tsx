@@ -73,7 +73,7 @@ export default function DashboardPage() {
   return (
     <>
       {" "}
-      <button
+      {/* <button
         onClick={() => {
           console.log(subscription.data);
         }}
@@ -81,7 +81,7 @@ export default function DashboardPage() {
       >
         {" "}
         LOG MY SUBSCRIPTION{" "}
-      </button>{" "}
+      </button>{" "} */}
       {/* <button
         onClick={() => {
           console.log(myreservations.data);
