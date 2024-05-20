@@ -73,6 +73,9 @@ const webhookHandler = async (req: NextRequest) => {
           subscriptionID as string,
         );
 
+        console.log("subscription_in_stripe_db");
+        console.log(subscription_in_stripe_db);
+
         const createdAtDate = new Date(subscription_in_stripe_db.created);
 
         const currentPeriod_startDate = new Date(
