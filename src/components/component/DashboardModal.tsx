@@ -4,7 +4,10 @@ import { type DashBoardPageProps } from "project-types";
 import React from "react";
 import { useSession } from "next-auth/react";
 import { api } from "@/trpc/react";
-import { isAfterToday } from "utilities";
+import {
+  isAfterToday,
+  Calculate_number_of_days_between_two_dates,
+} from "utilities";
 import { CalendarDateRangePicker } from "@/app/_components/date-range-picker";
 function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   const session = useSession();
@@ -42,8 +45,24 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   return (
     <div className="z-20 mx-auto max-h-screen max-w-full  p-4 sm:py-8 md:py-10 lg:px-6">
       <section className="grid gap-6">
+        {/* <button
+          onClick={() => {
+            console.log(DashBoardPageProps.subscription);
+          }}
+          className="m-5 bg-black p-5 text-white"
+        >
+          {" "}
+          LOG MY SUBSCRIPTION{" "}
+        </button>{" "} */}
         <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">
-          Your plan ends May 12. You have 3 days left
+          Your plan ends{" "}
+          {DashBoardPageProps.subscription!.currentPeriod_end.toDateString()}.
+          You have{" "}
+          {Calculate_number_of_days_between_two_dates(
+            currentDate,
+            DashBoardPageProps.subscription!.currentPeriod_end,
+          )}{" "}
+          days left
         </h1>
         <div className="flex justify-center gap-4 md:grid-cols-4 md:gap-6">
           <div className="md:col-span-2">

@@ -79,7 +79,7 @@ export function Calculate_number_of_days_between_two_dates(
   const differenceInDays: number =
     differenceInMilliseconds / (1000 * 60 * 60 * 24); // milliseconds to days
 
-  return differenceInDays;
+  return Math.round(differenceInDays);
 }
 
 export function getPrettierDate(myDate: Date) {

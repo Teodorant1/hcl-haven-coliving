@@ -3,9 +3,9 @@ import { db } from "@/server/db";
 import { type NextRequest, NextResponse } from "next/server";
 import { type StripeMetadata } from "project-types";
 
-const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!, {
-  // https://github.com/stripe/stripe-node#configuration
-});
+// const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!, {
+//   // https://github.com/stripe/stripe-node#configuration
+// });
 
 const webhookSecret: string = process.env.NEXT_PRIVATE_STRIPE_WEBHOOK_SECRET!;
 
@@ -103,9 +103,9 @@ const webhookHandler = async (req: NextRequest) => {
             customerID: customerID as string,
             subscriptionID: subscriptionID as string,
             //uncomment the code bellow when we have confirmed that Stripe devs have stopped huffing their own kool aid
-            //  created_at: createdAtDate,
-            // currentPeriod_end: currentPeriod_endDate,
-            // currentPeriod_start: currentPeriod_startDate,
+            created_at: createdAtDate,
+            currentPeriod_end: currentPeriod_endDate,
+            currentPeriod_start: currentPeriod_startDate,
           },
         });
 

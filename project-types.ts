@@ -1,6 +1,10 @@
 import { type Decimal } from "@prisma/client/runtime/library";
 import { type DateRange } from "react-day-picker";
-import { type cloudbeds_reservation, type spent_day } from "@prisma/client";
+import {
+  type subscription,
+  type cloudbeds_reservation,
+  type spent_day,
+} from "@prisma/client";
 
 export type recharts_month = {
   name: string;
@@ -145,6 +149,7 @@ export interface DashBoardPageProps {
   setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
   setStage: React.Dispatch<React.SetStateAction<string | undefined>>;
   CBEDS_response: Cloudbeds_post_reservation_RESPONSE | undefined;
+  subscription?: subscription;
   setCBEDS_response?: React.Dispatch<
     React.SetStateAction<Cloudbeds_post_reservation_RESPONSE | undefined>
   >;

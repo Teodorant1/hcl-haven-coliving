@@ -73,7 +73,7 @@ export default function DashboardPage() {
   return (
     <>
       {" "}
-      {/* <button
+      <button
         onClick={() => {
           console.log(subscription.data);
         }}
@@ -81,7 +81,7 @@ export default function DashboardPage() {
       >
         {" "}
         LOG MY SUBSCRIPTION{" "}
-      </button>{" "} */}
+      </button>{" "}
       {/* <button
         onClick={() => {
           console.log(myreservations.data);
@@ -127,13 +127,14 @@ export default function DashboardPage() {
       {session?.user.isApproved === true && (
         <>
           {" "}
-          {stage === "2" && (
+          {stage === "2" && subscription.data && (
             <DashboardModal
               date={dateRange}
               setDate={setdateRange}
               setStage={setstage}
               setCBEDS_response={setCBEDS_response}
               CBEDS_response={CBEDS_response}
+              subscription={subscription.data}
             />
           )}
           {/* <div className="md:hidden">
