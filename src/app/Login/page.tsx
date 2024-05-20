@@ -20,11 +20,11 @@ export default function LoginPage() {
   const router = useRouter();
   const session = useSession();
 
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      router.push("/Dashboard");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (session?.status === "authenticated") {
+  //     router.push("/Dashboard");
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (session?.status === "authenticated") {

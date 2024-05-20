@@ -1,15 +1,26 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/RO4cGbNQ2wm
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+"use client";
+import * as React from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/server/auth";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-export default async function Component() {
-  const session = await getServerSession(authOptions);
+export default function Component() {
+  const router = useRouter();
+  const session = useSession();
+
+  // useEffect(() => {
+  //   if (session?.status === "authenticated") {
+  //     router.push("/Dashboard");
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/Dashboard");
+    }
+  }, [session]);
 
   return (
     <div className="flex h-full flex-col">

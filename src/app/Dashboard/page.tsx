@@ -182,7 +182,7 @@ export default function DashboardPage() {
                 </div>
               </div> */}
               <div className="flex-1 space-y-4 p-8 pt-6">
-                {/* {subscription.data &&
+                {/* {
                   subscription.data.check_in   === null &&
                   subscription.data.check_out === null && (
                     <button className="m-5 bg-black p-5 text-white ">
@@ -207,7 +207,7 @@ export default function DashboardPage() {
                   <h2 className="text-3xl font-bold tracking-tight">
                     Dashboard
                   </h2>{" "}
-                  {/* {subscription.data &&
+                  {/* {
                     !subscription.data.check_in &&
                     !subscription.data.check_out && ( */}
                   <div className="flex items-center space-x-2">
@@ -250,7 +250,7 @@ export default function DashboardPage() {
                   </TabsList>
                   <TabsContent value="overview" className="space-y-4">
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                      {subscription.data && (
+                      {
                         <Card>
                           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">
@@ -271,18 +271,38 @@ export default function DashboardPage() {
                           </CardHeader>
                           <CardContent>
                             <div className="text-2xl font-bold">
-                              {subscription.data.NumberOfBoughtDays} nights
+                              {subscription.data?.NumberOfBoughtDays ? (
+                                <>
+                                  {subscription.data?.NumberOfBoughtDays} nights
+                                </>
+                              ) : (
+                                <>N/A</>
+                              )}
                             </div>
                             <p className="text-xs text-muted-foreground">
                               from{" "}
-                              {subscription.data.currentPeriod_start.toDateString()}{" "}
+                              {subscription.data?.currentPeriod_start ? (
+                                <>
+                                  {subscription.data?.currentPeriod_start.toDateString()}{" "}
+                                  nights
+                                </>
+                              ) : (
+                                <>N/A</>
+                              )}{" "}
                               to{" "}
-                              {subscription.data.currentPeriod_end.toDateString()}
+                              {subscription.data?.currentPeriod_end ? (
+                                <>
+                                  {subscription.data?.currentPeriod_end.toDateString()}{" "}
+                                  nights
+                                </>
+                              ) : (
+                                <>N/A</>
+                              )}{" "}
                             </p>
                           </CardContent>
                         </Card>
-                      )}{" "}
-                      {subscription.data && (
+                      }{" "}
+                      {
                         <Card>
                           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">
@@ -305,18 +325,21 @@ export default function DashboardPage() {
                           </CardHeader>
                           <CardContent>
                             <div className="text-2xl font-bold">
-                              {subscription.data.daysUsed}
+                              {subscription.data?.daysUsed ? (
+                                <p className="text-xs text-muted-foreground">
+                                  {(subscription.data.daysUsed /
+                                    subscription.data.NumberOfBoughtDays) *
+                                    100}
+                                  {"% of plan "}
+                                </p>
+                              ) : (
+                                <>N/A</>
+                              )}{" "}
                             </div>
-                            <p className="text-xs text-muted-foreground">
-                              {(subscription.data.daysUsed /
-                                subscription.data.NumberOfBoughtDays) *
-                                100}
-                              {"% of plan "}
-                            </p>
                           </CardContent>
                         </Card>
-                      )}
-                      {subscription.data && (
+                      }
+                      {
                         <Card>
                           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">
@@ -338,20 +361,30 @@ export default function DashboardPage() {
                           </CardHeader>
                           <CardContent>
                             <div className="text-2xl font-bold">
-                              {"$" + subscription.data.price + "/month"}
+                              {subscription.data?.price ? (
+                                <div className="text-xs ">
+                                  {"$" + subscription.data.price + "/month"}
+                                </div>
+                              ) : (
+                                <>N/A</>
+                              )}{" "}
                             </div>
-                            <p className="text-xs text-muted-foreground">
-                              {subscription.data.price < 1000 && (
-                                <>
-                                  {"$55 / night over " +
-                                    subscription.data.NumberOfBoughtDays +
-                                    " nights "}
-                                </>
-                              )}
-                            </p>
+                            <div className="text-xs ">
+                              <div className="text-2xl font-bold">
+                                {subscription.data?.price! < 1000 ? (
+                                  <div className="text-xs ">
+                                    {"$55 / night over " +
+                                      subscription.data?.NumberOfBoughtDays +
+                                      " nights "}{" "}
+                                  </div>
+                                ) : (
+                                  <>N/A</>
+                                )}{" "}
+                              </div>{" "}
+                            </div>
                           </CardContent>
                         </Card>
-                      )}
+                      }
                       {subscription.data?.check_in &&
                         subscription.data.check_out && (
                           <Card>
