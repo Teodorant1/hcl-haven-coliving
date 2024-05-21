@@ -194,7 +194,7 @@ model subscription  {
     subscriptionStatus   Boolean
     isCheckedIn          Boolean @default(false)
     //accidentally added because I forgot about subscriptionStatus, need to delete before going live into production
-    isActive             Boolean @default(false)
+    // isActive             Boolean @default(false)
     metadata             String // needs to be json
     price_id             String
     //number of days you can stay in the hostel
