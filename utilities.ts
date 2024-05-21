@@ -2,10 +2,51 @@
 import moment from "moment-timezone";
 import { type subscription } from "@prisma/client";
 
+export async function Calculate_price_for_dashboard_reservation(
+  date1: Date,
+  date2: Date,
+  daysBought: number,
+) {
+  const estimated_length_of_stay = Calculate_number_of_days_between_two_dates(
+    date1,
+    date2,
+  );
+
+  if (estimated_length_of_stay < 30 && daysBought > estimated_length_of_stay) {
+    return estimated_length_of_stay * 40;
+  }
+  if (estimated_length_of_stay < 30 && daysBought < estimated_length_of_stay) {
+    const overflow_days = estimated_length_of_stay - daysBought;
+
+    const totalprice = daysBought * 40 + overflow_days * 55;
+
+    return totalprice;
+  }
+  if (estimated_length_of_stay < 30 && daysBought === 30) {
+    return 1095;
+  }
+  if (estimated_length_of_stay > 30 && daysBought === 30) {
+    return 1200;
+  }
+
+  return 0;
+}
+export function Calculate_number_of_days_between_two_dates(
+  startDate: Date,
+  endDate: Date,
+) {
+  const differenceInMilliseconds: number =
+    endDate.getTime() - startDate.getTime();
+
+  const differenceInDays: number =
+    differenceInMilliseconds / (1000 * 60 * 60 * 24); // milliseconds to days
+
+  return Math.round(differenceInDays);
+}
 // therefore we can use this to tell the page whether to render the check in,
 // check out button and book a stay button
 // we should also check the value of isCheckedIn
-export function Date_isBetween_other_dates(
+export async function Date_isBetween_other_dates(
   Date_toCheck: Date,
   firstDate: Date,
   secondDate: Date,
@@ -67,19 +108,6 @@ export function isBefore_11_am_for_today(currentDate: Date) {
   console.log("Current Month:", currentMonth);
   console.log(isBefore11AM);
   return isBefore11AM;
-}
-
-export function Calculate_number_of_days_between_two_dates(
-  startDate: Date,
-  endDate: Date,
-) {
-  const differenceInMilliseconds: number =
-    endDate.getTime() - startDate.getTime();
-
-  const differenceInDays: number =
-    differenceInMilliseconds / (1000 * 60 * 60 * 24); // milliseconds to days
-
-  return Math.round(differenceInDays);
 }
 
 export function getPrettierDate(myDate: Date) {

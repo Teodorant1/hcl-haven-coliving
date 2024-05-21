@@ -7,6 +7,7 @@ import { api } from "@/trpc/react";
 import {
   isAfterToday,
   Calculate_number_of_days_between_two_dates,
+  Calculate_price_for_dashboard_reservation,
 } from "utilities";
 import { CalendarDateRangePicker } from "@/app/_components/date-range-picker";
 function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
@@ -62,7 +63,12 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
             currentDate,
             DashBoardPageProps.subscription!.currentPeriod_end,
           )}{" "}
-          days left
+          days left , current selection will cost{" "}
+          {Calculate_price_for_dashboard_reservation(
+            DashBoardPageProps.date?.from!,
+            DashBoardPageProps.date?.to!,
+            DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+          )}
         </h1>
         <div className="flex justify-center gap-4 md:grid-cols-4 md:gap-6">
           <div className="md:col-span-2">
