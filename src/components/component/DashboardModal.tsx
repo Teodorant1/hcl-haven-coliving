@@ -63,11 +63,16 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
             currentDate,
             DashBoardPageProps.subscription!.currentPeriod_end,
           )}{" "}
-          days left , current selection will cost{" "}
-          {Calculate_price_for_dashboard_reservation(
-            DashBoardPageProps.date?.from!,
-            DashBoardPageProps.date?.to!,
-            DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+          days left
+          {DashBoardPageProps.date?.from! && DashBoardPageProps.date?.to! && (
+            <>
+              , current selection will cost{" "}
+              {Calculate_price_for_dashboard_reservation(
+                DashBoardPageProps.date?.from,
+                DashBoardPageProps.date?.to,
+                DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+              )}
+            </>
           )}
         </h1>
         <div className="flex justify-center gap-4 md:grid-cols-4 md:gap-6">
