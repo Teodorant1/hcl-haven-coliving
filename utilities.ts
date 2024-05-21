@@ -2,7 +2,7 @@
 import moment from "moment-timezone";
 import { type subscription } from "@prisma/client";
 
-export async function Calculate_price_for_dashboard_reservation(
+export function Calculate_price_for_dashboard_reservation(
   date1: Date,
   date2: Date,
   daysBought: number,
