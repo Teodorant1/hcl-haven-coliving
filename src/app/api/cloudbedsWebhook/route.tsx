@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
       });
       break;
     case "reservation/status_changed":
-      while (1 > 0) {
+      for (let i = 0; i < 20; i++) {
         await sleep(1000);
 
         const reservation_to_update = await db.cloudbeds_reservation.findUnique(
@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
         CLOUDBEDS_WEBHOOK_RESPONSE.endDate!,
       );
 
-      while (1 > 0) {
+      for (let i = 0; i < 20; i++) {
         await sleep(1000);
 
         const reservation_to_update = await db.cloudbeds_reservation.findUnique(
@@ -132,7 +132,7 @@ export async function POST(req: NextRequest) {
     case "reservation/accommodation_status_changed":
       await sleep(1100);
 
-      while (1 > 0) {
+      for (let i = 0; i < 20; i++) {
         await sleep(1000);
 
         const reservation_to_update = await db.cloudbeds_reservation.findUnique(
@@ -166,7 +166,7 @@ export async function POST(req: NextRequest) {
     case "reservation/accommodation_type_changed":
       await sleep(1100);
 
-      while (1 > 0) {
+      for (let i = 0; i < 20; i++) {
         await sleep(1000);
 
         const reservation_to_update = await db.cloudbeds_reservation.findUnique(
@@ -199,7 +199,7 @@ export async function POST(req: NextRequest) {
     case "reservation/accommodation_changed":
       await sleep(1100);
 
-      while (1 > 0) {
+      for (let i = 0; i < 20; i++) {
         await sleep(1000);
 
         const reservation_to_update = await db.cloudbeds_reservation.findUnique(
@@ -276,7 +276,7 @@ export async function POST(req: NextRequest) {
         CLOUDBEDS_WEBHOOK_RESPONSE.reservationId!,
       );
 
-      while (1 > 0) {
+      for (let i = 0; i < 20; i++) {
         await sleep(1000);
 
         const guest_to_update = await db.cloudbeds_guest.findFirst({
@@ -311,7 +311,7 @@ export async function POST(req: NextRequest) {
       //   where: {},
       // });
 
-      while (1 > 0) {
+      for (let i = 0; i < 20; i++) {
         await sleep(1000);
 
         const reservation_to_update = await db.cloudbeds_reservation.findUnique(
@@ -407,7 +407,7 @@ export async function POST(req: NextRequest) {
     case "guest/accommodation_changed":
       await sleep(1100);
 
-      while (1 > 0) {
+      for (let i = 0; i < 20; i++) {
         await sleep(1000);
 
         const guest_to_update = await db.cloudbeds_guest.findFirst({
