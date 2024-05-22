@@ -13,23 +13,23 @@ export function Calculate_price_for_dashboard_reservation(
   );
 
   if (estimated_length_of_stay < 30 && daysBought > estimated_length_of_stay) {
-    return estimated_length_of_stay * 40;
+    return estimated_length_of_stay * 40 + "$";
   }
   if (estimated_length_of_stay < 30 && daysBought < estimated_length_of_stay) {
     const overflow_days = estimated_length_of_stay - daysBought;
 
     const totalprice = daysBought * 40 + overflow_days * 55;
 
-    return totalprice;
+    return totalprice + "$";
   }
   if (estimated_length_of_stay < 30 && daysBought === 30) {
-    return 1095;
+    return 1095 + "$";
   }
   if (estimated_length_of_stay > 30 && daysBought === 30) {
-    return 1200;
+    return 1200 + "$";
   }
 
-  return 0;
+  return 0 + "$";
 }
 export function Calculate_number_of_days_between_two_dates(
   startDate: Date,

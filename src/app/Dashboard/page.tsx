@@ -58,6 +58,19 @@ export default function DashboardPage() {
     }
   }, [session]);
 
+  // useEffect(() => {
+  //   if (status === "authenticated") {
+  //     void myreservations.refetch();
+  //     void subscription.refetch();
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   if (status === "authenticated") {
+  //     void myreservations.refetch();
+  //     void subscription.refetch();
+  //   }
+  // }, [session]);
+
   // const Update_all_reservations =
   //   api.booking.Update_all_reservations.useMutation({
   //     onSuccess: () => {
@@ -311,7 +324,6 @@ export default function DashboardPage() {
                               {subscription.data?.currentPeriod_start ? (
                                 <>
                                   {subscription.data?.currentPeriod_start.toDateString()}{" "}
-                                  nights
                                 </>
                               ) : (
                                 <>N/A</>
@@ -320,7 +332,6 @@ export default function DashboardPage() {
                               {subscription.data?.currentPeriod_end ? (
                                 <>
                                   {subscription.data?.currentPeriod_end.toDateString()}{" "}
-                                  nights
                                 </>
                               ) : (
                                 <>N/A</>
