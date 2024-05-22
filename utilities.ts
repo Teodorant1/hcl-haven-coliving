@@ -4,43 +4,43 @@ import moment from "moment-timezone";
 import { type subscription } from "@prisma/client";
 import { type MonthDays } from "project-types";
 
-export function Calculate_price_for_dashboard_reservation(
-  date1: Date,
-  date2: Date,
-  daysBought: number,
-) {
-  const estimated_length_of_stay = Calculate_number_of_days_between_two_dates(
-    date1,
-    date2,
-  );
+// export function Calculate_price_for_dashboard_reservation(
+//   date1: Date,
+//   date2: Date,
+//   daysBought: number,
+// ) {
+//   const estimated_length_of_stay = Calculate_number_of_days_between_two_dates(
+//     date1,
+//     date2,
+//   );
 
-  let additionalText = "";
-  const IsSamemonth_boolean = isSameMonth(date1, date2);
+//   let additionalText = "";
+//   const IsSamemonth_boolean = isSameMonth(date1, date2);
 
-  if (IsSamemonth_boolean === false) {
-    additionalText =
-      " , but you will need to be subscribed for multiple months";
-  }
+//   if (IsSamemonth_boolean === false) {
+//     additionalText =
+//       " , but you will need to be subscribed for multiple months";
+//   }
 
-  if (estimated_length_of_stay < 30 && daysBought > estimated_length_of_stay) {
-    return estimated_length_of_stay * 40 + "$" + additionalText;
-  }
-  if (estimated_length_of_stay < 30 && daysBought < estimated_length_of_stay) {
-    const overflow_days = estimated_length_of_stay - daysBought;
+//   if (estimated_length_of_stay < 30 && daysBought > estimated_length_of_stay) {
+//     return estimated_length_of_stay * 40 + "$" + additionalText;
+//   }
+//   if (estimated_length_of_stay < 30 && daysBought < estimated_length_of_stay) {
+//     const overflow_days = estimated_length_of_stay - daysBought;
 
-    const totalprice = daysBought * 40 + overflow_days * 55;
+//     const totalprice = daysBought * 40 + overflow_days * 55;
 
-    return totalprice + "$" + additionalText;
-  }
-  if (estimated_length_of_stay < 30 && daysBought === 30) {
-    return 1095 + "$" + additionalText;
-  }
-  if (estimated_length_of_stay > 30 && daysBought === 30) {
-    return "You will need to maintain your subscription for multiple months";
-  }
+//     return totalprice + "$" + additionalText;
+//   }
+//   if (estimated_length_of_stay < 30 && daysBought === 30) {
+//     return 1095 + "$" + additionalText;
+//   }
+//   if (estimated_length_of_stay > 30 && daysBought === 30) {
+//     return "You will need to maintain your subscription for multiple months";
+//   }
 
-  return "error";
-}
+//   return "error";
+// }
 
 export function calculateDaysInMonthRange_price(
   startDate: Date,
