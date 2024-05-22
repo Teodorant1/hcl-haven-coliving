@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import moment from "moment-timezone";
 import { type subscription } from "@prisma/client";
+import { type MonthDays } from "project-types";
 
 export function Calculate_price_for_dashboard_reservation(
   date1: Date,
@@ -39,6 +40,52 @@ export function Calculate_price_for_dashboard_reservation(
 
   return "error";
 }
+
+export function calculateDaysInMonthRange(
+  startDate: Date,
+  endDate: Date,
+): MonthDays[] {
+  const result: MonthDays[] = [];
+
+  let currentYear = startDate.getFullYear();
+  let currentMonth = startDate.getMonth();
+  const endYear = endDate.getFullYear();
+  const endMonth = endDate.getMonth();
+
+  while (
+    currentYear < endYear ||
+    (currentYear === endYear && currentMonth <= endMonth)
+  ) {
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const startDay =
+      currentYear === startDate.getFullYear() &&
+      currentMonth === startDate.getMonth()
+        ? startDate.getDate()
+        : 1;
+    const endDay =
+      currentYear === endDate.getFullYear() &&
+      currentMonth === endDate.getMonth()
+        ? endDate.getDate()
+        : daysInMonth;
+
+    result.push({
+      year: currentYear,
+      month: currentMonth + 1, // months are zero-indexed
+      days: endDay - startDay + 1,
+    });
+
+    // Move to the next month
+    currentMonth++;
+    if (currentMonth > 11) {
+      currentMonth = 0;
+      currentYear++;
+    }
+  }
+  console.log(result);
+
+  return result;
+}
+
 export function Calculate_number_of_days_between_two_dates(
   startDate: Date,
   endDate: Date,

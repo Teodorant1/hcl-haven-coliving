@@ -6,6 +6,12 @@ import {
   type spent_day,
 } from "@prisma/client";
 
+export interface MonthDays {
+  year: number;
+  month: number;
+  days: number;
+}
+
 export type recharts_month = {
   name: string;
   total: number;

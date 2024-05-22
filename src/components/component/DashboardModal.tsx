@@ -8,6 +8,7 @@ import {
   isAfterToday,
   Calculate_number_of_days_between_two_dates,
   Calculate_price_for_dashboard_reservation,
+  calculateDaysInMonthRange,
 } from "utilities";
 import { CalendarDateRangePicker } from "@/_components/date-range-picker";
 function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
@@ -46,15 +47,20 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   return (
     <div className="z-20 mx-auto max-h-screen max-w-full  p-4 sm:py-8 md:py-10 lg:px-6">
       <section className="grid gap-6">
-        {/* <button
-          onClick={() => {
-            console.log(DashBoardPageProps.subscription);
-          }}
-          className="m-5 bg-black p-5 text-white"
-        >
-          {" "}
-          LOG MY SUBSCRIPTION{" "}
-        </button>{" "} */}
+        {DashBoardPageProps.date?.from && DashBoardPageProps.date?.to && (
+          <button
+            onClick={() => {
+              calculateDaysInMonthRange(
+                DashBoardPageProps.date!.from!,
+                DashBoardPageProps.date!.to!,
+              );
+            }}
+            className="m-5 bg-black p-5 text-white"
+          >
+            {" "}
+            handle calculate_Days_In_MonthRange{" "}
+          </button>
+        )}
         <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">
           Your plan ends{" "}
           {DashBoardPageProps.subscription!.currentPeriod_end.toDateString()}.
