@@ -6,9 +6,9 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
-import ApplicationSubmitUserEmail from "@/app/_emails/SubmitApplication";
-import ApplicationNotificationUserEmail from "@/app/_emails/AdminApplicationNotification";
-import ApplicationResponseEmail from "@/app/_emails/ApplicationResponse";
+import ApplicationSubmitUserEmail from "@/_emails/SubmitApplication";
+import ApplicationNotificationUserEmail from "@/_emails/AdminApplicationNotification";
+import ApplicationResponseEmail from "@/_emails/ApplicationResponse";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure

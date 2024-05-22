@@ -9,7 +9,7 @@ import {
   Calculate_number_of_days_between_two_dates,
   Calculate_price_for_dashboard_reservation,
 } from "utilities";
-import { CalendarDateRangePicker } from "@/app/_components/date-range-picker";
+import { CalendarDateRangePicker } from "@/_components/date-range-picker";
 function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   const session = useSession();
   const [currentDate, setcurrentDate] = React.useState<Date>(new Date());

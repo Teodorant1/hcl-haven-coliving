@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { UserAuthForm } from "../_components/user-auth-form";
+import { UserAuthForm } from "../../_components/user-auth-form";
 
 export default function AuthenticationPage() {
   return (

@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 // import AuthProvider from "../auth/Provider";
 import { TRPCReactProvider } from "@/trpc/react";
-import Navbar from "../_components/Navbar";
+import Navbar from "../../_components/Navbar";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",

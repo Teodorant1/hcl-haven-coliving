@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // import { MainNav } from "../_components/main-nav";
-import { Overview } from "../_components/overview";
-import { StaysOverview } from "../_components/StaysOverview";
+import { Overview } from "../../_components/overview";
+import { StaysOverview } from "../../_components/StaysOverview";
 // import { Search } from "../_components/search";
 // import TeamSwitcher from "../_components/team-switcher";
 // import { UserNav } from "../_components/user-nav";
@@ -21,7 +21,7 @@ import DashboardModal from "@/components/component/DashboardModal";
 import DashboardConfirmedModal from "@/components/component/DashboardConfirmedModal";
 import { type Cloudbeds_post_reservation_RESPONSE } from "project-types";
 import { useSession } from "next-auth/react";
-import { CalendarDateRangePicker } from "../_components/date-range-picker";
+import { CalendarDateRangePicker } from "../../_components/date-range-picker";
 import { type DateRange } from "react-day-picker";
 import React from "react";
 import { useEffect } from "react";
@@ -127,6 +127,32 @@ export default function DashboardPage() {
       {session?.user.isApproved === true && (
         <>
           {" "}
+          {stage === "4" && subscription.data && (
+            <button
+              onClick={() => {
+                setstage("1");
+              }}
+              className="m-5 bg-black p-5 text-white"
+            >
+              {" "}
+              Go back to main Dashboard{" "}
+            </button>
+          )}{" "}
+          {stage === "4" && subscription.data && (
+            <Card className="col-span-3">
+              <CardHeader>
+                <CardTitle>Stay overview</CardTitle>
+                <CardDescription>All past and upcoming stays</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <StaysOverview
+                  success={myreservations.data?.success!}
+                  data={myreservations.data?.data!}
+                  number_of_rows={myreservations.data?.data!.length}
+                />
+              </CardContent>
+            </Card>
+          )}
           {stage === "2" && subscription.data && (
             <DashboardModal
               date={dateRange}
@@ -429,7 +455,12 @@ export default function DashboardPage() {
                           </Card>
                         )}
                     </div>
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+                    <div
+                      onClick={() => {
+                        setstage("4");
+                      }}
+                      className="grid gap-4 md:grid-cols-2 lg:grid-cols-7"
+                    >
                       <Card className="col-span-4">
                         <CardHeader>
                           <CardTitle>Overview</CardTitle>
