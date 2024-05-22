@@ -8,7 +8,7 @@ import {
   isAfterToday,
   Calculate_number_of_days_between_two_dates,
   Calculate_price_for_dashboard_reservation,
-  calculateDaysInMonthRange,
+  calculateDaysInMonthRange_price,
 } from "utilities";
 import { CalendarDateRangePicker } from "@/_components/date-range-picker";
 function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
@@ -47,20 +47,23 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   return (
     <div className="z-20 mx-auto max-h-screen max-w-full  p-4 sm:py-8 md:py-10 lg:px-6">
       <section className="grid gap-6">
-        {DashBoardPageProps.date?.from && DashBoardPageProps.date?.to && (
-          <button
-            onClick={() => {
-              calculateDaysInMonthRange(
-                DashBoardPageProps.date!.from!,
-                DashBoardPageProps.date!.to!,
-              );
-            }}
-            className="m-5 bg-black p-5 text-white"
-          >
-            {" "}
-            handle calculate_Days_In_MonthRange{" "}
-          </button>
-        )}
+        {DashBoardPageProps.date?.from &&
+          DashBoardPageProps.date?.to &&
+          DashBoardPageProps.subscription?.NumberOfBoughtDays && (
+            <button
+              onClick={() => {
+                calculateDaysInMonthRange_price(
+                  DashBoardPageProps.date!.from!,
+                  DashBoardPageProps.date!.to!,
+                  DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+                );
+              }}
+              className="m-5 bg-black p-5 text-white"
+            >
+              {" "}
+              handle calculate_Days_In_MonthRange{" "}
+            </button>
+          )}
         <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">
           Your plan ends{" "}
           {DashBoardPageProps.subscription!.currentPeriod_end.toDateString()}.
@@ -84,6 +87,13 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                 DashBoardPageProps.date?.to,
                 DashBoardPageProps.subscription?.NumberOfBoughtDays!,
               )}
+              {"/////"}{" "}
+              {calculateDaysInMonthRange_price(
+                DashBoardPageProps.date?.from,
+                DashBoardPageProps.date?.to,
+                DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+              )}
+              $
             </>
           )}
         </h1>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-for-of */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import moment from "moment-timezone";
 import { type subscription } from "@prisma/client";
@@ -41,11 +42,14 @@ export function Calculate_price_for_dashboard_reservation(
   return "error";
 }
 
-export function calculateDaysInMonthRange(
+export function calculateDaysInMonthRange_price(
   startDate: Date,
   endDate: Date,
-): MonthDays[] {
-  const result: MonthDays[] = [];
+  daysBought: number,
+) {
+  const DaysMonth_spread: MonthDays[] = [];
+  // const cost_spread_by_month: number[] = [];
+  let overall_cost = 0;
 
   let currentYear = startDate.getFullYear();
   let currentMonth = startDate.getMonth();
@@ -68,7 +72,7 @@ export function calculateDaysInMonthRange(
         ? endDate.getDate()
         : daysInMonth;
 
-    result.push({
+    DaysMonth_spread.push({
       year: currentYear,
       month: currentMonth + 1, // months are zero-indexed
       days: endDay - startDay + 1,
@@ -81,9 +85,25 @@ export function calculateDaysInMonthRange(
       currentYear++;
     }
   }
-  console.log(result);
+  console.log(DaysMonth_spread);
 
-  return result;
+  for (let monthIndex = 0; monthIndex < DaysMonth_spread.length; monthIndex++) {
+    const days_in_month = DaysMonth_spread[monthIndex]?.days;
+    let excess_desired_days = 0;
+    if (days_in_month! > daysBought) {
+      excess_desired_days = days_in_month! - daysBought;
+    }
+
+    const price_for_month = daysBought * 40 + excess_desired_days * 55;
+    console.log(daysBought);
+    console.log(days_in_month);
+    console.log(excess_desired_days);
+    console.log(price_for_month);
+
+    overall_cost = overall_cost + price_for_month;
+  }
+
+  return overall_cost;
 }
 
 export function Calculate_number_of_days_between_two_dates(
