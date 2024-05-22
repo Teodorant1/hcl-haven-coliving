@@ -82,12 +82,12 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
           {DashBoardPageProps.date?.from! && DashBoardPageProps.date?.to! && (
             <>
               , current selection will cost{" "}
-              {Calculate_price_for_dashboard_reservation(
+              {/* {Calculate_price_for_dashboard_reservation(
                 DashBoardPageProps.date?.from,
                 DashBoardPageProps.date?.to,
                 DashBoardPageProps.subscription?.NumberOfBoughtDays!,
               )}
-              {"/////"}{" "}
+              {"/////"}{" "} */}
               {calculateDaysInMonthRange_price(
                 DashBoardPageProps.date?.from,
                 DashBoardPageProps.date?.to,
