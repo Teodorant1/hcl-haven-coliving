@@ -94,7 +94,7 @@ export function calculateDaysInMonthRange_price(
       excess_desired_days = days_in_month! - daysBought;
     }
 
-    const price_for_month = daysBought * 40 + excess_desired_days * 55;
+    const price_for_month = days_in_month! * 40 + excess_desired_days * 55;
     console.log(daysBought);
     console.log(days_in_month);
     console.log(excess_desired_days);
