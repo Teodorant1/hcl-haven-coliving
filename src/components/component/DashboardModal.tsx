@@ -47,7 +47,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   return (
     <div className="z-20 mx-auto max-h-screen max-w-full  p-4 sm:py-8 md:py-10 lg:px-6">
       <section className="grid gap-6">
-        {DashBoardPageProps.date?.from &&
+        {/* {DashBoardPageProps.date?.from &&
           DashBoardPageProps.date?.to &&
           DashBoardPageProps.subscription?.NumberOfBoughtDays && (
             <button
@@ -63,7 +63,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
               {" "}
               handle calculate_Days_In_MonthRange{" "}
             </button>
-          )}
+          )} */}
         <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">
           Your plan ends{" "}
           {DashBoardPageProps.subscription!.currentPeriod_end.toDateString()}.
@@ -76,7 +76,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
           {DashBoardPageProps.subscription?.price && (
             <>
               your subcsription gives you{" "}
-              {DashBoardPageProps.subscription?.price} $
+              {DashBoardPageProps.subscription?.price} $ per month
             </>
           )}
           {DashBoardPageProps.date?.from! && DashBoardPageProps.date?.to! && (
