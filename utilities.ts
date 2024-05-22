@@ -12,24 +12,32 @@ export function Calculate_price_for_dashboard_reservation(
     date2,
   );
 
+  let additionalText = "";
+  const IsSamemonth_boolean = isSameMonth(date1, date2);
+
+  if (IsSamemonth_boolean === false) {
+    additionalText =
+      " , but you will need to be subscribed for multiple months";
+  }
+
   if (estimated_length_of_stay < 30 && daysBought > estimated_length_of_stay) {
-    return estimated_length_of_stay * 40 + "$";
+    return estimated_length_of_stay * 40 + "$" + additionalText;
   }
   if (estimated_length_of_stay < 30 && daysBought < estimated_length_of_stay) {
     const overflow_days = estimated_length_of_stay - daysBought;
 
     const totalprice = daysBought * 40 + overflow_days * 55;
 
-    return totalprice + "$";
+    return totalprice + "$" + additionalText;
   }
   if (estimated_length_of_stay < 30 && daysBought === 30) {
-    return 1095 + "$";
+    return 1095 + "$" + additionalText;
   }
   if (estimated_length_of_stay > 30 && daysBought === 30) {
-    return 1200 + "$";
+    return "You will need to maintain your subscription for multiple months";
   }
 
-  return 0 + "$";
+  return "error";
 }
 export function Calculate_number_of_days_between_two_dates(
   startDate: Date,
@@ -42,6 +50,13 @@ export function Calculate_number_of_days_between_two_dates(
     differenceInMilliseconds / (1000 * 60 * 60 * 24); // milliseconds to days
 
   return Math.round(differenceInDays);
+}
+
+export function isSameMonth(date1: Date, date2: Date): boolean {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth()
+  );
 }
 // therefore we can use this to tell the page whether to render the check in,
 // check out button and book a stay button

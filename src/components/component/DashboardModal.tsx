@@ -63,7 +63,13 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
             currentDate,
             DashBoardPageProps.subscription!.currentPeriod_end,
           )}{" "}
-          days left
+          days left ,{" "}
+          {DashBoardPageProps.subscription?.price && (
+            <>
+              your subcsription gives you{" "}
+              {DashBoardPageProps.subscription?.price} $
+            </>
+          )}
           {DashBoardPageProps.date?.from! && DashBoardPageProps.date?.to! && (
             <>
               , current selection will cost{" "}
