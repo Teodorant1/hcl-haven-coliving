@@ -277,7 +277,7 @@ export default function DashboardPage() {
                     <Button
                       // href="/api/auth/signout"
                       // className="m-3 p-3 text-sm font-medium underline-offset-4 outline hover:underline"
-                      className="bg-white text-black outline"
+                      className="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                       onClick={() => {
                         router.push("/api/auth/signout");
                       }}
@@ -397,7 +397,7 @@ export default function DashboardPage() {
                           }}
                         >
                           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">
+                            <CardTitle className="text-2x1  font-medium">
                               Plan Cost
                             </CardTitle>
                             {/* <svg
@@ -417,7 +417,7 @@ export default function DashboardPage() {
                           <CardContent>
                             <div className="text-2xl font-bold">
                               {subscription.data?.price ? (
-                                <div className="text-xs ">
+                                <div className="text-2x1">
                                   {"$" + subscription.data.price + "/month"}
                                 </div>
                               ) : (
@@ -427,7 +427,7 @@ export default function DashboardPage() {
                             <div className="text-xs ">
                               <div className="text-2xl font-bold">
                                 {subscription.data?.price! < 1000 ? (
-                                  <div className="text-xs ">
+                                  <div className="text-xs text-muted-foreground ">
                                     {"$55 / night over " +
                                       subscription.data?.NumberOfBoughtDays +
                                       " nights "}{" "}
