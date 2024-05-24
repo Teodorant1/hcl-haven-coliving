@@ -27,6 +27,8 @@ import React from "react";
 import { useEffect } from "react";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 // import { Date_isBetween_other_dates } from "utilities";
 
 export default function DashboardPage() {
@@ -271,6 +273,12 @@ export default function DashboardPage() {
                     >
                       Book Stay
                     </Button>{" "}
+                    <Link
+                      href="/api/auth/signout"
+                      className="m-3 p-3 text-sm font-medium underline-offset-4 outline hover:underline"
+                    >
+                      Log Out
+                    </Link>
                   </div>
                   {/* )} */}
                 </div>
