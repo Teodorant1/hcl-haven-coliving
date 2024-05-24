@@ -267,6 +267,7 @@ export default function DashboardPage() {
                       currentDate={currentDate}
                     /> */}
                     <Button
+                      className="outline"
                       onClick={() => {
                         setstage("2");
                       }}
@@ -277,6 +278,9 @@ export default function DashboardPage() {
                       // href="/api/auth/signout"
                       // className="m-3 p-3 text-sm font-medium underline-offset-4 outline hover:underline"
                       className="bg-white text-black outline"
+                      onClick={() => {
+                        router.push("/api/auth/signout");
+                      }}
                     >
                       Log Out
                     </Button>
