@@ -273,12 +273,13 @@ export default function DashboardPage() {
                     >
                       Book Stay
                     </Button>{" "}
-                    <Link
-                      href="/api/auth/signout"
-                      className="m-3 p-3 text-sm font-medium underline-offset-4 outline hover:underline"
+                    <Button
+                      // href="/api/auth/signout"
+                      // className="m-3 p-3 text-sm font-medium underline-offset-4 outline hover:underline"
+                      className="bg-white text-black outline"
                     >
                       Log Out
-                    </Link>
+                    </Button>
                   </div>
                   {/* )} */}
                 </div>
