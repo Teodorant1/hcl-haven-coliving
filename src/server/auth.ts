@@ -100,29 +100,26 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        console.log(credentials);
-        console.log("LOGGING IN");
+        // console.log(credentials);
+        // console.log("LOGGING IN");
         await sleep(1500);
         try {
           const foundUser: HCL_user = await db.hCL_user.findUniqueOrThrow({
             where: { email: credentials!.email },
           });
-
-          console.log("foundUser");
-          console.log(foundUser);
-
+          // console.log("foundUser");
+          // console.log(foundUser);
           if (foundUser) {
-            console.log("User Exists");
-            console.log(foundUser);
+            // console.log("User Exists");
+            // console.log(foundUser);
             const match = await bcrypt.compare(
               credentials!.password,
               foundUser.password,
             );
 
             if (match === true) {
-              console.log("Good Pass");
+              // console.log("Good Pass");
               foundUser.password = " ";
-
               // foundUser["role"] = "Unverified Email";
               return foundUser;
             }
@@ -170,7 +167,9 @@ export const authOptions: NextAuthOptions = {
         token.genderSex = adhocSession.GenderSex;
         session.user.fullname = adhocSession.fullname;
       }
-
+      console.log(token);
+      console.log(session);
+      console.log(profile);
       return { ...token, ...session, profile };
     },
     // session: ({ session, user }) => ({

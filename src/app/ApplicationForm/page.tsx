@@ -6,9 +6,7 @@ import { useSession } from "next-auth/react";
 const Application_Form = () => {
   const session = useSession();
 
-  return (
-    <>{session.data?.user.isApproved === false && <InnerApplication_form />}</>
-  );
+  return <>{session.data?.isApproved === false && <InnerApplication_form />}</>;
 };
 
 export default Application_Form;
