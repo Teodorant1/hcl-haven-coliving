@@ -11,6 +11,7 @@ import {
   book_a_room,
   getReservations,
   GetStatusOfSubcsription,
+  sleep,
 } from "utilitiesBackend";
 import { type recentReservations } from "project-types";
 
@@ -292,21 +293,31 @@ export const bookingRouter = createTRPCRouter({
     }
   }),
   getMyReservations: protectedProcedure.query(async ({ ctx, input }) => {
-    if (ctx.session.user.isApproved) {
-      const MyReservations = await ctx.db.cloudbeds_reservation.findMany({
-        where: { email: ctx.session.user.email },
-        orderBy: {
-          check_in: "desc",
-        },
-      });
+    console.log(ctx.session);
+    // await sleep(1000);
 
-      const MyReservationsPackaged: recentReservations = {
-        success: true,
-        data: MyReservations,
-      };
-
-      return MyReservationsPackaged;
+    if (ctx.session.isApproved !== true) {
+      console.log("YOU SHALL NOT PASS, BECAUSE YOU ARE NOT APPROVED!");
+      return null;
     }
+    // console.log(ctx.session);
+
+    const MyReservations = await ctx.db.cloudbeds_reservation.findMany({
+      where: { email: ctx.session.user.email },
+      orderBy: {
+        check_in: "desc",
+      },
+    });
+
+    const MyReservationsPackaged: recentReservations = {
+      success: true,
+      data: MyReservations,
+    };
+
+    console.log("MyReservationsPackaged", MyReservationsPackaged);
+    // console.log(MyReservationsPackaged);
+
+    return MyReservationsPackaged;
   }),
 
   Update_all_reservations: protectedProcedure

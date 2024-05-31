@@ -2,9 +2,7 @@
 "use client";
 
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
-
 import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import ConfirmationPopup from "@/components/component/ConfirmationPopup";
+import { signIn } from "next-auth/react";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -25,11 +24,20 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   const router = useRouter();
   const makeAccount = api.auth.Addaccount.useMutation({
-    onSuccess: () => {
+    onSuccess: async (data) => {
       console.log("OP SUCCESS");
       setIsLoading(false);
       setregistrationSucceded(true);
       // router.push("/api/auth/signin");
+
+      await signIn("credentials", {
+        ...data,
+        redirect: true,
+        callbackUrl: "/",
+      }).then(() => {
+        // router.push("/");
+        // setloginSucceeded(true);
+      });
     },
   });
 

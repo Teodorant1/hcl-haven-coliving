@@ -31,7 +31,12 @@ export const authRouter = createTRPCRouter({
         },
       });
 
-      return "ACCOUNT MADE";
+      const Credentials = {
+        email: input.email,
+        password: hashedpassword,
+      };
+
+      return Credentials;
     }),
   SendApplication: protectedProcedure
     .input(

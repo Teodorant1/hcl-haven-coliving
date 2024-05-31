@@ -32,6 +32,8 @@ import Link from "next/link";
 // import { Date_isBetween_other_dates } from "utilities";
 
 export default function DashboardPage() {
+  console.log("0");
+
   const router = useRouter();
   const { status, data: session } = useSession();
   const [stage, setstage] = useState<string | undefined>("1");
@@ -45,9 +47,20 @@ export default function DashboardPage() {
     from: addDays(new Date(), 0),
     to: addDays(new Date(), 7),
   });
-  const myreservations = api.booking.getMyReservations.useQuery();
-  const subscription = api.booking.GetSubscription.useQuery();
+  console.log("1");
 
+  const subscription = api.booking.GetSubscription.useQuery();
+  console.log("1.5");
+  const { data, error } = api.booking.getMyReservations.useQuery();
+
+  // const myreservations = api.booking.getMyReservations.useQuery();
+
+  console.log("2");
+  // useEffect(() => {
+  //   if (data === null) {
+  //     data.refetch();
+  //   }
+  // }, [data]);
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
@@ -85,6 +98,7 @@ export default function DashboardPage() {
   //     propertyID: 0,
   //   });
   // }
+  console.log("3");
   return (
     <>
       {" "}
@@ -139,7 +153,7 @@ export default function DashboardPage() {
         {" "}
         PRINT 1st RESERVATION user and email{" "}
       </button> */}
-      {session?.user.isApproved === true && (
+      {session?.isApproved === true && (
         <>
           {" "}
           {stage === "4" && subscription.data && (
@@ -161,9 +175,9 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <StaysOverview
-                  success={myreservations.data?.success!}
-                  data={myreservations.data?.data!}
-                  number_of_rows={myreservations.data?.data!.length}
+                  success={data?.success!}
+                  data={data?.data!}
+                  number_of_rows={data?.data!.length}
                 />
               </CardContent>
             </Card>
@@ -502,8 +516,8 @@ export default function DashboardPage() {
                         </CardHeader>
                         <CardContent>
                           <StaysOverview
-                            success={myreservations.data?.success!}
-                            data={myreservations.data?.data!}
+                            success={data?.success!}
+                            data={data?.data!}
                             number_of_rows={10}
                           />
                         </CardContent>

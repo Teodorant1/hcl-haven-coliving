@@ -1,14 +1,22 @@
-"use client";
+// "use client";
 import * as React from "react";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+// import { useRouter } from "next/navigation";
+// import { useSession } from "next-auth/react";
+import { getServerAuthSession } from "@/server/auth";
+import { redirect } from "next/navigation";
 
-export default function Component() {
-  const router = useRouter();
-  const session = useSession();
+export default async function Component() {
+  // const router = useRouter();
+  const session = await getServerAuthSession();
+
+  if (session) {
+    redirect("/Dashboard");
+  }
+
+  // const session = useSession();
 
   // useEffect(() => {
   //   if (session?.status === "authenticated") {
@@ -16,11 +24,11 @@ export default function Component() {
   //   }
   // }, []);
 
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      router.push("/Dashboard");
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if (session?.status === "authenticated") {
+  //     router.push("/Dashboard");
+  //   }
+  // }, [session]);
 
   return (
     <div className="flex h-full flex-col">

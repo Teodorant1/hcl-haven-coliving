@@ -15,7 +15,6 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   const [currentDate, setcurrentDate] = React.useState<Date>(new Date());
   // const unassigned_rooms =
   //   api.booking.Get_AvailableRooms_From_Cloudbeds.useQuery();
-
   const book_a_room = api.booking.Book_a_room.useMutation({
     onSuccess: (reservationResponse) => {
       // setapplicationSent(true);
@@ -34,6 +33,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
       endDate: DashBoardPageProps.date?.to!,
       // gender: session.data!.user?.genderSex,
     });
+
   async function handle_book_a_room(roomTypeID: number) {
     book_a_room.mutate({
       propertyID: 309910,

@@ -26,6 +26,7 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     // paloki1: string;
     // paloki: string;
+    isApproved: boolean;
     user: {
       id: string;
       // ...other properties
