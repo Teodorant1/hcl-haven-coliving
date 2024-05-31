@@ -14,7 +14,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { db } from "@/server/db";
 import { type HCL_user } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { getImprovSession } from "utilitiesBackend";
+import { getImprovSession, sleep } from "utilitiesBackend";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -102,10 +102,14 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         console.log(credentials);
         console.log("LOGGING IN");
+        await sleep(1500);
         try {
           const foundUser: HCL_user = await db.hCL_user.findUniqueOrThrow({
             where: { email: credentials!.email },
           });
+
+          console.log("foundUser");
+          console.log(foundUser);
 
           if (foundUser) {
             console.log("User Exists");

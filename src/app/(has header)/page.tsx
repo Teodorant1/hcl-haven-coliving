@@ -12,8 +12,11 @@ export default async function Component() {
   // const router = useRouter();
   const session = await getServerAuthSession();
 
-  if (session) {
+  if (session?.isApproved === true) {
     redirect("/Dashboard");
+  }
+  if (session?.isApproved === false) {
+    redirect("/ApplicationForm");
   }
 
   // const session = useSession();

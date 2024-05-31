@@ -9,6 +9,7 @@ import {
 import ApplicationSubmitUserEmail from "@/_emails/SubmitApplication";
 import ApplicationNotificationUserEmail from "@/_emails/AdminApplicationNotification";
 import ApplicationResponseEmail from "@/_emails/ApplicationResponse";
+import { sleep } from "utilitiesBackend";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure
@@ -33,8 +34,12 @@ export const authRouter = createTRPCRouter({
 
       const Credentials = {
         email: input.email,
-        password: hashedpassword,
+        password: input.password,
       };
+
+      console.log(Credentials);
+
+      await sleep(1000);
 
       return Credentials;
     }),

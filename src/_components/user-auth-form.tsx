@@ -33,7 +33,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       await signIn("credentials", {
         ...data,
         redirect: true,
-        callbackUrl: "/",
+        callbackUrl: "/ApplicationForm",
       }).then(() => {
         // router.push("/");
         // setloginSucceeded(true);
