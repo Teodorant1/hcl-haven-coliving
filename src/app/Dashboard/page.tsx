@@ -76,7 +76,12 @@ export default function DashboardPage() {
   return (
     <>
       {subscription.data?.subscriptionStatus !== true && (
-        <div className="m-5 bg-black p-5 text-white">
+        <div
+          onClick={() => {
+            router.push("/Memberships");
+          }}
+          className="m-5 bg-black p-5 text-white"
+        >
           Your subscription is invalid , click here to go to memberships page so
           you can buy a new one{" "}
         </div>
