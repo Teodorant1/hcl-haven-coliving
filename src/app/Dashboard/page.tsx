@@ -73,35 +73,9 @@ export default function DashboardPage() {
     }
   }, [session]);
 
-  // useEffect(() => {
-  //   if (status === "authenticated") {
-  //     void myreservations.refetch();
-  //     void subscription.refetch();
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   if (status === "authenticated") {
-  //     void myreservations.refetch();
-  //     void subscription.refetch();
-  //   }
-  // }, [session]);
-
-  // const Update_all_reservations =
-  //   api.booking.Update_all_reservations.useMutation({
-  //     onSuccess: () => {
-  //       console.log("OP SUCCESS");
-  //     },
-  //   });
-
-  // function createBunches_of_test_reservations() {
-  //   Update_all_reservations.mutate({
-  //     propertyID: 0,
-  //   });
-  // }
-  console.log("3");
   return (
     <>
-      {subscription.data?.subscriptionStatus === false && (
+      {subscription.data?.subscriptionStatus !== true && (
         <div className="m-5 bg-black p-5 text-white">
           Your subscription is invalid , click here to go to memberships page so
           you can buy a new one{" "}
