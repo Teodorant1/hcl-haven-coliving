@@ -138,7 +138,7 @@ export default function LoginPage() {
             <Button
               onClick={async () => {
                 // router.push("/api/auth/signin");
-                await signIn("google", { callbackUrl: "/Dashboard" });
+                await signIn("google", { callbackUrl: "/" });
               }}
               variant="outline"
               type="button"
