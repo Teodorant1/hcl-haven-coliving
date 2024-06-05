@@ -55,25 +55,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     });
   }
 
-  function SuccessBox() {
-    // useEffect(() => {
-    //   router.push("/api/auth/signin");
-    //   console.log("Component mounted");
-    //   return () => {
-    //     console.log("Component unmounted");
-    //   };
-    // }, []);
-    return (
-      <Link href={"/ApplicationForm"}>
-        {" "}
-        <div className="rounded-sm bg-black p-3  text-white">
-          You have successfully made an Account! Click here to go to the
-          Application form for our pilot program. Make sure to log in first.
-        </div>
-      </Link>
-    );
-  }
-
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       {registrationSucceded === true && <ConfirmationPopup />}{" "}

@@ -15,9 +15,9 @@ export default async function Component() {
   if (session?.isApproved === true) {
     redirect("/Dashboard");
   }
-  if (session?.isApproved === false) {
-    redirect("/ApplicationForm");
-  }
+  // if (session?.isApproved === false) {
+  //   redirect("/ApplicationForm");
+  // }
 
   // const session = useSession();
 

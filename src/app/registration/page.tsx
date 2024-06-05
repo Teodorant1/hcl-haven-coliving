@@ -9,7 +9,7 @@ export default function AuthenticationPage() {
   return (
     <div>
       {/* <RegistrationForm /> */}
-      <div className="hidden">
+      {/* <div className="hidden">
         <Image
           src="/examples/authentication-light.png"
           width={1280}
@@ -24,7 +24,7 @@ export default function AuthenticationPage() {
           alt="Authentication"
           className="hidden dark:block"
         />
-      </div>
+      </div> */}
       <div className="container relative grid  h-[800px] flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="api/auth/signin"
