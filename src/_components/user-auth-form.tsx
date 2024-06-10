@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
-import Link from "next/link";
 import ConfirmationPopup from "@/components/component/ConfirmationPopup";
 import { signIn } from "next-auth/react";
 

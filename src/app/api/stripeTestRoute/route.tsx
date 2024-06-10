@@ -1,30 +1,18 @@
 import Stripe from "stripe";
 import { db } from "@/server/db";
 import { type NextRequest, NextResponse } from "next/server";
-// import { type StripeMetadata } from "project-types";
-
-// const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!, {
-//   // https://github.com/stripe/stripe-node#configuration
-// });
 
 const webhookSecret: string = process.env.NEXT_PRIVATE_STRIPE_WEBHOOK_SECRET!;
 
 const webhookHandler = async (req: NextRequest) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  // const body = await req.json();
   const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
   console.log(req);
-  // console.log(body);
   const sig = req.headers.get("stripe-signature")!;
   console.log(sig);
   const buf = await req.text();
   console.log(buf);
   try {
-    console.log("zeroth try");
-    // const buf = await req.text();
-    // const sig = req.headers.get("stripe-signature")!;
     let event: Stripe.Event;
-    console.log("first try");
     try {
       event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
       console.log("2nd try");

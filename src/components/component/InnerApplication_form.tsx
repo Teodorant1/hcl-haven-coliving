@@ -34,6 +34,7 @@ export function InnerApplication_form() {
   const { status, data: session } = useSession();
   const [applicationSent, setapplicationSent] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -52,6 +53,11 @@ export function InnerApplication_form() {
   });
 
   async function ApplyToAirlineProgram() {
+    if (isLoading === true) {
+      return "oogabooga";
+    }
+    setIsLoading(true);
+
     const date = (document.getElementById("dob") as HTMLInputElement).value;
     const actualDate = convert_date_string_to_DATE(date);
     console.log(typeof date);
@@ -318,14 +324,16 @@ export function InnerApplication_form() {
             >
               print user
             </Button> */}
-            <Button
-              onClick={async () => {
-                await ApplyToAirlineProgram();
-              }}
-              className="ml-auto"
-            >
-              Submit
-            </Button>
+            {isLoading === false && (
+              <Button
+                onClick={async () => {
+                  await ApplyToAirlineProgram();
+                }}
+                className="ml-auto"
+              >
+                Submit
+              </Button>
+            )}
           </CardFooter>
         </Card>
       )}

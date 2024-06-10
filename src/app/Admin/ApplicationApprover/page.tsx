@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { MdCancel } from "react-icons/md";
 import { api } from "@/trpc/react";
@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 const ApplicationApprover = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { status, data: session } = useSession();
   const applicants = api.auth.Get_applicants_for_approval.useQuery();
   const AdminAction = api.auth.Approve_Account.useMutation({
@@ -23,6 +24,11 @@ const ApplicationApprover = () => {
     gender: string,
     fullname: string,
   ) {
+    if (isLoading === true) {
+      return "ooogabooga";
+    }
+    setIsLoading(true);
+
     AdminAction.mutate({
       userEmail: userEmail,
       applicationID: applicationID,
@@ -136,25 +142,27 @@ const ApplicationApprover = () => {
                           {applicant.applicationDate.toDateString()}
                         </td>
                         <td className="[&amp;:has([role=checkbox])]:pr-0 p-4 align-middle">
-                          <button
-                            className="inline-flex h-10  items-center justify-center whitespace-nowrap rounded-md border border-input bg-background bg-green-600 px-4 py-2 text-sm font-medium text-white ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-                            type="button"
-                            id="radix-:Rrdlafnnja:"
-                            aria-haspopup="menu"
-                            aria-expanded="false"
-                            data-state="closed"
-                            onClick={() => {
-                              HandleAdminAction(
-                                applicant.email,
-                                applicant.id,
-                                true,
-                                applicant.gender,
-                                applicant.name,
-                              );
-                            }}
-                          >
-                            ACCEPT <IoCheckmarkCircleSharp className="ml-2" />
-                          </button>
+                          {isLoading === false && (
+                            <button
+                              className="inline-flex h-10  items-center justify-center whitespace-nowrap rounded-md border border-input bg-background bg-green-600 px-4 py-2 text-sm font-medium text-white ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                              type="button"
+                              id="radix-:Rrdlafnnja:"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              data-state="closed"
+                              onClick={() => {
+                                HandleAdminAction(
+                                  applicant.email,
+                                  applicant.id,
+                                  true,
+                                  applicant.gender,
+                                  applicant.name,
+                                );
+                              }}
+                            >
+                              ACCEPT <IoCheckmarkCircleSharp className="ml-2" />
+                            </button>
+                          )}
                           <button
                             className="inline-flex h-10  items-center justify-center whitespace-nowrap rounded-md border border-input bg-background bg-red-600 px-4 py-2 text-sm font-medium text-white ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                             type="button"
