@@ -9,12 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import { MainNav } from "../_components/main-nav";
 import { Overview } from "../../_components/overview";
 import { StaysOverview } from "../../_components/StaysOverview";
-// import { Search } from "../_components/search";
-// import TeamSwitcher from "../_components/team-switcher";
-// import { UserNav } from "../_components/user-nav";
 import { useState } from "react";
 import { addDays } from "date-fns";
 import DashboardModal from "@/components/component/DashboardModal";
@@ -27,17 +23,12 @@ import React from "react";
 import { useEffect } from "react";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
-
-// import { Date_isBetween_other_dates } from "utilities";
+import { validate_can_check_in } from "utilities";
 
 export default function DashboardPage() {
-  console.log("0");
-
   const router = useRouter();
   const { status, data: session } = useSession();
   const [stage, setstage] = useState<string | undefined>("1");
-  // const [currentDate, setcurrentDate] = useState<Date | undefined>(new Date());
-  // const [date, setDate] = useState<Date | undefined>(addDays(new Date(), 7));
   const [CBEDS_response, setCBEDS_response] = useState<
     Cloudbeds_post_reservation_RESPONSE | undefined
   >();
@@ -46,20 +37,22 @@ export default function DashboardPage() {
     from: addDays(new Date(), 0),
     to: addDays(new Date(), 7),
   });
-  console.log("1");
-
   const subscription = api.booking.GetSubscription.useQuery();
-  console.log("1.5");
   const { data, error } = api.booking.getMyReservations.useQuery();
 
-  // const myreservations = api.booking.getMyReservations.useQuery();
+  const do_Check_in_OR_out_OF_room =
+    api.booking.Check_in_OR_out_OF_room.useMutation({
+      onSuccess: () => {
+        subscription.refetch;
+      },
+    });
 
-  console.log("2");
-  // useEffect(() => {
-  //   if (data === null) {
-  //     data.refetch();
-  //   }
-  // }, [data]);
+  function handle_Check_in_OR_out_OF_room() {
+    do_Check_in_OR_out_OF_room.mutate({
+      entering: !subscription.data?.isCheckedIn,
+    });
+  }
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
@@ -83,14 +76,13 @@ export default function DashboardPage() {
         >
           Your subscription is invalid (or is being fetched and you have a slow
           connection), click here to go to memberships page so you can buy a new
-          one{" "}
+          one
         </button>
       )}
       {subscription.data?.subscriptionStatus === true && (
         <>
           {session?.isApproved === true && (
             <>
-              {" "}
               {stage === "4" && subscription.data && (
                 <button
                   onClick={() => {
@@ -98,10 +90,9 @@ export default function DashboardPage() {
                   }}
                   className="m-5 bg-black p-5 text-white"
                 >
-                  {" "}
-                  Go back to main Dashboard{" "}
+                  Go back to main Dashboard
                 </button>
-              )}{" "}
+              )}
               {stage === "4" && subscription.data && (
                 <Card className="col-span-3">
                   <CardHeader>
@@ -183,10 +174,10 @@ export default function DashboardPage() {
                         currentDate,
                         subscription.data.check_in!,
                         subscription.data.check_out!,
-                      ) === null && <>is null</>}{" "}
+                      ) === null && <>is null</>}
                       false
                     </button>
-                  )}{" "}
+                  )}
                 {subscription.data?.check_in && subscription.data.check_out && (
                   // Date_isBetween_other_dates(
                   //   currentDate,
@@ -199,7 +190,7 @@ export default function DashboardPage() {
                     <div className="flex items-center justify-between space-y-2">
                       <h2 className="text-3xl font-bold tracking-tight">
                         Dashboard
-                      </h2>{" "}
+                      </h2>
                       {/* {
                     !subscription.data.check_in &&
                     !subscription.data.check_out && ( */}
@@ -217,6 +208,30 @@ export default function DashboardPage() {
                       setStage={setstage}
                       currentDate={currentDate}
                     /> */}
+                        {subscription.data.isCheckedIn === false &&
+                          data &&
+                          validate_can_check_in(data, currentDate)?.status ===
+                            true && (
+                            <Button
+                              className="outline"
+                              onClick={() => {
+                                handle_Check_in_OR_out_OF_room();
+                              }}
+                            >
+                              Check In
+                            </Button>
+                          )}
+                        {subscription.data.isCheckedIn === true && (
+                          <Button
+                            className="outline"
+                            onClick={() => {
+                              handle_Check_in_OR_out_OF_room();
+                            }}
+                          >
+                            Check Out
+                          </Button>
+                        )}
+
                         <Button
                           className="outline"
                           onClick={() => {
@@ -224,7 +239,7 @@ export default function DashboardPage() {
                           }}
                         >
                           Book Stay
-                        </Button>{" "}
+                        </Button>
                         <Button
                           // href="/api/auth/signout"
                           // className="m-3 p-3 text-sm font-medium underline-offset-4 outline hover:underline"
@@ -258,7 +273,7 @@ export default function DashboardPage() {
                             <Card>
                               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
-                                  Nights included{" "}
+                                  Nights included
                                 </CardTitle>
                                 {/* <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -277,7 +292,7 @@ export default function DashboardPage() {
                                 <div className="text-2xl font-bold">
                                   {subscription.data?.NumberOfBoughtDays ? (
                                     <>
-                                      {subscription.data?.NumberOfBoughtDays}{" "}
+                                      {subscription.data?.NumberOfBoughtDays}
                                       nights
                                     </>
                                   ) : (
@@ -285,26 +300,26 @@ export default function DashboardPage() {
                                   )}
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                  from{" "}
+                                  from
                                   {subscription.data?.currentPeriod_start ? (
                                     <>
-                                      {subscription.data?.currentPeriod_start.toDateString()}{" "}
+                                      {subscription.data?.currentPeriod_start.toDateString()}
                                     </>
                                   ) : (
                                     <>N/A</>
-                                  )}{" "}
-                                  to{" "}
+                                  )}
+                                  to
                                   {subscription.data?.currentPeriod_end ? (
                                     <>
-                                      {subscription.data?.currentPeriod_end.toDateString()}{" "}
+                                      {subscription.data?.currentPeriod_end.toDateString()}
                                     </>
                                   ) : (
                                     <>N/A</>
-                                  )}{" "}
+                                  )}
                                 </p>
                               </CardContent>
                             </Card>
-                          }{" "}
+                          }
                           {
                             <Card>
                               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -337,7 +352,7 @@ export default function DashboardPage() {
                                     </p>
                                   ) : (
                                     <>N/A</>
-                                  )}{" "}
+                                  )}
                                 </div>
                               </CardContent>
                             </Card>
@@ -374,7 +389,7 @@ export default function DashboardPage() {
                                     </div>
                                   ) : (
                                     <>N/A</>
-                                  )}{" "}
+                                  )}
                                 </div>
                                 <div className="text-xs ">
                                   <div className="text-2xl font-bold">
@@ -383,12 +398,12 @@ export default function DashboardPage() {
                                         {"$55 / night over " +
                                           subscription.data
                                             ?.NumberOfBoughtDays +
-                                          " nights "}{" "}
+                                          " nights "}
                                       </div>
                                     ) : (
                                       <>N/A</>
-                                    )}{" "}
-                                  </div>{" "}
+                                    )}
+                                  </div>
                                 </div>
                               </CardContent>
                             </Card>
@@ -398,7 +413,7 @@ export default function DashboardPage() {
                               <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                   <CardTitle className="text-sm font-medium">
-                                    Current Status{" "}
+                                    Current Status
                                   </CardTitle>
                                   {/* <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -415,9 +430,8 @@ export default function DashboardPage() {
                                 </CardHeader>
                                 <CardContent>
                                   <div className="text-2xl font-bold">
-                                    {" "}
                                     {subscription.data.isCheckedIn ===
-                                      false && <>Not Checked In</>}{" "}
+                                      false && <>Not Checked In</>}
                                     {subscription.data.isCheckedIn === true && (
                                       <>Checked In</>
                                     )}

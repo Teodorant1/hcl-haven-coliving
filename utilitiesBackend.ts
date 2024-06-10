@@ -203,10 +203,10 @@ export async function Stripe_PeriodBookkeeping() {
       const isPaid: boolean = invoice_in_stripe_db.paid;
 
       const currentPeriod_startDate = new Date(
-        subscription_in_stripe_db.current_period_start,
+        subscription_in_stripe_db.current_period_start * 1000,
       );
       const currentPeriod_endDate = new Date(
-        subscription_in_stripe_db.current_period_end,
+        subscription_in_stripe_db.current_period_end * 1000,
       );
 
       if (

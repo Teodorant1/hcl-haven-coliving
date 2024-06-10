@@ -13,11 +13,9 @@ import { CalendarDateRangePicker } from "@/_components/date-range-picker";
 function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
   const session = useSession();
   const [currentDate, setcurrentDate] = React.useState<Date>(new Date());
-  // const unassigned_rooms =
-  //   api.booking.Get_AvailableRooms_From_Cloudbeds.useQuery();
+
   const book_a_room = api.booking.Book_a_room.useMutation({
     onSuccess: (reservationResponse) => {
-      // setapplicationSent(true);
       console.log(reservationResponse);
       DashBoardPageProps.setStage("3");
       if (DashBoardPageProps?.setCBEDS_response) {

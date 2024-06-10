@@ -380,6 +380,19 @@ export const bookingRouter = createTRPCRouter({
       return reservationResponse;
     }),
 
+  Check_in_OR_out_OF_room: protectedProcedure
+    .input(
+      z.object({
+        entering: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.subscription.update({
+        where: { userEmail: ctx.session.user.email },
+        data: { isCheckedIn: !input.entering },
+      });
+    }),
+
   // test_Mutexes_in_supabase: protectedProcedure.mutation(
   //   async ({ ctx, input }) => {
   //     for (let i = 0; i < 100; i++) {

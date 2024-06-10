@@ -54,18 +54,7 @@ const webhookHandler = async (req: NextRequest) => {
     console.log("event.type=" + event.type);
     switch (event.type) {
       case "checkout.session.completed":
-        // const eventString = event.object.toString();
         console.log(event);
-        // const eventID: string = event.id;
-        // const Stripe_Metadata: StripeMetadata = event.data.object
-        //   .metadata! as unknown as StripeMetadata;
-        // console.log(Stripe_Metadata.description);
-        // console.log(Stripe_Metadata.email);
-        // console.log(Stripe_Metadata.method);
-        // console.log(Stripe_Metadata.packageName);
-        // console.log(Stripe_Metadata.price);
-        // console.log(Stripe_Metadata.priceID);
-
         const customerID = subscription.customer;
         const subscriptionID = event.data.object.subscription;
 
@@ -87,10 +76,6 @@ const webhookHandler = async (req: NextRequest) => {
         console.log("print end and start date for stripe");
         console.log(currentPeriod_startDate);
         console.log(currentPeriod_endDate);
-
-        // const ended_atDate = new Date(subscription_in_stripe_db.ended_at!);
-        // const cancel_atDate = new Date(subscription_in_stripe_db.created);
-        // const cancelled_atDate = new Date(subscription_in_stripe_db.created);
 
         await db.subscription.updateMany({
           where: {
