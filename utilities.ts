@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import moment from "moment-timezone";
 import { type subscription } from "@prisma/client";
-import { type MonthDays } from "project-types";
+import { type recentReservations, type MonthDays } from "project-types";
 
 // export function Calculate_price_for_dashboard_reservation(
 //   date1: Date,
@@ -41,6 +41,43 @@ import { type MonthDays } from "project-types";
 
 //   return "error";
 // }
+
+function isDateBetween(
+  currentDate: Date,
+  startDate: Date | undefined,
+  endDate: Date | undefined,
+): boolean {
+  if (!startDate || !endDate) {
+    return false;
+  }
+  return currentDate >= startDate && currentDate <= endDate;
+}
+
+export function validate_can_check_in(
+  recentReservations: recentReservations,
+  currentDate: Date,
+) {
+  for (let index = 0; index < recentReservations.data.length; index++) {
+    if (
+      isDateBetween(
+        currentDate,
+        recentReservations.data[index]?.check_in,
+        recentReservations.data[index]?.check_out,
+      )
+    ) {
+      const isDateBetween_struct = {
+        currentDate: currentDate,
+        startDate: recentReservations.data[index]?.check_in,
+        endDate: recentReservations.data[index]?.check_out,
+        status: true,
+      };
+
+      return isDateBetween_struct;
+    }
+  }
+
+  return null;
+}
 
 export function calculateDaysInMonthRange_price(
   startDate: Date,
@@ -125,24 +162,6 @@ export function isSameMonth(date1: Date, date2: Date): boolean {
     date1.getFullYear() === date2.getFullYear() &&
     date1.getMonth() === date2.getMonth()
   );
-}
-// therefore we can use this to tell the page whether to render the check in,
-// check out button and book a stay button
-// we should also check the value of isCheckedIn
-export async function Date_isBetween_other_dates(
-  Date_toCheck: Date,
-  firstDate: Date,
-  secondDate: Date,
-) {
-  if (firstDate === null && secondDate === null) {
-    return null;
-  }
-
-  if (Date_toCheck > firstDate && Date_toCheck < secondDate) {
-    return true;
-  }
-
-  return false;
 }
 
 export function Confirm_if_IsCheckedIn(subscription: subscription) {

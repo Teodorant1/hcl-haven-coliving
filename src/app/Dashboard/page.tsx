@@ -27,7 +27,6 @@ import React from "react";
 import { useEffect } from "react";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 // import { Date_isBetween_other_dates } from "utilities";
 
@@ -75,15 +74,16 @@ export default function DashboardPage() {
 
   return (
     <>
-      {subscription.data?.subscriptionStatus !== true && (
+      {subscription.data && subscription.data.subscriptionStatus !== true && (
         <button
           onClick={() => {
             router.push("/Membership");
           }}
           className="m-5 bg-black p-5 text-white"
         >
-          Your subscription is invalid , click here to go to memberships page so
-          you can buy a new one{" "}
+          Your subscription is invalid (or is being fetched and you have a slow
+          connection), click here to go to memberships page so you can buy a new
+          one{" "}
         </button>
       )}
       {subscription.data?.subscriptionStatus === true && (
