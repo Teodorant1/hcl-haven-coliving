@@ -24,6 +24,7 @@ import { useEffect } from "react";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { validate_can_check_in } from "utilities";
+import Membership from "../(has header)/Membership/page";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -67,18 +68,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      {subscription.data?.subscriptionStatus !== true && (
-        <button
-          onClick={() => {
-            router.push("/Membership");
-          }}
-          className="m-5 bg-black p-5 text-white"
-        >
-          Your subscription is invalid (or is being fetched and you have a slow
-          connection), click here to go to memberships page so you can buy a new
-          one
-        </button>
-      )}
+      {subscription.data?.subscriptionStatus !== true && <Membership />}
       {subscription.data?.subscriptionStatus === true && (
         <>
           {session?.isApproved === true && (
