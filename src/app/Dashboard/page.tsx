@@ -282,7 +282,7 @@ export default function DashboardPage() {
                                 <div className="text-2xl font-bold">
                                   {subscription.data?.NumberOfBoughtDays ? (
                                     <>
-                                      {subscription.data?.NumberOfBoughtDays}
+                                      {subscription.data?.NumberOfBoughtDays}{" "}
                                       nights
                                     </>
                                   ) : (
@@ -290,21 +290,21 @@ export default function DashboardPage() {
                                   )}
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                  from
+                                  from{"  "}
                                   {subscription.data?.currentPeriod_start ? (
                                     <>
-                                      {subscription.data?.currentPeriod_start.toDateString()}
+                                      {subscription.data?.currentPeriod_start.toDateString()}{" "}
                                     </>
                                   ) : (
-                                    <>N/A</>
+                                    <>{"  "}N/A </>
                                   )}
-                                  to
+                                  to{"  "}
                                   {subscription.data?.currentPeriod_end ? (
                                     <>
                                       {subscription.data?.currentPeriod_end.toDateString()}
                                     </>
                                   ) : (
-                                    <>N/A</>
+                                    <>{"  "}N/A</>
                                   )}
                                 </p>
                               </CardContent>
