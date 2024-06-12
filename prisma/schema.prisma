@@ -257,7 +257,7 @@ model HCL_user  {
 model HCL_Application {
     id                             String    @id @default(cuid())
     name                           String
-    email                          String   // maybe make this unique for launch
+    email                          String    @unique 
     DateOfBirth                    DateTime
     gender                         String
     phoneNumber                    String
