@@ -67,7 +67,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      {subscription.data && subscription.data.subscriptionStatus !== true && (
+      {subscription.data?.subscriptionStatus !== true && (
         <button
           onClick={() => {
             router.push("/Membership");
