@@ -10,6 +10,7 @@ import ApplicationSubmitUserEmail from "@/_emails/SubmitApplication";
 import ApplicationNotificationUserEmail from "@/_emails/AdminApplicationNotification";
 import ApplicationResponseEmail from "@/_emails/ApplicationResponse";
 import { sleep } from "utilitiesBackend";
+import { Whisper } from "next/font/google";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure
@@ -81,6 +82,12 @@ export const authRouter = createTRPCRouter({
           Emergency_Contact_Relationship: input.Emergency_Contact_Relationship,
           RefferedBy: input.RefferedBy,
         },
+      });
+      await ctx.db.hCL_user.update({
+        where: {
+          email: ctx.session.user.email,
+        },
+        data: { has_already_applied: true },
       });
       const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
       // const userImage = ctx.session.user.image
@@ -214,18 +221,19 @@ export const authRouter = createTRPCRouter({
   check_if_user_has_already_applied: protectedProcedure.query(
     async ({ ctx, input }) => {
       // only the admin gets access to this procedure
-      if (ctx.session.user.isApproved === false) {
-        const user = await ctx.db.hCL_Application.findMany({
-          where: {
-            isApproved: false,
-            isReviewed: false,
-          },
-        });
-        return user;
-      }
-      // adding this so that TRPC doesn't give me errors
-      // const emptyarray: HCL_Application[] = [];
-      // return emptyarray;
+      // if (ctx.session.user.isApproved === false) {
+      const user = await ctx.db.hCL_user.findFirst({
+        where: {
+          email: ctx.session.user.email,
+        },
+      });
+
+      //by the default they need to be users to access the page where this will be called
+      const has_applied = user!.has_already_applied;
+
+      return has_applied;
+      // }
+      // return true;
     },
   ),
 
