@@ -211,4 +211,47 @@ export const authRouter = createTRPCRouter({
       // return emptyarray;
     },
   ),
+  check_if_user_has_already_applied: protectedProcedure.query(
+    async ({ ctx, input }) => {
+      // only the admin gets access to this procedure
+      if (ctx.session.user.isApproved === false) {
+        const user = await ctx.db.hCL_Application.findMany({
+          where: {
+            isApproved: false,
+            isReviewed: false,
+          },
+        });
+        return user;
+      }
+      // adding this so that TRPC doesn't give me errors
+      // const emptyarray: HCL_Application[] = [];
+      // return emptyarray;
+    },
+  ),
+
+  Approve_Account34555555: protectedProcedure
+    .input(
+      z.object({
+        userEmail: z.string().min(1).email(),
+        applicationID: z.string().min(1),
+        isApproved: z.boolean(),
+        gender: z.string().min(4),
+        fullname: z.string().min(2),
+        //  isReviewed: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.session.user.isAdmin !== true) {
+        return null;
+      }
+      await ctx.db.hCL_Application.update({
+        where: {
+          id: input.applicationID,
+        },
+        data: {
+          isApproved: input.isApproved,
+          isReviewed: true,
+        },
+      });
+    }),
 });

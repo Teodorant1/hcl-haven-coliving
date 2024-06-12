@@ -252,6 +252,8 @@ model HCL_user  {
     gender                        Gender   @default(Male)
     GenderSex                     String   @default("Male")
     account_creation_date         DateTime @default(now())
+
+    has_already_applied           Boolean  @default(false)
 }
 
 model HCL_Application {
