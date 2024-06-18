@@ -29,14 +29,14 @@ const Navbar = async () => {
         </Link>
         <Link
           className="text-sm font-medium underline-offset-4 hover:underline"
-          href="#"
+          href="Membership"
           rel="ugc"
         >
           Membership
         </Link>
         <Link
           className="text-sm font-medium underline-offset-4 hover:underline"
-          href="#"
+          href="Membership"
           rel="ugc"
         >
           Pricing
