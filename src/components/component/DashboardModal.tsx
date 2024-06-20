@@ -72,8 +72,8 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
           days left ,{" "}
           {DashBoardPageProps.subscription?.price && (
             <>
-              your subcsription gives you{" "}
-              {DashBoardPageProps.subscription?.price} $ per month
+              your subcsription gives you $
+              {DashBoardPageProps.subscription?.price} per month
             </>
           )}
           {DashBoardPageProps.date?.from! && DashBoardPageProps.date?.to! && (
@@ -85,12 +85,12 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                 DashBoardPageProps.subscription?.NumberOfBoughtDays!,
               )}
               {"/////"}{" "} */}
+              $
               {calculateDaysInMonthRange_price(
                 DashBoardPageProps.date?.from,
                 DashBoardPageProps.date?.to,
                 DashBoardPageProps.subscription?.NumberOfBoughtDays!,
               )}
-              $
             </>
           )}
         </h1>

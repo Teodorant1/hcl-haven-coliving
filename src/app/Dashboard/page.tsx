@@ -341,7 +341,7 @@ export default function DashboardPage() {
                                       {"% of plan "}
                                     </p>
                                   ) : (
-                                    <>N/A</>
+                                    <>None</>
                                   )}
                                 </div>
                               </CardContent>
@@ -383,7 +383,7 @@ export default function DashboardPage() {
                                 </div>
                                 <div className="text-xs ">
                                   <div className="text-2xl font-bold">
-                                    {subscription.data?.price < 1000 ? (
+                                    {subscription.data?.price < 750 ? (
                                       <div className="text-xs text-muted-foreground ">
                                         {"$55 / night over " +
                                           subscription.data
@@ -391,7 +391,7 @@ export default function DashboardPage() {
                                           " nights "}
                                       </div>
                                     ) : (
-                                      <>N/A</>
+                                      <></>
                                     )}
                                   </div>
                                 </div>
