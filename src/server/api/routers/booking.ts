@@ -40,7 +40,7 @@ export const bookingRouter = createTRPCRouter({
       console.log("Buying subscription");
       const stripeMetada: StripeMetadata = {
         description: input.number_of_days + " DAYS",
-        priceID: "price_1PTPGkJsSW6jGUhstkH0qUta",
+        priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
         price: dailyprice * input.number_of_days,
         email: ctx.session.user.email,
         packageName: input.number_of_days + " DAYS",
@@ -48,7 +48,7 @@ export const bookingRouter = createTRPCRouter({
       };
 
       const line_item = {
-        price: "price_1PTPGkJsSW6jGUhstkH0qUta",
+        price: "price_1PTo3aJsSW6jGUhsONJdCmn3",
         quantity: input.number_of_days,
       };
       const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
@@ -89,7 +89,7 @@ export const bookingRouter = createTRPCRouter({
             currentPeriod_start: currentDate,
             currentPeriod_end: futureDate,
             SessionID: sesh.id,
-            priceID: "price_1PTPGkJsSW6jGUhstkH0qUta",
+            priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
             packageName: input.number_of_days + " DAYS",
             description: input.number_of_days + " DAYS",
             price: dailyprice * input.number_of_days,
@@ -107,7 +107,7 @@ export const bookingRouter = createTRPCRouter({
             currentPeriod_start: currentDate,
             currentPeriod_end: futureDate,
             SessionID: sesh.id,
-            priceID: "price_1PTPGkJsSW6jGUhstkH0qUta",
+            priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
             packageName: input.number_of_days + " DAYS",
             description: input.number_of_days + " DAYS",
             price: dailyprice * input.number_of_days,
@@ -139,7 +139,7 @@ export const bookingRouter = createTRPCRouter({
 
       const stripeMetada: StripeMetadata = {
         description: input.number_of_days + " DAYS",
-        priceID: "price_1PTPGkJsSW6jGUhstkH0qUta",
+        priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
         price: dailyprice * input.number_of_days,
         email: ctx.session.user.email,
         packageName: input.packageName,
@@ -150,7 +150,7 @@ export const bookingRouter = createTRPCRouter({
         // price: "price_1P1uXaJsSW6jGUhsYiEo8ZbI",
         //subscription
         //price: "price_1P2BUrJsSW6jGUhs29zRsnYW",
-        price: "price_1PTPGkJsSW6jGUhstkH0qUta",
+        price: "price_1PTo3aJsSW6jGUhsONJdCmn3",
         quantity: input.number_of_days,
       };
       const stripe = new Stripe(process.env.NEXT_PRIVATE_STRIPE_SECRET_KEY!);
@@ -178,7 +178,7 @@ export const bookingRouter = createTRPCRouter({
             currentPeriod_start: new Date(),
             currentPeriod_end: new Date(),
             SessionID: sesh.id,
-            priceID: "price_1PTPGkJsSW6jGUhstkH0qUta",
+            priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
             packageName: input.number_of_days + " DAYS",
             description: input.number_of_days + " DAYS",
             price: dailyprice * input.number_of_days,
@@ -196,7 +196,7 @@ export const bookingRouter = createTRPCRouter({
             currentPeriod_start: new Date(),
             currentPeriod_end: new Date(),
             SessionID: sesh.id,
-            priceID: "price_1PTPGkJsSW6jGUhstkH0qUta",
+            priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
             packageName: input.number_of_days + " DAYS",
             description: input.number_of_days + " DAYS",
             price: dailyprice * input.number_of_days,

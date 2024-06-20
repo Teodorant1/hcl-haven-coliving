@@ -18,7 +18,7 @@ const Membership = () => {
                 <h3 className="h-fit whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
                   Basic
                 </h3>
-                <p className="text-sm text-muted-foreground">$55/month</p>
+                <p className="text-sm text-muted-foreground">$65/month</p>
               </div>
               <div className=" bottom-5 flex flex-col justify-between p-6">
                 <div>This includes:</div>

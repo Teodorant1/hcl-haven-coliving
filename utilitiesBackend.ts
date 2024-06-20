@@ -700,6 +700,33 @@ export async function book_a_room(
   }
 }
 
+export function Calculate_Daily_Price(number_of_days: number): number {
+  let dailyprice = 40;
+
+  if (number_of_days === 1) {
+    dailyprice = 55;
+  }
+
+  if (number_of_days > 1) {
+    dailyprice = 36.5;
+  }
+
+  return dailyprice;
+}
+export function CalculatePrice_of_stuff(number_of_days: number): number {
+  let dailyprice = 40;
+
+  if (number_of_days === 1) {
+    dailyprice = 55;
+  }
+
+  if (number_of_days > 1) {
+    dailyprice = 36.5;
+  }
+
+  return dailyprice;
+}
+
 export function formatDateToYYMMDD(date: Date): string {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 because months are 0-indexed

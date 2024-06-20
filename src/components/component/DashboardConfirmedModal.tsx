@@ -26,7 +26,8 @@ const DashboardConfirmedModal = (props: DashBoardPageProps) => {
               Check-out:{props.CBEDS_response?.endDate.toString()}
             </p>
             <p className="text-gray-600">
-              Total Price: {props.CBEDS_response?.grandTotal} {" $"}
+              Total Price: {" $"}
+              {props.CBEDS_response?.grandTotal}
             </p>
           </div>
           <div className="mb-4">

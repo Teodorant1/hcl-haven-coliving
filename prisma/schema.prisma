@@ -199,6 +199,9 @@ model subscription  {
     price_id             String
     //number of days you can stay in the hostel
     NumberOfBoughtDays   Int
+
+    dailyprice           Int   @default(40)
+
     cancel_at_period_end Boolean
     created_at           DateTime
     currentPeriod_start  DateTime

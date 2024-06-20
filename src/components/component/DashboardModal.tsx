@@ -61,7 +61,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
               handle calculate_Days_In_MonthRange{" "}
             </button>
           )} */}
-        <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">
+        <h1 className=" text-4xl font-extrabold tracking-tight lg:text-3xl">
           Your plan ends{" "}
           {DashBoardPageProps.subscription!.currentPeriod_end.toDateString()}.
           You have{" "}
@@ -94,9 +94,9 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
             </>
           )}
         </h1>
-        <div className=" flex justify-start gap-4 md:grid-cols-4 md:gap-6">
-          <div className=" left-5 md:col-span-2">
-            <div className=" gap-4">
+        <div className="  justify-start gap-4 md:grid-cols-4 md:gap-6">
+          <div className=" left-5 flex flex-row content-evenly md:col-span-2">
+            <div className=" m-5 gap-4">
               <div className="m-2 flex justify-center">
                 Check In & Check Out
               </div>
@@ -107,13 +107,14 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                 setStage={DashBoardPageProps.setStage}
               />
             </div>{" "}
-            <div className="flex items-end">
+            <div className="m-5 flex items-end">
               <button
                 className="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                 //   type="submit"
                 onClick={() => {
-                  console.log(DashBoardPageProps.date);
-                  console.log(available_room_types.data);
+                  available_room_types.refetch;
+                  // console.log(DashBoardPageProps.date);
+                  // console.log(available_room_types.data);
                 }}
               >
                 Search for available beds
