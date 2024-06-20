@@ -94,8 +94,8 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
             </>
           )}
         </h1>
-        <div className="flex justify-center gap-4 md:grid-cols-4 md:gap-6">
-          <div className=" relative left-5 md:col-span-2">
+        <div className=" relative flex justify-center gap-4 md:grid-cols-4 md:gap-6">
+          <div className=" absolute left-5 md:col-span-2">
             <div className=" gap-4">
               <div className="m-2 flex justify-center">
                 Check In & Check Out
