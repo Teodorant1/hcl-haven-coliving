@@ -171,6 +171,7 @@ export const bookingRouter = createTRPCRouter({
             priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
             packageName: input.number_of_days + " DAYS",
             description: input.number_of_days + " DAYS",
+            price: dailyprice * input.number_of_days,
           },
           create: {
             userEmail: ctx.session.user.email,
@@ -188,6 +189,7 @@ export const bookingRouter = createTRPCRouter({
             priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
             packageName: input.number_of_days + " DAYS",
             description: input.number_of_days + " DAYS",
+            price: dailyprice * input.number_of_days,
           },
         });
         console.log(sesh);
