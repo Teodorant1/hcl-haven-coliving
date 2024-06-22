@@ -11,6 +11,7 @@ import {
   book_a_room,
   getReservations,
   GetStatusOfSubcsription,
+  Calculate_Daily_Price,
 } from "utilitiesBackend";
 import { type recentReservations } from "project-types";
 
@@ -26,18 +27,8 @@ export const bookingRouter = createTRPCRouter({
       if (ctx.session.user.isApproved !== true) {
         return null;
       }
+      const dailyprice = Calculate_Daily_Price(input.number_of_days);
 
-      let dailyprice = 40;
-
-      if (input.number_of_days === 1) {
-        dailyprice = 55;
-      }
-
-      if (input.number_of_days > 1) {
-        dailyprice = 36.5;
-      }
-
-      console.log("Buying subscription");
       const stripeMetada: StripeMetadata = {
         description: input.number_of_days + " DAYS",
         priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
@@ -70,9 +61,6 @@ export const bookingRouter = createTRPCRouter({
         const futureDate = new Date();
         futureDate.setDate(futureDate.getDate() + 30);
 
-        console.log(currentDate.toDateString());
-        console.log(futureDate.toDateString());
-
         await ctx.db.subscription.upsert({
           where: { userEmail: ctx.session.user.email },
           update: {
@@ -93,6 +81,7 @@ export const bookingRouter = createTRPCRouter({
             packageName: input.number_of_days + " DAYS",
             description: input.number_of_days + " DAYS",
             price: dailyprice * input.number_of_days,
+            dailyprice: dailyprice,
           },
           create: {
             userEmail: ctx.session.user.email,
@@ -111,6 +100,7 @@ export const bookingRouter = createTRPCRouter({
             packageName: input.number_of_days + " DAYS",
             description: input.number_of_days + " DAYS",
             price: dailyprice * input.number_of_days,
+            dailyprice: dailyprice,
           },
         });
         console.log(sesh);
@@ -181,7 +171,6 @@ export const bookingRouter = createTRPCRouter({
             priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
             packageName: input.number_of_days + " DAYS",
             description: input.number_of_days + " DAYS",
-            price: dailyprice * input.number_of_days,
           },
           create: {
             userEmail: ctx.session.user.email,
@@ -199,7 +188,6 @@ export const bookingRouter = createTRPCRouter({
             priceID: "price_1PTo3aJsSW6jGUhsONJdCmn3",
             packageName: input.number_of_days + " DAYS",
             description: input.number_of_days + " DAYS",
-            price: dailyprice * input.number_of_days,
           },
         });
         console.log(sesh);

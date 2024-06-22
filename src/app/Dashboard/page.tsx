@@ -38,6 +38,9 @@ export default function DashboardPage() {
     from: addDays(new Date(), 0),
     to: addDays(new Date(), 7),
   });
+  const [currentReservation, setcurrentReservation] = React.useState<Date>(
+    new Date(),
+  );
   const subscription = api.booking.GetSubscription.useQuery();
   const { data, error } = api.booking.getMyReservations.useQuery();
 

@@ -200,7 +200,7 @@ model subscription  {
     //number of days you can stay in the hostel
     NumberOfBoughtDays   Int
 
-    dailyprice           Int   @default(40)
+    dailyprice           Int?   @default(40)
 
     cancel_at_period_end Boolean
     created_at           DateTime
