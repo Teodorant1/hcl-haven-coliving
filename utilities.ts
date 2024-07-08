@@ -83,6 +83,7 @@ export function calculateDaysInMonthRange_price(
   startDate: Date,
   endDate: Date,
   daysBought: number,
+  dailyprice: number,
 ) {
   const DaysMonth_spread: MonthDays[] = [];
   // const cost_spread_by_month: number[] = [];
@@ -124,23 +125,37 @@ export function calculateDaysInMonthRange_price(
   }
   console.log(DaysMonth_spread);
 
+  const BreakDown_Struct = {
+    overall_days: 0,
+    excess_desired_days: 0,
+    overall_price: 0,
+    excess_price: 0,
+  };
+
   for (let monthIndex = 0; monthIndex < DaysMonth_spread.length; monthIndex++) {
     const days_in_month = DaysMonth_spread[monthIndex]?.days;
+
+    BreakDown_Struct.overall_days =
+      BreakDown_Struct.overall_days + days_in_month!;
+
     let excess_desired_days = 0;
     if (days_in_month! > daysBought) {
       excess_desired_days = days_in_month! - daysBought;
+      BreakDown_Struct.excess_desired_days =
+        BreakDown_Struct.excess_desired_days + excess_desired_days;
+      BreakDown_Struct.excess_price =
+        BreakDown_Struct.excess_price + excess_desired_days * 55;
     }
 
-    const price_for_month = days_in_month! * 40 + excess_desired_days * 55;
-    console.log(daysBought);
-    console.log(days_in_month);
-    console.log(excess_desired_days);
-    console.log(price_for_month);
-
+    const price_for_month =
+      days_in_month! * dailyprice + excess_desired_days * 55;
+    // BreakDown_Struct.overall_price =
+    //   BreakDown_Struct.overall_price + price_for_month;
     overall_cost = overall_cost + price_for_month;
   }
-
-  return overall_cost;
+  BreakDown_Struct.overall_price = overall_cost;
+  return BreakDown_Struct;
+  // return overall_cost;
 }
 
 export function Calculate_number_of_days_between_two_dates(

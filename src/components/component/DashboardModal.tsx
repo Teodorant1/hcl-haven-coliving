@@ -78,19 +78,15 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
           )}
           {DashBoardPageProps.date?.from! && DashBoardPageProps.date?.to! && (
             <>
-              , current selection will cost{" "}
-              {/* {Calculate_price_for_dashboard_reservation(
-                DashBoardPageProps.date?.from,
-                DashBoardPageProps.date?.to,
-                DashBoardPageProps.subscription?.NumberOfBoughtDays!,
-              )}
-              {"/////"}{" "} */}
-              $
-              {calculateDaysInMonthRange_price(
-                DashBoardPageProps.date?.from,
-                DashBoardPageProps.date?.to,
-                DashBoardPageProps.subscription?.NumberOfBoughtDays!,
-              )}
+              , current selection will cost{"  "}$
+              {
+                calculateDaysInMonthRange_price(
+                  DashBoardPageProps.date?.from,
+                  DashBoardPageProps.date?.to,
+                  DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+                  DashBoardPageProps.subscription?.dailyprice!,
+                ).overall_price
+              }
             </>
           )}
         </h1>
@@ -112,7 +108,8 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                 className="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                 //   type="submit"
                 onClick={() => {
-                  available_room_types.refetch;
+                  // available_room_types.refetch;
+                  console.log(DashBoardPageProps.subscription);
                   // console.log(DashBoardPageProps.date);
                   // console.log(available_room_types.data);
                 }}
@@ -181,8 +178,124 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
               </h3>
             </div>
             <div className="p-6">
-              <p>$100 per night</p>
+              <p>$100 per night, 55$ overage fee per extra night</p>
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge</p>
+              {DashBoardPageProps.date?.from! &&
+                DashBoardPageProps.date?.to! && (
+                  <div>
+                    <div>
+                      {" "}
+                      Overall cost: {"  "}$
+                      {
+                        calculateDaysInMonthRange_price(
+                          DashBoardPageProps.date?.from,
+                          DashBoardPageProps.date?.to,
+                          DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+                          DashBoardPageProps.subscription?.dailyprice!,
+                        ).overall_price
+                      }
+                    </div>{" "}
+                    {calculateDaysInMonthRange_price(
+                      DashBoardPageProps.date?.from,
+                      DashBoardPageProps.date?.to,
+                      DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+                      DashBoardPageProps.subscription?.dailyprice!,
+                    ).excess_price > 0 && (
+                      <div>
+                        {" "}
+                        <div>
+                          {" "}
+                          Excess price: {"  "}$
+                          {
+                            calculateDaysInMonthRange_price(
+                              DashBoardPageProps.date?.from,
+                              DashBoardPageProps.date?.to,
+                              DashBoardPageProps.subscription
+                                ?.NumberOfBoughtDays!,
+                              DashBoardPageProps.subscription?.dailyprice!,
+                            ).excess_price
+                          }
+                        </div>{" "}
+                        <div>
+                          {" "}
+                          Price covered by Membership: {"  "}$
+                          {calculateDaysInMonthRange_price(
+                            DashBoardPageProps.date?.from,
+                            DashBoardPageProps.date?.to,
+                            DashBoardPageProps.subscription
+                              ?.NumberOfBoughtDays!,
+                            DashBoardPageProps.subscription?.dailyprice!,
+                          ).overall_price -
+                            calculateDaysInMonthRange_price(
+                              DashBoardPageProps.date?.from,
+                              DashBoardPageProps.date?.to,
+                              DashBoardPageProps.subscription
+                                ?.NumberOfBoughtDays!,
+                              DashBoardPageProps.subscription?.dailyprice!,
+                            ).excess_price}
+                        </div>
+                      </div>
+                    )}
+                    {calculateDaysInMonthRange_price(
+                      DashBoardPageProps.date?.from,
+                      DashBoardPageProps.date?.to,
+                      DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+                      DashBoardPageProps.subscription?.dailyprice!,
+                    ).overall_days > 0 && (
+                      <div>
+                        {" "}
+                        Overall days: {"  "}
+                        {
+                          calculateDaysInMonthRange_price(
+                            DashBoardPageProps.date?.from,
+                            DashBoardPageProps.date?.to,
+                            DashBoardPageProps.subscription
+                              ?.NumberOfBoughtDays!,
+                            DashBoardPageProps.subscription?.dailyprice!,
+                          ).overall_days
+                        }
+                      </div>
+                    )}{" "}
+                    {calculateDaysInMonthRange_price(
+                      DashBoardPageProps.date?.from,
+                      DashBoardPageProps.date?.to,
+                      DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+                      DashBoardPageProps.subscription?.dailyprice!,
+                    ).excess_desired_days > 0 && (
+                      <div>
+                        <div>
+                          Excess desired days: {"  "}
+                          {
+                            calculateDaysInMonthRange_price(
+                              DashBoardPageProps.date?.from,
+                              DashBoardPageProps.date?.to,
+                              DashBoardPageProps.subscription
+                                ?.NumberOfBoughtDays!,
+                              DashBoardPageProps.subscription?.dailyprice!,
+                            ).excess_desired_days
+                          }
+                        </div>
+                        <div>
+                          Days covered by membership: {"  "}
+                          {calculateDaysInMonthRange_price(
+                            DashBoardPageProps.date?.from,
+                            DashBoardPageProps.date?.to,
+                            DashBoardPageProps.subscription
+                              ?.NumberOfBoughtDays!,
+                            DashBoardPageProps.subscription?.dailyprice!,
+                          ).overall_days -
+                            calculateDaysInMonthRange_price(
+                              DashBoardPageProps.date?.from,
+                              DashBoardPageProps.date?.to,
+                              DashBoardPageProps.subscription
+                                ?.NumberOfBoughtDays!,
+                              DashBoardPageProps.subscription?.dailyprice!,
+                            ).excess_desired_days}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
             </div>
             {isAfterToday(currentDate, DashBoardPageProps.date?.from) &&
               available_room_types.data &&
@@ -237,8 +350,124 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
               </h3>
             </div>
             <div className="p-6">
-              <p>$150 per night</p>
+              <p>$150 per night, 55$ overage fee per extra night</p>
               <p>Amenities: Free Wi-Fi, TV, Mini Fridge, Coffee Maker</p>
+              {DashBoardPageProps.date?.from! &&
+                DashBoardPageProps.date?.to! && (
+                  <div>
+                    <div>
+                      {" "}
+                      Overall cost: {"  "}$
+                      {
+                        calculateDaysInMonthRange_price(
+                          DashBoardPageProps.date?.from,
+                          DashBoardPageProps.date?.to,
+                          DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+                          DashBoardPageProps.subscription?.dailyprice!,
+                        ).overall_price
+                      }
+                    </div>{" "}
+                    {calculateDaysInMonthRange_price(
+                      DashBoardPageProps.date?.from,
+                      DashBoardPageProps.date?.to,
+                      DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+                      DashBoardPageProps.subscription?.dailyprice!,
+                    ).excess_price > 0 && (
+                      <div>
+                        {" "}
+                        <div>
+                          {" "}
+                          Excess price: {"  "}$
+                          {
+                            calculateDaysInMonthRange_price(
+                              DashBoardPageProps.date?.from,
+                              DashBoardPageProps.date?.to,
+                              DashBoardPageProps.subscription
+                                ?.NumberOfBoughtDays!,
+                              DashBoardPageProps.subscription?.dailyprice!,
+                            ).excess_price
+                          }
+                        </div>{" "}
+                        <div>
+                          {" "}
+                          Price covered by Membership: {"  "}$
+                          {calculateDaysInMonthRange_price(
+                            DashBoardPageProps.date?.from,
+                            DashBoardPageProps.date?.to,
+                            DashBoardPageProps.subscription
+                              ?.NumberOfBoughtDays!,
+                            DashBoardPageProps.subscription?.dailyprice!,
+                          ).overall_price -
+                            calculateDaysInMonthRange_price(
+                              DashBoardPageProps.date?.from,
+                              DashBoardPageProps.date?.to,
+                              DashBoardPageProps.subscription
+                                ?.NumberOfBoughtDays!,
+                              DashBoardPageProps.subscription?.dailyprice!,
+                            ).excess_price}
+                        </div>
+                      </div>
+                    )}
+                    {calculateDaysInMonthRange_price(
+                      DashBoardPageProps.date?.from,
+                      DashBoardPageProps.date?.to,
+                      DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+                      DashBoardPageProps.subscription?.dailyprice!,
+                    ).overall_days > 0 && (
+                      <div>
+                        {" "}
+                        Overall days: {"  "}
+                        {
+                          calculateDaysInMonthRange_price(
+                            DashBoardPageProps.date?.from,
+                            DashBoardPageProps.date?.to,
+                            DashBoardPageProps.subscription
+                              ?.NumberOfBoughtDays!,
+                            DashBoardPageProps.subscription?.dailyprice!,
+                          ).overall_days
+                        }
+                      </div>
+                    )}{" "}
+                    {calculateDaysInMonthRange_price(
+                      DashBoardPageProps.date?.from,
+                      DashBoardPageProps.date?.to,
+                      DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+                      DashBoardPageProps.subscription?.dailyprice!,
+                    ).excess_desired_days > 0 && (
+                      <div>
+                        <div>
+                          Excess desired days: {"  "}
+                          {
+                            calculateDaysInMonthRange_price(
+                              DashBoardPageProps.date?.from,
+                              DashBoardPageProps.date?.to,
+                              DashBoardPageProps.subscription
+                                ?.NumberOfBoughtDays!,
+                              DashBoardPageProps.subscription?.dailyprice!,
+                            ).excess_desired_days
+                          }
+                        </div>
+                        <div>
+                          Days covered by membership: {"  "}
+                          {calculateDaysInMonthRange_price(
+                            DashBoardPageProps.date?.from,
+                            DashBoardPageProps.date?.to,
+                            DashBoardPageProps.subscription
+                              ?.NumberOfBoughtDays!,
+                            DashBoardPageProps.subscription?.dailyprice!,
+                          ).overall_days -
+                            calculateDaysInMonthRange_price(
+                              DashBoardPageProps.date?.from,
+                              DashBoardPageProps.date?.to,
+                              DashBoardPageProps.subscription
+                                ?.NumberOfBoughtDays!,
+                              DashBoardPageProps.subscription?.dailyprice!,
+                            ).excess_desired_days}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
             </div>
             {isAfterToday(currentDate, DashBoardPageProps.date?.from) &&
               available_room_types.data &&
