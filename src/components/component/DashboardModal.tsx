@@ -73,7 +73,8 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
           {DashBoardPageProps.subscription?.price && (
             <>
               your subcsription gives you $
-              {DashBoardPageProps.subscription?.price} per month
+              {DashBoardPageProps.subscription?.price} per month, at a rate of $
+              {DashBoardPageProps.subscription?.dailyprice} per day
             </>
           )}
           {DashBoardPageProps.date?.from! && DashBoardPageProps.date?.to! && (

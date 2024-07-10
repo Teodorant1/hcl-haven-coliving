@@ -242,6 +242,9 @@ export const bookingRouter = createTRPCRouter({
   }),
   GetSubscription: protectedProcedure.query(async ({ ctx, input }) => {
     const subscription = await GetStatusOfSubcsription(ctx.session.user.email);
+    if (subscription?.dailyprice === 36) {
+      subscription.dailyprice = 36.5;
+    }
     // const subscription = await GetStatusOfSubcsription(
     //   "ctx.session.user.email",
     // );
