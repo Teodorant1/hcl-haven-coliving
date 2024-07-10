@@ -86,9 +86,17 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                   DashBoardPageProps.date?.to,
                   DashBoardPageProps.subscription?.NumberOfBoughtDays!,
                   DashBoardPageProps.subscription?.dailyprice!,
+                  DashBoardPageProps.subscription?.daysUsed!,
                 ).overall_price
               }
             </>
+          )}
+          {".  "}
+          {true && (
+            <div>
+              You have used {DashBoardPageProps.subscription?.daysUsed!} days
+              (from your subscription) this month
+            </div>
           )}
         </h1>
         <div className="  justify-start gap-4 md:grid-cols-4 md:gap-6">
@@ -193,6 +201,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                           DashBoardPageProps.date?.to,
                           DashBoardPageProps.subscription?.NumberOfBoughtDays!,
                           DashBoardPageProps.subscription?.dailyprice!,
+                          DashBoardPageProps.subscription?.daysUsed!,
                         ).overall_price
                       }
                     </div>{" "}
@@ -201,6 +210,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                       DashBoardPageProps.date?.to,
                       DashBoardPageProps.subscription?.NumberOfBoughtDays!,
                       DashBoardPageProps.subscription?.dailyprice!,
+                      DashBoardPageProps.subscription?.daysUsed!,
                     ).excess_price > 0 && (
                       <div>
                         {" "}
@@ -214,6 +224,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                               DashBoardPageProps.subscription
                                 ?.NumberOfBoughtDays!,
                               DashBoardPageProps.subscription?.dailyprice!,
+                              DashBoardPageProps.subscription?.daysUsed!,
                             ).excess_price
                           }
                         </div>{" "}
@@ -226,6 +237,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                             DashBoardPageProps.subscription
                               ?.NumberOfBoughtDays!,
                             DashBoardPageProps.subscription?.dailyprice!,
+                            DashBoardPageProps.subscription?.daysUsed!,
                           ).overall_price -
                             calculateDaysInMonthRange_price(
                               DashBoardPageProps.date?.from,
@@ -233,6 +245,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                               DashBoardPageProps.subscription
                                 ?.NumberOfBoughtDays!,
                               DashBoardPageProps.subscription?.dailyprice!,
+                              DashBoardPageProps.subscription?.daysUsed!,
                             ).excess_price}
                         </div>
                       </div>
@@ -242,6 +255,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                       DashBoardPageProps.date?.to,
                       DashBoardPageProps.subscription?.NumberOfBoughtDays!,
                       DashBoardPageProps.subscription?.dailyprice!,
+                      DashBoardPageProps.subscription?.daysUsed!,
                     ).overall_days > 0 && (
                       <div>
                         {" "}
@@ -253,6 +267,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                             DashBoardPageProps.subscription
                               ?.NumberOfBoughtDays!,
                             DashBoardPageProps.subscription?.dailyprice!,
+                            DashBoardPageProps.subscription?.daysUsed!,
                           ).overall_days
                         }
                       </div>
@@ -262,6 +277,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                       DashBoardPageProps.date?.to,
                       DashBoardPageProps.subscription?.NumberOfBoughtDays!,
                       DashBoardPageProps.subscription?.dailyprice!,
+                      DashBoardPageProps.subscription?.daysUsed!,
                     ).excess_desired_days > 0 && (
                       <div>
                         <div>
@@ -273,6 +289,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                               DashBoardPageProps.subscription
                                 ?.NumberOfBoughtDays!,
                               DashBoardPageProps.subscription?.dailyprice!,
+                              DashBoardPageProps.subscription?.daysUsed!,
                             ).excess_desired_days
                           }
                         </div>
@@ -284,6 +301,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                             DashBoardPageProps.subscription
                               ?.NumberOfBoughtDays!,
                             DashBoardPageProps.subscription?.dailyprice!,
+                            DashBoardPageProps.subscription?.daysUsed!,
                           ).overall_days -
                             calculateDaysInMonthRange_price(
                               DashBoardPageProps.date?.from,
@@ -291,6 +309,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                               DashBoardPageProps.subscription
                                 ?.NumberOfBoughtDays!,
                               DashBoardPageProps.subscription?.dailyprice!,
+                              DashBoardPageProps.subscription?.daysUsed!,
                             ).excess_desired_days}
                         </div>
                       </div>
@@ -365,6 +384,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                           DashBoardPageProps.date?.to,
                           DashBoardPageProps.subscription?.NumberOfBoughtDays!,
                           DashBoardPageProps.subscription?.dailyprice!,
+                          DashBoardPageProps.subscription?.daysUsed!,
                         ).overall_price
                       }
                     </div>{" "}
@@ -373,6 +393,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                       DashBoardPageProps.date?.to,
                       DashBoardPageProps.subscription?.NumberOfBoughtDays!,
                       DashBoardPageProps.subscription?.dailyprice!,
+                      DashBoardPageProps.subscription?.daysUsed!,
                     ).excess_price > 0 && (
                       <div>
                         {" "}
@@ -386,6 +407,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                               DashBoardPageProps.subscription
                                 ?.NumberOfBoughtDays!,
                               DashBoardPageProps.subscription?.dailyprice!,
+                              DashBoardPageProps.subscription?.daysUsed!,
                             ).excess_price
                           }
                         </div>{" "}
@@ -398,6 +420,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                             DashBoardPageProps.subscription
                               ?.NumberOfBoughtDays!,
                             DashBoardPageProps.subscription?.dailyprice!,
+                            DashBoardPageProps.subscription?.daysUsed!,
                           ).overall_price -
                             calculateDaysInMonthRange_price(
                               DashBoardPageProps.date?.from,
@@ -405,6 +428,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                               DashBoardPageProps.subscription
                                 ?.NumberOfBoughtDays!,
                               DashBoardPageProps.subscription?.dailyprice!,
+                              DashBoardPageProps.subscription?.daysUsed!,
                             ).excess_price}
                         </div>
                       </div>
@@ -414,6 +438,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                       DashBoardPageProps.date?.to,
                       DashBoardPageProps.subscription?.NumberOfBoughtDays!,
                       DashBoardPageProps.subscription?.dailyprice!,
+                      DashBoardPageProps.subscription?.daysUsed!,
                     ).overall_days > 0 && (
                       <div>
                         {" "}
@@ -425,6 +450,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                             DashBoardPageProps.subscription
                               ?.NumberOfBoughtDays!,
                             DashBoardPageProps.subscription?.dailyprice!,
+                            DashBoardPageProps.subscription?.daysUsed!,
                           ).overall_days
                         }
                       </div>
@@ -434,6 +460,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                       DashBoardPageProps.date?.to,
                       DashBoardPageProps.subscription?.NumberOfBoughtDays!,
                       DashBoardPageProps.subscription?.dailyprice!,
+                      DashBoardPageProps.subscription?.daysUsed!,
                     ).excess_desired_days > 0 && (
                       <div>
                         <div>
@@ -445,6 +472,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                               DashBoardPageProps.subscription
                                 ?.NumberOfBoughtDays!,
                               DashBoardPageProps.subscription?.dailyprice!,
+                              DashBoardPageProps.subscription?.daysUsed!,
                             ).excess_desired_days
                           }
                         </div>
@@ -456,6 +484,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                             DashBoardPageProps.subscription
                               ?.NumberOfBoughtDays!,
                             DashBoardPageProps.subscription?.dailyprice!,
+                            DashBoardPageProps.subscription?.daysUsed!,
                           ).overall_days -
                             calculateDaysInMonthRange_price(
                               DashBoardPageProps.date?.from,
@@ -463,6 +492,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                               DashBoardPageProps.subscription
                                 ?.NumberOfBoughtDays!,
                               DashBoardPageProps.subscription?.dailyprice!,
+                              DashBoardPageProps.subscription?.daysUsed!,
                             ).excess_desired_days}
                         </div>
                       </div>

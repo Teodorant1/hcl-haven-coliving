@@ -10,7 +10,6 @@ import ApplicationSubmitUserEmail from "@/_emails/SubmitApplication";
 import ApplicationNotificationUserEmail from "@/_emails/AdminApplicationNotification";
 import ApplicationResponseEmail from "@/_emails/ApplicationResponse";
 import { sleep } from "utilitiesBackend";
-import { Whisper } from "next/font/google";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure

@@ -84,7 +84,10 @@ export function calculateDaysInMonthRange_price(
   endDate: Date,
   daysBought: number,
   dailyprice: number,
+  days_used: number,
 ) {
+  const currentDate = new Date();
+
   const DaysMonth_spread: MonthDays[] = [];
   // const cost_spread_by_month: number[] = [];
   let overall_cost = 0;
@@ -123,7 +126,7 @@ export function calculateDaysInMonthRange_price(
       currentYear++;
     }
   }
-  console.log(DaysMonth_spread);
+  // console.log(DaysMonth_spread);
 
   const BreakDown_Struct = {
     overall_days: 0,
@@ -131,6 +134,16 @@ export function calculateDaysInMonthRange_price(
     overall_price: 0,
     excess_price: 0,
   };
+
+  const starts_this_month = isSameMonth(currentDate, startDate);
+  if (starts_this_month === true) {
+  }
+  // PSEUDOCODE EXPLANATION so I can understand how to implement it
+  //: IF the start is in CURRENT MONTH where we have USED DAYS > 0
+  // then we wish to decrease the amount of days that are paid by THE subscription and instead
+  // use the bigger price for that for a more exact price
+
+  console.log("DaysMonth_spread", DaysMonth_spread);
 
   for (let monthIndex = 0; monthIndex < DaysMonth_spread.length; monthIndex++) {
     const days_in_month = DaysMonth_spread[monthIndex]?.days;
