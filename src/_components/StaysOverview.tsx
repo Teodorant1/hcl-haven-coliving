@@ -49,7 +49,9 @@ export function StaysOverview(reservations: recentReservations) {
                     <div className="mx-5 flex items-center justify-center px-5">
                       <PiDotsThreeOutline
                         onClick={() => {
-                          reservations.set_recent_Res_id(reservation.id);
+                          if (reservations.set_recent_Res_id) {
+                            reservations.set_recent_Res_id(reservation.id);
+                          }
                         }}
                         className="inline-block align-middle text-3xl"
                       />
