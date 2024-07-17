@@ -361,6 +361,7 @@ export const bookingRouter = createTRPCRouter({
         startDate: z.date(),
         endDate: z.date(),
         roomTypeID: z.number(),
+        displayPrice: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -375,6 +376,8 @@ export const bookingRouter = createTRPCRouter({
         input.roomTypeID,
         ctx.session.user.fullname,
       );
+
+      reservationResponse!.grandTotal = input.displayPrice;
 
       return reservationResponse;
     }),

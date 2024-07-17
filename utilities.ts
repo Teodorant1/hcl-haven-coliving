@@ -258,11 +258,6 @@ export function isBefore_11_am_for_today(currentDate: Date) {
     return true;
   }
 
-  console.log("currentDay_from_date_object:", currentDay_from_date_object);
-  console.log("currentMonth_from_date_object:", currentMonth_from_date_object);
-
-  console.log("Current Day:", currentDay);
-  console.log("Current Month:", currentMonth);
   console.log(isBefore11AM);
   return isBefore11AM;
 }
