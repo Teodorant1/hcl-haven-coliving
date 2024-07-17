@@ -159,7 +159,7 @@ export function calculateDaysInMonthRange_price(
       let excess_desired_days = 0;
       if (days_in_month! > daysBought) {
         //we need to adjust the ratio here
-        excess_desired_days = days_in_month! - daysBought;
+        excess_desired_days = days_in_month! - daysBought - days_used;
         BreakDown_Struct.excess_desired_days =
           BreakDown_Struct.excess_desired_days + excess_desired_days;
         BreakDown_Struct.excess_price =
