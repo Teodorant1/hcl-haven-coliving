@@ -136,35 +136,62 @@ export function calculateDaysInMonthRange_price(
   };
 
   const starts_this_month = isSameMonth(currentDate, startDate);
-  if (starts_this_month === true) {
-  }
+
   // PSEUDOCODE EXPLANATION so I can understand how to implement it
-  //: IF the start is in CURRENT MONTH where we have USED DAYS > 0
-  // then we wish to decrease the amount of days that are paid by THE subscription and instead
-  // use the bigger price for that for a more exact price
+  //: IF the start is in CURRENT MONTH where we have USED DAYS > 0 ✔
+  // then we wish to decrease the amount of days that are paid by THE subscription and instead X
+  // use the bigger price for that for a more exact price ✔
+  //daymonth spread just uses indexes so we will need to check for above and only apply the adjusted price for the first month ✔
 
   console.log("DaysMonth_spread", DaysMonth_spread);
 
   for (let monthIndex = 0; monthIndex < DaysMonth_spread.length; monthIndex++) {
-    const days_in_month = DaysMonth_spread[monthIndex]?.days;
+    if (monthIndex === 0 && starts_this_month === true && days_used > 0) {
+      // sub days are Minused by already used days unless the already used ones are bigger than overall days, X
+      // therefore it goes to 0 , AND EITHER WAY then all of it is transfered to EXCESS DAYS X
 
-    BreakDown_Struct.overall_days =
-      BreakDown_Struct.overall_days + days_in_month!;
+      //INSTEAD OF CALCULATING THE STAY WE ARE CALCULATING THE OVERALL PRICE
+      const days_in_month = DaysMonth_spread[monthIndex]?.days;
 
-    let excess_desired_days = 0;
-    if (days_in_month! > daysBought) {
-      excess_desired_days = days_in_month! - daysBought;
-      BreakDown_Struct.excess_desired_days =
-        BreakDown_Struct.excess_desired_days + excess_desired_days;
-      BreakDown_Struct.excess_price =
-        BreakDown_Struct.excess_price + excess_desired_days * 55;
+      BreakDown_Struct.overall_days =
+        BreakDown_Struct.overall_days + days_in_month! + days_used;
+
+      let excess_desired_days = 0;
+      if (days_in_month! > daysBought) {
+        //we need to adjust the ratio here
+        excess_desired_days = days_in_month! - daysBought;
+        BreakDown_Struct.excess_desired_days =
+          BreakDown_Struct.excess_desired_days + excess_desired_days;
+        BreakDown_Struct.excess_price =
+          BreakDown_Struct.excess_price + excess_desired_days * 55;
+      }
+
+      const price_for_month =
+        days_in_month! * dailyprice + excess_desired_days * 55;
+      // BreakDown_Struct.overall_price =
+      //   BreakDown_Struct.overall_price + price_for_month;
+      overall_cost = overall_cost + price_for_month;
+    } else {
+      const days_in_month = DaysMonth_spread[monthIndex]?.days;
+      BreakDown_Struct.overall_days =
+        BreakDown_Struct.overall_days + days_in_month!;
+
+      let excess_desired_days = 0;
+      if (days_in_month! > daysBought) {
+        //
+        excess_desired_days = days_in_month! - daysBought;
+        BreakDown_Struct.excess_desired_days =
+          BreakDown_Struct.excess_desired_days + excess_desired_days;
+        BreakDown_Struct.excess_price =
+          BreakDown_Struct.excess_price + excess_desired_days * 55;
+      }
+
+      const price_for_month =
+        days_in_month! * dailyprice + excess_desired_days * 55;
+      // BreakDown_Struct.overall_price =
+      //   BreakDown_Struct.overall_price + price_for_month;
+      overall_cost = overall_cost + price_for_month;
     }
-
-    const price_for_month =
-      days_in_month! * dailyprice + excess_desired_days * 55;
-    // BreakDown_Struct.overall_price =
-    //   BreakDown_Struct.overall_price + price_for_month;
-    overall_cost = overall_cost + price_for_month;
   }
   BreakDown_Struct.overall_price = overall_cost;
   return BreakDown_Struct;
