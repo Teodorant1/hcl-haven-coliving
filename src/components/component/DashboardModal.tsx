@@ -33,11 +33,20 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
     });
 
   async function handle_book_a_room(roomTypeID: number) {
+    const prices = calculateDaysInMonthRange_price(
+      DashBoardPageProps.date?.from!,
+      DashBoardPageProps.date?.to!,
+      DashBoardPageProps.subscription?.NumberOfBoughtDays!,
+      DashBoardPageProps.subscription?.dailyprice!,
+      DashBoardPageProps.subscription?.daysUsed!,
+    );
+
     book_a_room.mutate({
       propertyID: 309910,
       startDate: DashBoardPageProps.date?.from!,
       endDate: DashBoardPageProps.date?.to!,
       roomTypeID: roomTypeID,
+      displayPrice: prices.overall_price,
     });
   }
 
