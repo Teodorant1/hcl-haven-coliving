@@ -29,6 +29,9 @@ import Membership from "../(has header)/Membership/page";
 export default function DashboardPage() {
   const router = useRouter();
   const { status, data: session } = useSession();
+  const [recent_Reservation_id, setrecent_Reservation_id] = useState<
+    string | undefined
+  >("0");
   const [stage, setstage] = useState<string | undefined>("1");
   const [CBEDS_response, setCBEDS_response] = useState<
     Cloudbeds_post_reservation_RESPONSE | undefined
@@ -38,9 +41,7 @@ export default function DashboardPage() {
     from: addDays(new Date(), 0),
     to: addDays(new Date(), 7),
   });
-  const [currentReservation, setcurrentReservation] = React.useState<Date>(
-    new Date(),
-  );
+
   const subscription = api.booking.GetSubscription.useQuery();
   const { data, error } = api.booking.getMyReservations.useQuery();
 
@@ -99,6 +100,8 @@ export default function DashboardPage() {
                       success={data?.success!}
                       data={data?.data!}
                       number_of_rows={data?.data!.length}
+                      recent_Res_id={recent_Reservation_id}
+                      set_recent_Res_id={setrecent_Reservation_id}
                     />
                   </CardContent>
                 </Card>
@@ -463,6 +466,8 @@ export default function DashboardPage() {
                                 success={data?.success!}
                                 data={data?.data!}
                                 number_of_rows={10}
+                                recent_Res_id={recent_Reservation_id}
+                                set_recent_Res_id={setrecent_Reservation_id}
                               />
                             </CardContent>
                           </Card>

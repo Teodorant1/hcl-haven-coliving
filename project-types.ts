@@ -22,11 +22,13 @@ export type recharts_yearly_breakdown = {
   month_hashmap: Map<string, spent_day[]>;
 };
 
-export type recentReservations = {
+export interface recentReservations {
   success: boolean;
   data: cloudbeds_reservation[];
   number_of_rows?: number;
-};
+  recent_Res_id: string | undefined;
+  set_recent_Res_id: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
 
 export type registrationForm = {
   email: string;

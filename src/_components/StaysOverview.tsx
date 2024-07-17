@@ -5,6 +5,7 @@ import {
   Calculate_number_of_days_between_two_dates,
   getPrettierDate,
 } from "utilities";
+import { PiDotsThreeOutline } from "react-icons/pi";
 
 export function StaysOverview(reservations: recentReservations) {
   return (
@@ -28,8 +29,6 @@ export function StaysOverview(reservations: recentReservations) {
                           reservation.check_out,
                         )}
                         {" Night Stay"}
-                        {/* + {" index: "}
-                  {index} */}
                       </p>
                       <p className="text-sm text-muted-foreground">
                         {getPrettierDate(reservation.check_in).monthName}{" "}
@@ -45,6 +44,37 @@ export function StaysOverview(reservations: recentReservations) {
                     </div>
                     <div className="ml-auto font-medium">
                       +${reservation.TotalPrice}
+                    </div>
+
+                    <div className="mx-5 flex items-center justify-center px-5">
+                      <PiDotsThreeOutline
+                        onClick={() => {
+                          reservations.set_recent_Res_id(reservation.id);
+                        }}
+                        className="inline-block align-middle text-3xl"
+                      />
+
+                      {reservations.recent_Res_id === reservation.id && (
+                        <div className="flex">
+                          {" "}
+                          <button className="m-5 bg-black p-5 text-white">
+                            {" "}
+                            Delete
+                          </button>{" "}
+                          <button className="m-5 bg-black p-5 text-white">
+                            {" "}
+                            Postpone
+                          </button>{" "}
+                          <button className="m-5 bg-black p-5 text-white">
+                            {" "}
+                            Reschedule
+                          </button>{" "}
+                          <button className="m-5 bg-black p-5 text-white">
+                            {" "}
+                            Refund
+                          </button>{" "}
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}{" "}
