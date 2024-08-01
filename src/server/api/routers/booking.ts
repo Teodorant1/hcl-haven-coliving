@@ -12,6 +12,8 @@ import {
   getReservations,
   GetStatusOfSubcsription,
   Calculate_Daily_Price,
+  analyze_usage_for_overview_table,
+  getRandomNumber,
 } from "utilitiesBackend";
 import { type recentReservations } from "project-types";
 
@@ -153,6 +155,15 @@ export const bookingRouter = createTRPCRouter({
           cancel_url: process.env.NEXT_PUBLIC_VERCEL_URL! + "/FAIL",
           metadata: stripeMetada,
         });
+
+        // const sesh2 = await stripe.checkout.sessions.create({
+        //   mode: "payment",
+        //   payment_method_types: ["card", "us_bank_account"],
+        //   line_items: [line_item],
+        //   success_url: process.env.NEXT_PUBLIC_VERCEL_URL! + "/SUCCESS",
+        //   cancel_url: process.env.NEXT_PUBLIC_VERCEL_URL! + "/FAIL",
+        //   metadata: stripeMetada,
+        // });
         await ctx.db.subscription.upsert({
           where: { userEmail: ctx.session.user.email },
           update: {
@@ -230,16 +241,53 @@ export const bookingRouter = createTRPCRouter({
     },
   ),
   cloudbedsTest1: protectedProcedure.mutation(async ({ ctx, input }) => {
-    console.log("commencingcbtest");
-    console.log("ctx.session");
     console.log(ctx.session);
     const guestDetails = await GetGuestDetails(309910, 102139710);
-
-    console.log("guestDetails is, as follows");
     console.log(guestDetails);
-
-    console.log(guestDetails.data.email);
   }),
+
+  make_test_values_for_analyze_usage: protectedProcedure.mutation(
+    async ({ ctx, input }) => {
+      const numbers: number[] = Array.from({ length: 12 }, (_, i) => i + 1);
+
+      for (let i = 0; i < 200; i++) {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const RandoNumber1 = await getRandomNumber(numbers);
+        const RandoNumber2 = await getRandomNumber(numbers);
+        console.log("RandoNumber1", RandoNumber1);
+        console.log("RandoNumber2", RandoNumber2);
+        const random_Date = new Date(year, RandoNumber1! - 1, RandoNumber2);
+
+        const rando_used_date = await ctx.db.spent_day.create({
+          data: {
+            user_email: ctx.session.user.email,
+            day_of_consumption: random_Date,
+          },
+        });
+
+        console.log("rando_used_date", rando_used_date);
+      }
+
+      return "OP SUCCESS";
+    },
+  ),
+
+  get_analyze_usage_for_overview_table: protectedProcedure.query(
+    async ({ ctx, input }) => {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+
+      const OverView_data = await analyze_usage_for_overview_table(
+        ctx.session.user.email,
+        year,
+      );
+      console.log("OverView_data");
+      console.log(OverView_data);
+      return OverView_data;
+    },
+  ),
+
   GetSubscription: protectedProcedure.query(async ({ ctx, input }) => {
     const subscription = await GetStatusOfSubcsription(ctx.session.user.email);
     if (subscription?.dailyprice === 36) {

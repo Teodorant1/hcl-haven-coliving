@@ -53,7 +53,9 @@ const webhookHandler = async (req: NextRequest) => {
         console.log("subscription_in_stripe_db");
         console.log(subscription_in_stripe_db);
 
-        const createdAtDate = new Date(subscription_in_stripe_db.created);
+        const createdAtDate = new Date(
+          subscription_in_stripe_db.created * 1000,
+        );
 
         const currentPeriod_startDate = new Date(
           subscription_in_stripe_db.current_period_start * 1000,

@@ -23,7 +23,7 @@ import React from "react";
 import { useEffect } from "react";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
-import { validate_can_check_in } from "utilities";
+import { validate_can_check_in, AnalyzeStayHistory } from "utilities";
 import Membership from "../(has header)/Membership/page";
 
 export default function DashboardPage() {
@@ -43,7 +43,20 @@ export default function DashboardPage() {
   });
 
   const subscription = api.booking.GetSubscription.useQuery();
+  const spent_days =
+    api.booking.get_analyze_usage_for_overview_table.useQuery();
   const { data, error } = api.booking.getMyReservations.useQuery();
+
+  const generate_random_data =
+    api.booking.make_test_values_for_analyze_usage.useMutation({
+      onSuccess: (e) => {
+        console.log(e);
+      },
+    });
+
+  function handle_generate_random_data() {
+    generate_random_data.mutate();
+  }
 
   const do_Check_in_OR_out_OF_room =
     api.booking.Check_in_OR_out_OF_room.useMutation({
@@ -440,25 +453,33 @@ export default function DashboardPage() {
                               </Card>
                             )}
                         </div>
-                        <div
-                          onClick={() => {
-                            setstage("4");
-                          }}
-                          className="grid gap-4 md:grid-cols-2 lg:grid-cols-7"
-                        >
+                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                           <Card className="col-span-4">
                             <CardHeader>
                               <CardTitle>Overview</CardTitle>
                             </CardHeader>
                             <CardContent className="pl-2">
-                              <Overview />
+                              {spent_days.data && (
+                                <Overview data={spent_days.data} />
+                              )}
                             </CardContent>
                           </Card>
                           <Card className="col-span-3">
                             <CardHeader>
                               <CardTitle>Stay overview</CardTitle>
-                              <CardDescription>
-                                Past and upcoming stays
+                              <CardDescription
+                                onClick={() => {
+                                  setstage("4");
+                                }}
+                                className="flex"
+                              >
+                                Past and upcoming stays -{" "}
+                                {data && (
+                                  <div className="mx-1 px-1">
+                                    {" "}
+                                    {AnalyzeStayHistory(data)}{" "}
+                                  </div>
+                                )}
                               </CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -481,6 +502,31 @@ export default function DashboardPage() {
           )}
         </>
       )}
+      {/* <div
+        onClick={() => {
+          console.log(spent_days.data);
+        }}
+        className="m-5 bg-black p-5 text-white"
+      >
+        {" "}
+        PRINT SPENT DAYS
+      </div> */}
+      <div>
+        {/* CURRENT DATE
+        <div>
+          <div>{currentDate.getFullYear()}</div>
+          <div>{currentDate.getMonth() + 1}</div>
+          <div>{currentDate.getDate()}</div>
+        </div> */}
+        <button
+          onClick={() => {
+            handle_generate_random_data();
+          }}
+          className="m-5 bg-black p-5 text-white"
+        >
+          GENERATE RANDOM VALUES
+        </button>
+      </div>
     </>
   );
 }

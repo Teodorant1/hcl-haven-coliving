@@ -30,6 +30,13 @@ export interface recentReservations {
   set_recent_Res_id?: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
+export interface StaysHistory_for_graph {
+  data: {
+    name: string;
+    total: number;
+  }[];
+}
+
 export type registrationForm = {
   email: string;
   password: string;

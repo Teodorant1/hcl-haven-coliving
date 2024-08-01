@@ -213,10 +213,10 @@ model subscription  {
     trial_end            DateTime?
     lastTimeUpdated      DateTime @default(now())
     reservationID        String? 
-    priceID             String
-    packageName         String
-    description         String
-    price               Int
+    priceID              String
+    packageName          String
+    description          String
+    price                Int
 
     check_in           DateTime?
     check_out          DateTime?
@@ -228,7 +228,7 @@ model subscription  {
   model spent_day {
       id                  String      @id @default(cuid())
       user_email          String
-      day_of_consumption  DateTime   @default(now())
+      day_of_consumption  DateTime    @default(now())
   }
 
 // model SubscriptionPlans {

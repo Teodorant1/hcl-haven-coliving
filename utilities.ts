@@ -3,6 +3,7 @@
 import moment from "moment-timezone";
 import { type subscription } from "@prisma/client";
 import { type recentReservations, type MonthDays } from "project-types";
+import { number } from "zod";
 
 // export function Calculate_price_for_dashboard_reservation(
 //   date1: Date,
@@ -41,6 +42,18 @@ import { type recentReservations, type MonthDays } from "project-types";
 
 //   return "error";
 // }
+
+export function AnalyzeStayHistory(reservations: recentReservations) {
+  let numberOfDays = 0;
+  for (let i = 0; i < reservations.data.length; i++) {
+    const DaysBetweenDates = Calculate_number_of_days_between_two_dates(
+      reservations.data.at(i)!.check_in,
+      reservations.data.at(i)!.check_out,
+    );
+    numberOfDays = numberOfDays + DaysBetweenDates;
+  }
+  return numberOfDays;
+}
 
 function isDateBetween(
   currentDate: Date,

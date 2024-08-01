@@ -258,9 +258,20 @@ export async function Stripe_PeriodBookkeeping() {
   return "monthy python";
 }
 
-export async function analyze_usage(user_email: string, year: number) {
+export async function analyze_usage_for_overview_table(
+  user_email: string,
+  year: number,
+) {
+  const startOfYear = new Date(year, 0, 1); // January 1st of specified year
+  const endOfYear = new Date(year + 1, 0, 1); // January 1st of the next year
   const spent_days = await db.spent_day.findMany({
-    where: { user_email: user_email },
+    where: {
+      user_email: user_email,
+      day_of_consumption: {
+        gte: startOfYear,
+        lt: endOfYear,
+      },
+    },
   });
   const monthsNames: string[] = [
     "January",
@@ -276,25 +287,50 @@ export async function analyze_usage(user_email: string, year: number) {
     "November",
     "December",
   ];
+  // this object will go into the Overview component
   const OverView_data: {
     name: string;
     total: number;
   }[] = [];
 
-  const hashmap_of_spent_days = new Map<string, spent_day[]>();
-  const hashmap_of_spent_days_numeric_months = new Map<number, spent_day[]>();
-
-  const spent_days_yearly_collection: recharts_yearly_breakdown = {
-    year: year,
-    month_hashmap: hashmap_of_spent_days,
-  };
-
   for (let i = 0; i < spent_days.length; i++) {
     const year = spent_days[i]?.day_of_consumption.getFullYear();
     const dayName = spent_days[i]?.day_of_consumption.getDate();
     const month = spent_days[i]?.day_of_consumption.getMonth(); // 0 (January) to 11 (December)
+
+    console.log("year", year);
+    console.log("dayName", dayName);
+    console.log("month", month);
   }
-  return spent_days;
+  // Create a map to store the results sorted by month
+  const resultsByMonth = new Map<string, spent_day[]>();
+
+  // Initialize the map with empty arrays for each month
+  monthsNames.forEach((month) => {
+    resultsByMonth.set(month, []);
+  });
+
+  // Sort the spent_days into the map
+  spent_days.forEach((spent_day) => {
+    const monthIndex = spent_day.day_of_consumption.getMonth(); // Get the month index (0-11)
+    const monthName = monthsNames[monthIndex]; // Get the corresponding month name
+    resultsByMonth.get(monthName!)!.push(spent_day); // Add the spent_day to the appropriate month array
+  });
+
+  // Loop through monthsNames to get the corresponding array and store the length and month name
+  monthsNames.forEach((month) => {
+    OverView_data.push({
+      name: month,
+      total: resultsByMonth.get(month)!.length,
+    });
+  });
+
+  return OverView_data;
+}
+
+export async function getRandomNumber(arr: number[]) {
+  const randomIndex = Math.floor(Math.random() * arr.length);
+  return arr[randomIndex];
 }
 
 export async function handle_room_usage_metrics() {
