@@ -206,6 +206,7 @@ model HCL_user  {
 model HCL_Application {
     id                             String    @id @default(cuid())
     name                           String
+    surname                        String?  
     email                          String    @unique 
     DateOfBirth                    DateTime
     gender                         String

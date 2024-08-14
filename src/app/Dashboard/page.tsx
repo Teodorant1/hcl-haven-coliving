@@ -85,7 +85,10 @@ export default function DashboardPage() {
 
   return (
     <>
-      {subscription.data?.subscriptionStatus !== true && <Membership />}
+      {!subscription.data && <div>Loading Data.........(Placeholder)</div>}
+      {subscription.data && subscription.data?.subscriptionStatus !== true && (
+        <Membership />
+      )}
       {subscription.data?.subscriptionStatus === true && (
         <>
           {session?.isApproved === true && (

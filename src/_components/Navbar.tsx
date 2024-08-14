@@ -53,7 +53,7 @@ const Navbar = async () => {
         {session && (
           <Link
             className="text-sm font-medium underline-offset-4 hover:underline"
-            href="#"
+            href="/Account"
             rel="ugc"
           >
             {session?.user.email}
