@@ -190,6 +190,8 @@ model HCL_user  {
     username                      String    @unique
     password                      String    @default(cuid()) 
     full_name                     String    @default("full name")
+    first_name                    String    @default("first name")
+    surname                       String    @default("surname")
     avatar_url                    String? 
     billing_address               String? // needs to be json
     payment_method                String? // needs to be json

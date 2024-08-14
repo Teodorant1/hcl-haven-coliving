@@ -554,6 +554,30 @@ export async function getGendered_rooms(
   return omni_return;
 }
 
+export function get_name_and_surname(fullname: string) {
+  let guestFirstName = fullname;
+  let guestLastName = " ";
+  const fullname_fragments = fullname.split(" ");
+
+  if (fullname_fragments.length > 1) {
+    // Create a new array without the first element
+    const remaining_name_symbols: string[] = fullname_fragments.slice(1);
+
+    // Concatenate the remaining strings into one string
+    const concatenated_name: string = remaining_name_symbols.join("");
+
+    guestFirstName = fullname_fragments[0]!;
+    guestLastName = concatenated_name;
+  }
+
+  const person_names = {
+    first_name: guestFirstName,
+    last_name: guestLastName,
+  };
+
+  return person_names;
+}
+
 export async function book_a_room(
   propertyID: number,
   startDate: Date,
