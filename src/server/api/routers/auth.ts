@@ -9,7 +9,7 @@ import {
 import ApplicationSubmitUserEmail from "@/_emails/SubmitApplication";
 import ApplicationNotificationUserEmail from "@/_emails/AdminApplicationNotification";
 import ApplicationResponseEmail from "@/_emails/ApplicationResponse";
-import { sleep } from "utilitiesBackend";
+import { sleep, get_name_and_surname } from "utilitiesBackend";
 
 export const authRouter = createTRPCRouter({
   Addaccount: publicProcedure
@@ -82,9 +82,15 @@ export const authRouter = createTRPCRouter({
           RefferedBy: input.RefferedBy,
         },
       });
+
+      const person_names = get_name_and_surname(input.name);
+
       await ctx.db.hCL_user.update({
         where: {
           email: ctx.session.user.email,
+          full_name: input.name,
+          first_name: person_names.first_name,
+          surname: person_names.last_name,
         },
         data: { has_already_applied: true },
       });
@@ -164,7 +170,6 @@ export const authRouter = createTRPCRouter({
           isReviewed: true,
         },
       });
-
       await ctx.db.hCL_user.update({
         where: {
           email: input.userEmail,
