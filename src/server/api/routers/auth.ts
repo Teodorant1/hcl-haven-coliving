@@ -88,11 +88,13 @@ export const authRouter = createTRPCRouter({
       await ctx.db.hCL_user.update({
         where: {
           email: ctx.session.user.email,
+        },
+        data: {
+          has_already_applied: true,
           full_name: input.name,
           first_name: person_names.first_name,
           surname: person_names.last_name,
         },
-        data: { has_already_applied: true },
       });
       const resend = new Resend(process.env.NEXT_PRIVATE_RESEND_API_KEY);
       // const userImage = ctx.session.user.image
