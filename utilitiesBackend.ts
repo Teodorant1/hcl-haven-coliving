@@ -273,6 +273,11 @@ export async function analyze_usage_for_overview_table(
       },
     },
   });
+
+  if (spent_days.length === 0) {
+    return [];
+  }
+
   const monthsNames: string[] = [
     "January",
     "February",

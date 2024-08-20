@@ -153,14 +153,11 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
           Available Beds
         </h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <div
-            className="rounded-lg border bg-card text-card-foreground shadow-sm"
-            data-v0-t="card"
-          >
+          <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
                 Twin Sized Bed{" "}
-                {/* {session.data?.user.genderSex === "Male" && (
+                {/* {session.data?.user.genderSex.toLowerCase() === "male" && (
                   <>
                     {" "}
                     {available_room_types.data?.has(
@@ -176,7 +173,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                     )}{" "}
                   </>
                 )}{" "}
-                {session.data?.user.genderSex === "Female" && (
+                {session.data?.user.genderSex.toLowerCase() === "female" && (
                   <>
                     {" "}
                     {available_room_types.data?.has(
@@ -328,7 +325,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
             </div>
             {isAfterToday(currentDate, DashBoardPageProps.date?.from) &&
               available_room_types.data &&
-              session.data?.user.genderSex === "Female" &&
+              session.data?.user.genderSex.toLowerCase() === "female" &&
               available_room_types.data.has(
                 "Female Dormitory - Twin Size Bed",
               ) && (
@@ -349,7 +346,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
               )}{" "}
             {isAfterToday(currentDate, DashBoardPageProps.date?.from) &&
               available_room_types.data &&
-              session.data?.user.genderSex === "Male" &&
+              session.data?.user.genderSex.toLowerCase() === "male" &&
               available_room_types.data.has(
                 "Male Dormitory - Twin Size Bed - 12 Bed",
               ) && (
@@ -369,10 +366,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
                 </div>
               )}
           </div>
-          <div
-            className="rounded-lg border bg-card text-card-foreground shadow-sm"
-            data-v0-t="card"
-          >
+          <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
             <div className="flex flex-col space-y-1.5 p-6">
               <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
                 Full Sized Bed{" "}
@@ -511,7 +505,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
             </div>
             {isAfterToday(currentDate, DashBoardPageProps.date?.from) &&
               available_room_types.data &&
-              session.data?.user.genderSex === "Female" &&
+              session.data?.user.genderSex.toLowerCase() === "female" &&
               available_room_types.data.has(
                 "Female Dormitory - Full Size Bed",
               ) && (
@@ -532,7 +526,7 @@ function DashboardModal(DashBoardPageProps: DashBoardPageProps) {
               )}{" "}
             {isAfterToday(currentDate, DashBoardPageProps.date?.from) &&
               available_room_types.data &&
-              session.data?.user.genderSex === "Male" &&
+              session.data?.user.genderSex.toLowerCase() === "male" &&
               available_room_types.data.has(
                 "Male Dormitory - Full Size Bed",
               ) && (
