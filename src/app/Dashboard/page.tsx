@@ -43,6 +43,7 @@ export default function DashboardPage() {
   });
 
   const subscription = api.booking.GetSubscription.useQuery();
+
   const spent_days =
     api.booking.get_analyze_usage_for_overview_table.useQuery();
   const { data, error } = api.booking.getMyReservations.useQuery();
@@ -85,7 +86,11 @@ export default function DashboardPage() {
 
   return (
     <>
-      {!subscription.data && <div>Loading Data.........(Placeholder)</div>}
+      {!subscription.data && (
+        <div>
+          Loading Data.........(Infinite Placeholder until you{"'"}re approved)
+        </div>
+      )}
       {subscription.data && subscription.data?.subscriptionStatus !== true && (
         <Membership />
       )}
