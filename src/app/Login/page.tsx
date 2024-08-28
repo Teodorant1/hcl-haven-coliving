@@ -123,7 +123,7 @@ export default function LoginPage() {
             </form>{" "}
           </div>
         )}
-        {loginSucceeded === false && (
+        {/* {loginSucceeded === false && (
           <>
             {" "}
             <div className="relative">
@@ -153,7 +153,7 @@ export default function LoginPage() {
               Google
             </Button>
           </>
-        )}
+        )} */}
       </div>
     );
   }

@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import ConfirmationPopup from "@/components/component/ConfirmationPopup";
 import { signIn } from "next-auth/react";
 
@@ -106,7 +106,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </form>{" "}
         </div>
       )}
-      {registrationSucceded === false && (
+      {/* {registrationSucceded === false && (
         <>
           {" "}
           <div className="relative">
@@ -135,7 +135,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             Google
           </Button>
         </>
-      )}
+      )} */}
     </div>
   );
 }

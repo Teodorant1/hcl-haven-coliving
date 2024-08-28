@@ -10,7 +10,7 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
+// import GoogleProvider from "next-auth/providers/google";
 import { db } from "@/server/db";
 import { type HCL_user } from "@prisma/client";
 import bcrypt from "bcrypt";
@@ -65,25 +65,25 @@ export const authOptions: NextAuthOptions = {
   //   // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   // },
   providers: [
-    GoogleProvider({
-      clientId: process.env.NEXT_PRIVATE_GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.NEXT_PRIVATE_GOOGLE_CLIENT_SECRET!,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
-      },
-      async profile(profile) {
-        return {
-          id: profile.sub,
-          name: profile.name,
-          email: profile.email,
-          image: profile.picture,
-        };
-      },
-    }),
+    // GoogleProvider({
+    //   clientId: process.env.NEXT_PRIVATE_GOOGLE_CLIENT_ID!,
+    //   clientSecret: process.env.NEXT_PRIVATE_GOOGLE_CLIENT_SECRET!,
+    //   authorization: {
+    //     params: {
+    //       prompt: "consent",
+    //       access_type: "offline",
+    //       response_type: "code",
+    //     },
+    //   },
+    //   async profile(profile) {
+    //     return {
+    //       id: profile.sub,
+    //       name: profile.name,
+    //       email: profile.email,
+    //       image: profile.picture,
+    //     };
+    //   },
+    // }),
 
     CredentialsProvider({
       name: "Credentials",
@@ -102,6 +102,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         // console.log(credentials);
         // console.log("LOGGING IN");
+        console.log("credentials", credentials);
         await sleep(1500);
         try {
           const foundUser: HCL_user = await db.hCL_user.findUniqueOrThrow({
