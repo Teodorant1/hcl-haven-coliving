@@ -88,7 +88,8 @@ export default function DashboardPage() {
     <>
       {!subscription.data && (
         <div>
-          Loading Data.........(Infinite Placeholder until you{"'"}re approved)
+          Loading Data.....(Infinite Placeholder until you{"'"}re approved or
+          have an active subscription)
         </div>
       )}
       {subscription.data && subscription.data?.subscriptionStatus !== true && (
@@ -519,22 +520,25 @@ export default function DashboardPage() {
         {" "}
         PRINT SPENT DAYS
       </div> */}
-      <div>
-        {/* CURRENT DATE
+
+      {session?.user.isAdmin === true && (
+        <div>
+          {/* CURRENT DATE
         <div>
           <div>{currentDate.getFullYear()}</div>
           <div>{currentDate.getMonth() + 1}</div>
           <div>{currentDate.getDate()}</div>
         </div> */}
-        <button
-          onClick={() => {
-            handle_generate_random_data();
-          }}
-          className="m-5 bg-black p-5 text-white"
-        >
-          GENERATE RANDOM VALUES
-        </button>
-      </div>
+          <button
+            onClick={() => {
+              handle_generate_random_data();
+            }}
+            className="m-5 bg-black p-5 text-white"
+          >
+            GENERATE RANDOM VALUES
+          </button>
+        </div>
+      )}
     </>
   );
 }

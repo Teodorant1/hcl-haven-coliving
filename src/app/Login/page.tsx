@@ -11,13 +11,15 @@ import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 // import { FcGoogle } from "react-icons/fc";
 import { signIn, useSession } from "next-auth/react";
+
+// import router from "next/router";
 // import { signIn, useSession } from "next-auth/react";
 
 export default function LoginPage() {
-  // const router = useRouter();
+  const router = useRouter();
   const session = useSession();
 
   // useEffect(() => {
@@ -58,6 +60,12 @@ export default function LoginPage() {
         setloginSucceeded(true);
       });
     }
+
+    // React.useEffect(() => {
+
+    //     router.push("/");
+
+    // }, []);
 
     function SuccessBox() {
       return (
@@ -242,9 +250,17 @@ export default function LoginPage() {
       )}
 
       {session.status === "authenticated" && (
-        <div className="m-20 bg-black p-20 text-center text-white outline">
+        <div
+          onClick={() => {
+            router.push("/api/auth/signout");
+          }}
+          className="m-20 bg-black p-20 text-center text-white outline"
+        >
           <div>YOU{"'"}RE ALREADY LOGGED IN!</div>
-          <div>CLICK HERE TO LOG OUT!</div>
+          <div>CLICK HERE TO GO TO THE LOG OUT PAGE!</div>
+          {/* <Link href={"/"}>
+
+          </Link> */}
         </div>
       )}
     </div>
