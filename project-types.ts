@@ -6,6 +6,9 @@ import {
   type spent_day,
 } from "@prisma/client";
 
+export type LoadingPageProps = {
+  text: string;
+};
 export interface MonthDays {
   year: number;
   month: number;

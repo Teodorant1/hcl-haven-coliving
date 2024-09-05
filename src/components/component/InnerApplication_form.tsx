@@ -159,6 +159,7 @@ export function InnerApplication_form() {
           </CardHeader>
         </div>
       )}
+
       {status === "authenticated" && applicationSent === true && (
         <Form_success_page />
       )}

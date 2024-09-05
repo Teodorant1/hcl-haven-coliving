@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import LoadingPage from "@/components/ui/loadingPage";
 import { Overview } from "../../_components/overview";
 import { StaysOverview } from "../../_components/StaysOverview";
 import { useState } from "react";
@@ -87,10 +88,13 @@ export default function DashboardPage() {
   return (
     <>
       {!subscription.data && (
-        <div>
-          Loading Data.....(Infinite Placeholder until you{"'"}re approved or
-          have an active subscription)
-        </div>
+        <>
+          <LoadingPage
+            text={
+              "Loading Data.....(Infinite Placeholder until you're approved or have an active subscription)"
+            }
+          />{" "}
+        </>
       )}
       {subscription.data && subscription.data?.subscriptionStatus !== true && (
         <Membership />

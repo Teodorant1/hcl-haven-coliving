@@ -188,14 +188,14 @@ export default function LoginPage() {
 
       {session.status === "unauthenticated" && (
         <div className="container relative grid  h-[800px] flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
-          <Button
+          {/* <Button
             className={cn(
               buttonVariants({ variant: "ghost" }),
               "absolute right-4 top-4",
             )}
           >
             Login
-          </Button>
+          </Button> */}
           <div className="relative hidden h-screen  flex-col bg-muted p-10 text-white dark:border-r md:block lg:flex">
             <div className="absolute inset-0  bg-zinc-900 " />
             <div className="relative z-20 flex items-center text-lg font-medium">
