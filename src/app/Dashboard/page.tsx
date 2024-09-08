@@ -91,7 +91,7 @@ export default function DashboardPage() {
         <>
           <LoadingPage
             text={
-              "Loading Data.....(Infinite Placeholder until you're approved or have an active subscription)"
+              "Loading Data.....(Infinite Placeholder if you're approved or have an active subscription)"
             }
           />{" "}
         </>
