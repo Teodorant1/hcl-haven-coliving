@@ -52,7 +52,13 @@ export function AnalyzeStayHistory(reservations: recentReservations) {
     );
     numberOfDays = numberOfDays + DaysBetweenDates;
   }
-  return numberOfDays;
+
+  const analyzedStruct = {
+    stays: reservations.data.length,
+    days: numberOfDays,
+  };
+
+  return analyzedStruct;
 }
 
 function isDateBetween(

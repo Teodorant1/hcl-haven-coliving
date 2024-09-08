@@ -61,19 +61,19 @@ export function StaysOverview(reservations: recentReservations) {
                           {" "}
                           <button className="m-5 bg-black p-5 text-white">
                             {" "}
-                            Delete
+                            Delete - Placeholder{" "}
                           </button>{" "}
                           <button className="m-5 bg-black p-5 text-white">
                             {" "}
-                            Postpone
+                            Postpone - Placeholder{" "}
                           </button>{" "}
                           <button className="m-5 bg-black p-5 text-white">
                             {" "}
-                            Reschedule
+                            Reschedule - Placeholder{" "}
                           </button>{" "}
                           <button className="m-5 bg-black p-5 text-white">
                             {" "}
-                            Refund
+                            Refund - Placeholder{" "}
                           </button>{" "}
                         </div>
                       )}

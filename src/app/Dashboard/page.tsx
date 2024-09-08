@@ -490,7 +490,12 @@ export default function DashboardPage() {
                                 {data && (
                                   <div className="mx-1 px-1">
                                     {" "}
-                                    {AnalyzeStayHistory(data)}{" "}
+                                    {AnalyzeStayHistory(data).days} days spread
+                                    over {"  "}
+                                    {AnalyzeStayHistory(data).stays} {"  "}
+                                    {AnalyzeStayHistory(data).stays === 1
+                                      ? "stay"
+                                      : "stays"}
                                   </div>
                                 )}
                               </CardDescription>
@@ -525,7 +530,7 @@ export default function DashboardPage() {
         PRINT SPENT DAYS
       </div> */}
 
-      {session?.user.isAdmin === true && (
+      {/* {session?.user.isAdmin === true && (
         <div>
           {/* CURRENT DATE
         <div>
@@ -533,16 +538,16 @@ export default function DashboardPage() {
           <div>{currentDate.getMonth() + 1}</div>
           <div>{currentDate.getDate()}</div>
         </div> */}
-          <button
+      {/* <button
             onClick={() => {
               handle_generate_random_data();
             }}
             className="m-5 bg-black p-5 text-white"
           >
             GENERATE RANDOM VALUES
-          </button>
-        </div>
-      )}
+          </button> */}
+      {/* </div> */}
+      {/* // )} */}
     </>
   );
 }
